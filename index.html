@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Editor</title>
+        <link href="style.css" rel="stylesheet">
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+        <script src="app.js"></script>
+    </head>
+    <body ng-app="tamaedit" ng-controller="MainCtrl">
+        <div class="editor" ng-click="clickHandler($event)">
+            <div ng-repeat="pixelrow in pixels" class="row">
+                <span ng-repeat="pixel in pixelrow track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[pixel]" data-index="{{$index}},{{$parent.$index}}"></span>
+            </div>
+        </div>
+    </body>
+</html>

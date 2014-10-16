@@ -1,0 +1,11 @@
+# Junk #
+########
+.DS_Store
+
+# Sublime Text files #
+######################
+.sublime-*
+
+# Logs #
+########
+*.log

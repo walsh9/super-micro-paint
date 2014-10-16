@@ -1,0 +1,17 @@
+.row {
+    padding: 0;
+    margin: 0;
+    height: 32px;
+}
+.pixel {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    border: 1px solid gray;
+}
+.pixel-off {
+    background-color: white;
+}
+.pixel-on {
+    background-color: black;
+}
