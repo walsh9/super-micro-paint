@@ -1,12 +1,12 @@
 .row {
     padding: 0;
     margin: 0;
-    height: 32px;
+    height: 24px;
 }
 .pixel {
     display: inline-block;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border: 1px solid gray;
 }
 .pixel-off {
