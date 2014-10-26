@@ -1,4 +1,4 @@
-angular.module('tamaedit', [])
+angular.module('super-micro-paint', [])
   .controller('MainCtrl', ['$scope', function($scope) {
     var numFrames = 4;
     var numRows = 16;
