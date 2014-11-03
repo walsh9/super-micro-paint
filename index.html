@@ -17,7 +17,11 @@
         </ul>
         <div class="tab-content">
             <div class="tab-pane" ng-repeat="frame in frames" id="{{$index + 1}}">
-                <div class="frame" ng-click="clickHandler($event)">
+                <div class="frame" 
+                 ng-mousedown="penDown($event)"
+                 ng-mouseover="penOver($event)"
+                 ng-mouseup="penUp($event)"
+                 >
                     <div ng-repeat="pixelrow in frame" class="row">
                         <span ng-repeat="pixel in pixelrow track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[pixel]" data-index="{{$index}},{{$parent.$index}},{{$parent.$parent.$index}}"></span>
                     </div>

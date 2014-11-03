@@ -13,16 +13,37 @@ angular.module('super-micro-paint', [])
       });
       return rows;
     });
+    $scope.pen = false;
+    $scope.penmode = false;
     console.log($scope.frames);
-    togglePixel = function (pixel, scope) {
+    setPixel = function(pixel, mode, scope) {
       var x = pixel.getAttribute('data-index').split(',')[0];
       var y = pixel.getAttribute('data-index').split(',')[1];
       var f = pixel.getAttribute('data-index').split(',')[2];
-      scope.frames[f][y][x] = !scope.frames[f][y][x];
+      scope.frames[f][y][x] = mode;
     };
-    $scope.clickHandler = function (event) {
+    getPixel = function(pixel, scope) {
+      var x = pixel.getAttribute('data-index').split(',')[0];
+      var y = pixel.getAttribute('data-index').split(',')[1];
+      var f = pixel.getAttribute('data-index').split(',')[2];
+      return scope.frames[f][y][x];
+    };
+    togglePixel = function (pixel, scope) {
+      setPixel(pixel, !getPixel(pixel, scope), scope);
+    };
+    $scope.penDown = function (event) {
+      $scope.pen = true;
+      $scope.penmode = !getPixel(event.target, $scope);
       togglePixel(event.target, $scope);
-      console.log($scope.pixels);
-    }
+      return false;
+    };
+    $scope.penOver = function (event) {
+      if ($scope.pen) {
+        setPixel(event.target, $scope.penmode, $scope);
+      }
+    };
+    $scope.penUp = function (event) {
+      $scope.pen = false;
+    };
 }]);
 
