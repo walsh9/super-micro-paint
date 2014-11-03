@@ -16,19 +16,35 @@ angular.module('super-micro-paint', [])
     $scope.pen = false;
     $scope.penmode = false;
     console.log($scope.frames);
-    setPixel = function(pixel, mode, scope) {
+
+  var clearSelection = function () {
+    var selection = ('getSelection' in window) ? 
+        window.getSelection()
+        : 
+        ('selection' in document) ? 
+          document.selection
+          : 
+          null;
+      if ('removeAllRanges' in selection) {
+        selection.removeAllRanges();
+      }
+      else if ('empty' in selection) {
+        selection.empty();
+      }
+    };
+    var setPixel = function(pixel, mode, scope) {
       var x = pixel.getAttribute('data-index').split(',')[0];
       var y = pixel.getAttribute('data-index').split(',')[1];
       var f = pixel.getAttribute('data-index').split(',')[2];
       scope.frames[f][y][x] = mode;
     };
-    getPixel = function(pixel, scope) {
+    var getPixel = function(pixel, scope) {
       var x = pixel.getAttribute('data-index').split(',')[0];
       var y = pixel.getAttribute('data-index').split(',')[1];
       var f = pixel.getAttribute('data-index').split(',')[2];
       return scope.frames[f][y][x];
     };
-    togglePixel = function (pixel, scope) {
+    var togglePixel = function (pixel, scope) {
       setPixel(pixel, !getPixel(pixel, scope), scope);
     };
     $scope.penDown = function (event) {
@@ -44,6 +60,7 @@ angular.module('super-micro-paint', [])
     };
     $scope.penUp = function (event) {
       $scope.pen = false;
+      clearSelection();
     };
 }]);
 
