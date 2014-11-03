@@ -1,17 +1,46 @@
+.container {
+    background-color: rgb(220,240,230);
+    width: 814px;
+    margin: 10px auto;
+    box-shadow: inset 0px 0px 10px #888;
+    border: 2px solid rgb(120, 140, 130);
+    border-radius: 5px;
+    padding: 5px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.btn, .btn:hover, .btn:active, .nav-tabs li a, 
+.nav-tabs, .nav-tabs li, .nav-tabs li a, .nav-tabs li a:hover {
+    border-width: 0px;
+    color: rgba(40, 40, 40, .05);
+    box-shadow: none;
+    background-color: transparent;
+}
+.btn.active, .btn.active:hover, .btn.active:active,
+.nav-tabs li.active, .nav-tabs li.active a, .nav-tabs li.active a:hover {
+    border-width: 0px;
+    color: rgba(40, 40, 40, .85);
+    background-color: transparent;
+    box-shadow: none;
+    text-shadow: 1px 1px 2px #888;   
+}
 .row {
     padding: 0;
-    margin: 0;
-    height: 24px;
+    margin: 2px 0;
+    height: 23px;
 }
 .pixel {
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    border: 1px solid gray;
+    width: 23px;
+    height: 23px;
+    margin: 0 1px;
 }
 .pixel-off {
-    background-color: white;
+    background-color: rgba(40, 40, 40, .05);
 }
 .pixel-on {
-    background-color: black;
+    background-color: rgba(40, 40, 40, .85);
+    box-shadow: 1px 1px 2px #888;
 }
