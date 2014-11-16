@@ -2,14 +2,15 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Editor</title>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+        <title>Super Micro Paint</title>
+        <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="style.css" rel="stylesheet">
         <link href="icomoon/style.css" rel="stylesheet">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
-        <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+        <script src="/array2d.js"></script>
+        <script src="/lib/lodash.min.js"></script>
+        <script src="/lib/jquery-2.1.1.min.js"></script>
+        <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/lib/angular.min.js"></script>
         <script src="app.js"></script>
     </head>
     <body ng-app="super-micro-paint" ng-controller="MainCtrl">
@@ -63,8 +64,8 @@
                      ng-mouseover="penOver($event)"
                      ng-mouseup="penUp($event)"
                      >
-                        <div ng-repeat="pixelrow in frame" class="row">
-                            <span ng-repeat="pixel in pixelrow track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[pixel]" data-index="{{$index}},{{$parent.$index}},{{$parent.$parent.$index}}"></span>
+                        <div ng-repeat="y in range(height) track by $index" class="row">
+                            <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[frame.get($index, $parent.$index)]" data-index="{{$index}},{{$parent.$index}},{{$parent.$parent.$index}}"></span>
                         </div>
                     </div>
                 </div>
