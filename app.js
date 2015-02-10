@@ -4,6 +4,7 @@ angular.module('super-micro-paint', [])
     $scope.height = 16;
     $scope.width = 32;
     $scope._ = _;
+    $scope.currentFrame = 0;
     $scope.frames = _.range(0, $scope.numFrames).map(function () {
       return new Array2d($scope.width, $scope.height).fill(false);
     });
@@ -36,9 +37,9 @@ angular.module('super-micro-paint', [])
     var setPixel = function(pixel, mode, scope) {
       var x = Math.floor(pixel.getAttribute('data-index').split(',')[0]);
       var y = Math.floor(pixel.getAttribute('data-index').split(',')[1]);
-      var f = Math.floor(pixel.getAttribute('data-index').split(',')[2]);
-      var currentFrame = scope.frames[f];
-      scope.frames[f].set(x, y, mode);
+      //var f = Math.floor(pixel.getAttribute('data-index').split(',')[2]);
+      var currentFrame = scope.frames[scope.currentFrame];
+      currentFrame.set(x, y, mode);
       //currentFrame.forLine(x, y, x+5, y+5, function(i,x,y) {currentFrame.set(x, y, true);});
     };
     var setLine = function(pixel0, pixel1, mode, scope) {
@@ -46,15 +47,17 @@ angular.module('super-micro-paint', [])
       var y0 = Math.floor(pixel0.getAttribute('data-index').split(',')[1]);
       var x1 = Math.floor(pixel1.getAttribute('data-index').split(',')[0]);
       var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
-      var f = Math.floor(pixel0.getAttribute('data-index').split(',')[2]);
-      var currentFrame = scope.frames[f];
+      //var f = Math.floor(pixel0.getAttribute('data-index').split(',')[2]);
+      console.log(scope.currentFrame);
+      var currentFrame = scope.frames[scope.currentFrame];
       currentFrame.forLine(x0, y0, x1, y1, function(val, x, y) {currentFrame.set(x, y, mode);});
     };     
     var getPixel = function(pixel, scope) {
       var x = Math.floor(pixel.getAttribute('data-index').split(',')[0]);
       var y = Math.floor(pixel.getAttribute('data-index').split(',')[1]);
-      var f = Math.floor(pixel.getAttribute('data-index').split(',')[2]);
-      return scope.frames[f].get(x, y);
+      //var f = Math.floor(pixel.getAttribute('data-index').split(',')[2]);
+      var currentFrame = scope.frames[scope.currentFrame];
+      return currentFrame.get(x, y);
     };
     var drawLine = function(pixel, pixel2, scope) {
 
@@ -75,8 +78,11 @@ angular.module('super-micro-paint', [])
           setLine($scope.lastPixel, event.target, $scope.penmode, $scope);          
         }
         $scope.lastPixel = event.target;
-        //setPixel(event.target, $scope.penmode, $scope);
       }
+    };
+    $scope.setFrame = function (event) {
+      console.log(event.target);
+      //l$scope.currentFrame = parseInt(event.target.value);
     };
     $scope.penUp = function (event) {
       $scope.pen = false;

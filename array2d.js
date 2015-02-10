@@ -78,7 +78,6 @@ Array2d.prototype.forLine = function(x0, y0, x1, y1, callback, thisArg) {
             err += deltaX; 
             y0 += signY; 
         }
-        console.log(x0, y0, e2);
         this.do(x0, y0, callback, thisArg);
     }
 };
