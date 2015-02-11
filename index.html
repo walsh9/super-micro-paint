@@ -13,45 +13,45 @@
     </head>
     <body ng-app="super-micro-paint" ng-controller="MainCtrl">
         <div class="container">
-            <div class="btn-group tools" data-toggle="buttons">
-              <label class="btn btn-primary active">
-                <input type="radio" name="options" id="option1" autocomplete="off" checked>
+            <div class="btn-group tools">
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'pencil']">
+                <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked>
                 <span class="icon-pencil" />
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'fill']">
+                <input type="radio" name="tool" ng-model="activeTool" value="fill">
                 <span class="icon-fill" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" ng-model="activeTool" value="line" disabled>
                 ／
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" ng-model="activeTool" value="drawRectangle" disabled>
                 <span class="icon-square" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" ng-model="activeTool" value="drawCircle" disabled>
                 <span class="icon-circle" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" ng-model="activeTool" value="select" disabled>
                 <span class="icon-select" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" disabled>
                 <span class="icon-life" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" disabled>
                 <span class="icon-undo" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" disabled>
                 <span class="icon-redo" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" name="options" id="option1" autocomplete="off">
+                <input type="radio" disabled>
                 <span class="icon-save" />
               </label>
             </div>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group frameselect" data-toggle="buttons">
+            <div class="btn-group frameselect">
               <label class="btn btn-primary" ng-repeat="frame in frames" ng-class="{true:'active', false:''}[$index==$parent.currentFrame]">
                 <input type="radio" value="{{$index}}" name="test" ng-model="$parent.currentFrame">
                 <span class="icon-frame-{{$index + 1}}" />

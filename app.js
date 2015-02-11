@@ -5,6 +5,7 @@ angular.module('super-micro-paint', [])
     $scope.width = 32;
     $scope._ = _;
     $scope.currentFrame = 0;
+    $scope.activeTool = 'pencil';
     $scope.frames = _.range(0, $scope.numFrames).map(function () {
       return new Array2d($scope.width, $scope.height).fill(false);
     });
@@ -17,7 +18,6 @@ angular.module('super-micro-paint', [])
     $scope.range = function(n) {
         return new Array(n);
     };
-    console.log($scope.frames);
 
   var clearSelection = function () {
     var selection = ('getSelection' in window) ? 
@@ -48,10 +48,12 @@ angular.module('super-micro-paint', [])
       var x1 = Math.floor(pixel1.getAttribute('data-index').split(',')[0]);
       var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
       //var f = Math.floor(pixel0.getAttribute('data-index').split(',')[2]);
-      console.log(scope.currentFrame);
       var currentFrame = scope.frames[scope.currentFrame];
       currentFrame.forLine(x0, y0, x1, y1, function(val, x, y) {currentFrame.set(x, y, mode);});
-    };     
+    };
+    var fillPixels = function(pixel, scope) {
+      console.log('dummy fill');
+    };
     var getPixel = function(pixel, scope) {
       var x = Math.floor(pixel.getAttribute('data-index').split(',')[0]);
       var y = Math.floor(pixel.getAttribute('data-index').split(',')[1]);
@@ -65,29 +67,51 @@ angular.module('super-micro-paint', [])
     var togglePixel = function (pixel, scope) {
       setPixel(pixel, !getPixel(pixel, scope), scope);
     };
+    var tools = {};
+    tools.pencil = {
+        'penDown': function(event) {
+          $scope.pen = true;
+          $scope.penmode = !getPixel(event.target, $scope);
+          togglePixel(event.target, $scope);
+          $scope.lastPixel = event.target;
+          return false;
+        },
+        'penUp': function(event) {
+          $scope.pen = false;
+          $scope.lastPixel = {};
+          clearSelection();
+        },
+        'penOver': function(event) {
+          if ($scope.pen) {
+            if ($scope.lastPixel) {
+              setLine($scope.lastPixel, event.target, $scope.penmode, $scope);          
+            }
+            $scope.lastPixel = event.target;
+          }
+        }
+    };
+    tools.fill = {
+        'penDown': function(event) {
+
+        }
+    };
     $scope.penDown = function (event) {
-      $scope.pen = true;
-      $scope.penmode = !getPixel(event.target, $scope);
-      togglePixel(event.target, $scope);
-      $scope.lastPixel = event.target;
-      return false;
+      if (tools[$scope.activeTool].penDown) {
+        tools[$scope.activeTool].penDown(event);
+      }
     };
     $scope.penOver = function (event) {
-      if ($scope.pen) {
-        if ($scope.lastPixel) {
-          setLine($scope.lastPixel, event.target, $scope.penmode, $scope);          
-        }
-        $scope.lastPixel = event.target;
+      if (tools[$scope.activeTool].penOver) {
+        tools[$scope.activeTool].penOver(event);
       }
     };
     $scope.setFrame = function (event) {
-      console.log(event.target);
-      //l$scope.currentFrame = parseInt(event.target.value);
+      // when frame changes
     };
     $scope.penUp = function (event) {
-      $scope.pen = false;
-      $scope.lastPixel = {};
-      clearSelection();
+      if (tools[$scope.activeTool].penUp) {
+        tools[$scope.activeTool].penUp(event);
+      }
     };
 }]);
 
