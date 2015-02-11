@@ -51,7 +51,33 @@ angular.module('super-micro-paint', [])
       var currentFrame = scope.frames[scope.currentFrame];
       currentFrame.forLine(x0, y0, x1, y1, function(val, x, y) {currentFrame.set(x, y, mode);});
     };
+    var floodFill = function(frame, x, y, penmode) {
+      // if pixel is already toggled, stop
+      if (frame.get(x, y) != penmode) {
+        frame.set(x, y, penmode);
+        // fill up
+        if (y > 0) {
+          floodFill(frame, x, y - 1, penmode);
+        }
+        // fill down
+        if (y < $scope.height - 1) {
+          floodFill(frame, x, y + 1, penmode);          
+        }
+        // fill left
+        if (x > 0) {
+          floodFill(frame, x - 1, y, penmode);
+        }
+        // fill right
+        if (x < $scope.width - 1) {
+          floodFill(frame, x + 1, y, penmode);          
+        }
+      }
+    };
     var fillPixels = function(pixel, scope) {
+      var x = Math.floor(pixel.getAttribute('data-index').split(',')[0]);
+      var y = Math.floor(pixel.getAttribute('data-index').split(',')[1]);
+      var currentFrame = scope.frames[scope.currentFrame];
+      floodFill(currentFrame, x, y, $scope.penmode);
       console.log('dummy fill');
     };
     var getPixel = function(pixel, scope) {
@@ -92,7 +118,8 @@ angular.module('super-micro-paint', [])
     };
     tools.fill = {
         'penDown': function(event) {
-
+          $scope.penmode = !getPixel(event.target, $scope);
+          fillPixels(event.target, $scope);
         }
     };
     $scope.penDown = function (event) {
