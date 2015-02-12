@@ -42,13 +42,15 @@
                 <input type="radio" disabled>
                 <span class="icon-life" />
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" disabled>
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[undoBuffers[currentFrame].length > 0]">
+                <button type="button" ng-click="undo()" ng-disabled="undoBuffers[currentFrame].length === 0">
                 <span class="icon-undo" />
+                </button>
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" disabled>
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[redoBuffers[currentFrame].length > 0]">
+                <button type="button" ng-click="redo()" ng-disabled="redoBuffers[currentFrame].length === 0">
                 <span class="icon-redo" />
+                </button>
               </label>
               <label class="btn btn-primary">
                 <input type="radio" disabled>
