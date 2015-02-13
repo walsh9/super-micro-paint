@@ -83,6 +83,12 @@ angular.module('super-micro-paint', [])
         $scope.frames[f] = stringToFrame($scope.redoBuffers[f].pop());
       }
     };
+    $scope.canUndo = function() {
+      return $scope.undoBuffers[$scope.currentFrame].length > 0;
+    };
+    $scope.canRedo = function() {
+      return $scope.redoBuffers[$scope.currentFrame].length > 0;
+    };
     var floodFill = function (frame, x, y, penmode) {
       // if pixel is already toggled, stop
       if (frame.get(x, y) != penmode) {
