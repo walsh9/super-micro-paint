@@ -39,8 +39,9 @@
                 <span class="icon-select" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" disabled>
+                <button type="button" ng-click="doLifeStep()">
                 <span class="icon-life" />
+                </button>
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canUndo()]">
                 <button type="button" ng-click="undo()" ng-disabled="!canUndo()">

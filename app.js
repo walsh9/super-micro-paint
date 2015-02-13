@@ -111,6 +111,42 @@ angular.module('super-micro-paint', [])
         }
       }
     };
+    var lifeStep = function (f) {
+      var newFrame = f.map( function(value, x, y, w, h) {
+        var neighbors = [];
+        if (x > 0) {
+          if (y > 0) { neighbors.push(f.get(x - 1, y - 1)); }
+          neighbors.push(f.get(x - 1, y));
+          if (y < $scope.height - 1) { neighbors.push(f.get(x - 1, y + 1)); }
+        }
+        if (y > 0) { neighbors.push(f.get(x, y - 1)); }
+        if (y < $scope.height - 1) { neighbors.push(f.get(x, y + 1)); }
+        if (x < $scope.width - 1) {
+          if (y > 0) { neighbors.push(f.get(x + 1, y - 1)); }
+          neighbors.push(f.get(x + 1, y));
+          if (y < $scope.height + 1) { neighbors.push(f.get(x + 1, y + 1)); }
+        }
+        var liveNeighbors = neighbors
+          .map(function(isTrue) {return isTrue ? 1 : 0;}) //map bool to int
+          .reduce(function(a,b) {return a + b;}); //sum
+        if (value === true) { // this cell is 'alive'
+          if (liveNeighbors < 2 || liveNeighbors > 3) {
+            return false;
+          }
+          else {
+            return true;
+          }
+        } else { //this cell is 'dead'
+          if (liveNeighbors === 3) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      });
+      console.log(newFrame.get(0,0));
+      return newFrame;
+    };
     var fillPixels = function (pixel, scope) {
       var x = Math.floor(pixel.getAttribute('data-index').split(',')[0]);
       var y = Math.floor(pixel.getAttribute('data-index').split(',')[1]);
@@ -160,6 +196,11 @@ angular.module('super-micro-paint', [])
           $scope.penmode = !getPixel(event.target, $scope);
           fillPixels(event.target, $scope);
         }
+    };
+    $scope.doLifeStep = function () {
+      setUndo();
+      var currentFrame = $scope.frames[$scope.currentFrame];
+      $scope.frames[$scope.currentFrame] = lifeStep(currentFrame);
     };
     $scope.penDown = function (event) {
       if (tools[$scope.activeTool].penDown) {
