@@ -211,7 +211,8 @@ angular.module('super-micro-paint', [])
           $scope.pen = true;
           $scope.penmode = !getPixel(event.target, $scope);
           $scope.penStart = event.target;
-          $scope.overlay().fill('false');
+          $scope.overlay.fill(false);
+          $scope.overlay.set(false);
           return false;
         },
         'penUp': function (event) {

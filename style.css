@@ -59,19 +59,34 @@
 }
 .row {
     padding: 0;
-    margin: 2px 0;
-    height: 23px;
+    margin: 0px 0;
+    height: 25px;
 }
 .pixel {
     display: inline-block;
+    width: 25px;
+    height: 25px;
+    margin: 0 0px;
+    background-color: transparent;
+}
+.pixel-off::after {
+    content: '';
+    display:block;
     width: 23px;
     height: 23px;
-    margin: 0 1px;
-}
-.pixel-off {
+    position: relative;
+    top: 1px;
+    left: 1px;
     background-color: rgba(40, 40, 40, .05);
 }
-.pixel-on {
+.pixel-on::after {
+    content: '';
+    display:block;
+    width: 23px;
+    height: 23px;
+    position: relative;
+    top: 1px;
+    left: 1px;
     background-color: rgba(40, 40, 40, .85);
     box-shadow: 1px 1px 2px #888;
 }
