@@ -22,16 +22,16 @@
                 <input type="radio" name="tool" ng-model="activeTool" value="fill">
                 <span class="icon-fill" />
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="line" disabled>
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'line']">
+                <input type="radio" ng-model="activeTool" value="line">
                 ／
               </label>
               <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="drawRectangle" disabled>
+                <input type="radio" ng-model="activeTool" value="rectangle" disabled>
                 <span class="icon-square" />
               </label>
               <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="drawCircle" disabled>
+                <input type="radio" ng-model="activeTool" value="circle" disabled>
                 <span class="icon-circle" />
               </label>
               <label class="btn btn-primary">
@@ -66,7 +66,7 @@
                      ng-mouseup="penUp($event)"
                      >
                         <div ng-repeat="y in range(height) track by $index" class="row">
-                            <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[frames[currentFrame].get($index, $parent.$index)]" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
+                            <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="{false: 'pixel-off', true: 'pixel-on'}[getDisplayPixel($index, $parent.$index)]" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
                         </div>
                     </div>
                 </div>

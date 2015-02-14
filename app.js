@@ -11,15 +11,24 @@ angular.module('super-micro-paint', [])
     $scope.frames = _.range(0, $scope.numFrames).map(function () {
       return new Array2d($scope.width, $scope.height).fill(false);
     });
+    $scope.overlay = new Array2d($scope.width, $scope.height).fill(false);
     // $scope.frames = _.range(0, numFrames).map(function () {
     //   return new Array2d(numRows, numColumns);
     // }
     $scope.pen = false;
     $scope.penmode = false;
+    $scope.penStart = {};
     $scope.lastPixel = {};
     $scope.range = function(n) {
         return new Array(n);
     };
+  $scope.getDisplayPixel = function(x, y) {
+    if ($scope.overlay.get(x, y) === false) {
+      return $scope.frames[$scope.currentFrame].get(x, y);
+    } else {
+      return !$scope.frames[$scope.currentFrame].get(x, y);
+    }
+  };
 
   var clearSelection = function () {
     var selection = ('getSelection' in window) ? 
@@ -44,14 +53,13 @@ angular.module('super-micro-paint', [])
       currentFrame.set(x, y, mode);
       //currentFrame.forLine(x, y, x+5, y+5, function(i,x,y) {currentFrame.set(x, y, true);});
     };
-    var setLine = function (pixel0, pixel1, mode, scope) {
+    var setLine = function (pixel0, pixel1, mode, frame, scope) {
       var x0 = Math.floor(pixel0.getAttribute('data-index').split(',')[0]);
       var y0 = Math.floor(pixel0.getAttribute('data-index').split(',')[1]);
       var x1 = Math.floor(pixel1.getAttribute('data-index').split(',')[0]);
       var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
       //var f = Math.floor(pixel0.getAttribute('data-index').split(',')[2]);
-      var currentFrame = scope.frames[scope.currentFrame];
-      currentFrame.forLine(x0, y0, x1, y1, function(val, x, y) {currentFrame.set(x, y, mode);});
+      frame.forLine(x0, y0, x1, y1, function(val, x, y) {frame.set(x, y, mode);});
     };
     var frameToString = function (f) {
       var bString = f.map( function(n){return n ? 1 : 0;} ).rawArray.join('');
@@ -184,7 +192,7 @@ angular.module('super-micro-paint', [])
         'penOver': function (event) {
           if ($scope.pen) {
             if ($scope.lastPixel) {
-              setLine($scope.lastPixel, event.target, $scope.penmode, $scope);          
+              setLine($scope.lastPixel, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
             }
             $scope.lastPixel = event.target;
           }
@@ -195,6 +203,31 @@ angular.module('super-micro-paint', [])
           setUndo();
           $scope.penmode = !getPixel(event.target, $scope);
           fillPixels(event.target, $scope);
+        }
+    };
+    tools.line = {
+        'penDown': function (event) {
+          setUndo();
+          $scope.pen = true;
+          $scope.penmode = !getPixel(event.target, $scope);
+          $scope.penStart = event.target;
+          $scope.overlay().fill('false');
+          return false;
+        },
+        'penUp': function (event) {
+          $scope.pen = false;
+          setLine($scope.penStart, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          $scope.penStart = {};
+          $scope.overlay.fill(false);
+          clearSelection();
+        },
+        'penOver': function (event) {
+          if ($scope.pen) {
+            if ($scope.penStart) {
+              setLine($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
+            }
+            $scope.lastPixel = event.target;
+          }
         }
     };
     $scope.doLifeStep = function () {
