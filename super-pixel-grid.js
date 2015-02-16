@@ -18,7 +18,11 @@ SuperPixelGrid.prototype.drawLine = function(x0, y0, x1, y1, color) {
 };
 
 SuperPixelGrid.prototype.drawRectangle = function(x0, y0, x1, y1, color) {
-    
+    this.drawLine(x0, y0, x1, y0, color);
+    this.drawLine(x1, y0, x1, y1, color);
+    this.drawLine(x1, y1, x0, y1, color);
+    this.drawLine(x0, y1, x0, y0, color);
+    return this;
 };
 
 SuperPixelGrid.prototype.drawCircle = function(x0, y0, x1, y1, color) {

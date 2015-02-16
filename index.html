@@ -27,8 +27,8 @@
                 <input type="radio" ng-model="activeTool" value="line">
                 ／
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="rectangle" disabled>
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'rectangle']">
+                <input type="radio" ng-model="activeTool" value="rectangle">
                 <span class="icon-square" />
               </label>
               <label class="btn btn-primary">
