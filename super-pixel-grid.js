@@ -43,6 +43,8 @@ SuperPixelGrid.prototype.drawEllipse = function(x0, y0, x1, y1, color) {
     var self = this;
     x0 = 2 * x0 - x1;
     y0 = 2 * y0 - y1;
+    y0--;
+    y1--;
     var plot4EllipsePoints = function(x, y, color) {
         self.setPixel(x0 + x, y0 + y, color);
         self.setPixel(x0 - x, y0 + y, color);
@@ -87,7 +89,7 @@ SuperPixelGrid.prototype.drawEllipse = function(x0, y0, x1, y1, color) {
         } 
     } while (x0 <= x1);
 
-    while (y0-y1 < b) {   
+    while (y0 - y1 < b) {   
        self.setPixel(x0 - 1, y0, color);  
        self.setPixel(x1 + 1, y0++, color); 
        self.setPixel(x0 - 1, y1, color);
