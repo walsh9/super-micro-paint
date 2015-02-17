@@ -19,8 +19,12 @@ Array2d.prototype.get = function (x, y) {
     return this.rawArray[x + y * this.width];
 };
 Array2d.prototype.set = function (x, y, val) {
-    this.rawArray[x + y * this.width] = val;
-    return this;
+    if (x < 0 || x >= this.width || y < 0 || y >= this.height) {
+        throw new RangeError('Index out of bounds');
+    } else {        
+        this.rawArray[x + y * this.width] = val;
+        return this;
+    }
 };
 
 Array2d.prototype.forEach = function (callback, thisArg) {
