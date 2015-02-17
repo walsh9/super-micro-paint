@@ -27,6 +27,8 @@ SuperPixelGrid.prototype.drawRectangle = function(x0, y0, x1, y1, color) {
 
 SuperPixelGrid.prototype.drawEllipse = function(x0, y0, x1, y1, color) {
     var self = this;
+    x0 = 2 * x0 - x1;
+    y0 = 2 * y0 - y1;
     var plot4EllipsePoints = function(x, y, color) {
         self.set(x0 + x, y0 + y, color);
         self.set(x0 - x, y0 + y, color);
