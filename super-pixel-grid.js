@@ -171,3 +171,32 @@ SuperPixelGrid.prototype.fromString = function(s) {
     return this;
 };
 
+SuperPixelGrid.prototype.toUrlSafeBase64 = function() {
+    var bits = this.rawArray.map( function(n) {return n ? 1 : 0;} ).slice();
+    var s = "";
+    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".split('');
+    while (bits.length % 6 !== 0) {
+        bits.push("0");
+    }
+    while (bits.length > 0) {
+        var sixBits = bits.splice(0,6);
+        s += dictionary[parseInt(sixBits.join(''), 2)];
+    }
+    return s;
+};
+
+SuperPixelGrid.prototype.fromUrlSafeBase64 = function(s) {
+    var rawArray = [];
+    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".split('');
+    for (var i = 0; i < s.length; i++) {
+        var char = s[i];
+        var sixBits = dictionary.indexOf(char).toString(2);
+        var pad = "000000";
+        sixBits = pad.substring(0, pad.length - sixBits.length) + sixBits;
+        var bitArray = sixBits.split('').map( function(n) {return n == 1;} );
+        console.log(bitArray);
+        rawArray = rawArray.concat(bitArray);
+    }
+    this.rawArray = rawArray.slice(0, this.width * this.height);
+    return s;
+};

@@ -19,6 +19,13 @@ angular.module('super-micro-paint', [])
     $scope.range = function(n) {
         return new Array(n);
     };
+  var init = function() {
+    if (location.hash.length > 0) {
+      $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
+    }
+  };
+  init();
+
   $scope.getDisplayPixel = function(x, y) {
     if ($scope.overlay.get(x, y) === false) {
       return $scope.frames[$scope.currentFrame].get(x, y);
@@ -220,6 +227,9 @@ angular.module('super-micro-paint', [])
             $scope.lastPixel = event.target;
           }
         }
+    };
+    $scope.save = function() {
+      location.hash = $scope.frames[$scope.currentFrame].toUrlSafeBase64();
     };
     $scope.doLifeStep = function () {
       setUndo();
