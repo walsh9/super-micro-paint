@@ -31,8 +31,8 @@
                 <input type="radio" ng-model="activeTool" value="rectangle">
                 <span class="icon-square" />
               </label>
-              <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="circle" disabled>
+              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'ellipse']">
+                <input type="radio" ng-model="activeTool" value="ellipse">
                 <span class="icon-circle" />
               </label>
               <label class="btn btn-primary">

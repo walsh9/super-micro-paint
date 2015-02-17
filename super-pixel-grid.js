@@ -25,9 +25,61 @@ SuperPixelGrid.prototype.drawRectangle = function(x0, y0, x1, y1, color) {
     return this;
 };
 
-SuperPixelGrid.prototype.drawCircle = function(x0, y0, x1, y1, color) {
-    
+SuperPixelGrid.prototype.drawEllipse = function(x0, y0, x1, y1, color) {
+    var self = this;
+    var plot4EllipsePoints = function(x, y, color) {
+        self.set(x0 + x, y0 + y, color);
+        self.set(x0 - x, y0 + y, color);
+        self.set(x0 - x, y0 - y, color);
+        self.set(x0 + x, y0 - y, color);
+    };
+    var a = Math.abs(x1 - x0);
+    var b = Math.abs(y1 - y0);
+    var b1 = b % 2;
+    var dx = 4 * (1 - a) * b * b;
+    var dy = 4 * (b1 + 1) * a * a; 
+    var err = dx + dy + b1 * a * a;
+    var e2;
+
+    if (x0 > x1) { 
+        x0 = x1; 
+        x1 += a; 
+    } 
+    if (y0 > y1) {
+        y0 = y1; 
+    } 
+    y0 += Math.round((b + 1) / 2);
+    y1 = y0 - b1; 
+    a = a * 8 * a;
+    b1 = 8 * b * b;
+
+    do {
+        self.set(x1, y0, color); 
+        self.set(x0, y0, color); 
+        self.set(x0, y1, color); 
+        self.set(x1, y1, color); 
+        e2 = 2 * err;
+        if (e2 <= dy) { 
+            y0++; 
+            y1--; 
+            err += dy += a; 
+        } 
+        if (e2 >= dx || 2 * err > dy) {
+            x0++; 
+            x1--; 
+            err += dx += b1; 
+        } 
+    } while (x0 <= x1);
+
+    while (y0-y1 < b) {   
+       self.set(x0 - 1, y0, color);  
+       self.set(x1 + 1, y0++, color); 
+       self.set(x0 - 1, y1, color);
+       self.set(x1 + 1, y1--, color); 
+    }
 };
+
+
 
 SuperPixelGrid.prototype.floodFill = function(x, y, color) {
   // if pixel is already toggled, stop

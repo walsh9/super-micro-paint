@@ -62,6 +62,13 @@ angular.module('super-micro-paint', [])
       var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
       frame.drawRectangle(x0, y0, x1, y1, mode);
     };
+    var setEllipse = function (pixel0, pixel1, mode, frame, scope) {
+      var x0 = Math.floor(pixel0.getAttribute('data-index').split(',')[0]);
+      var y0 = Math.floor(pixel0.getAttribute('data-index').split(',')[1]);
+      var x1 = Math.floor(pixel1.getAttribute('data-index').split(',')[0]);
+      var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
+      frame.drawEllipse(x0, y0, x1, y1, mode);
+    };
     var setUndo = function() {
       var f = $scope.currentFrame;
       $scope.undoBuffers[f].push($scope.frames[f].toString());
@@ -183,6 +190,32 @@ angular.module('super-micro-paint', [])
           if ($scope.pen) {
             if ($scope.penStart) {
               setRectangle($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
+            }
+            $scope.lastPixel = event.target;
+          }
+        }
+    };
+    tools.ellipse = {
+        'penDown': function (event) {
+          setUndo();
+          $scope.pen = true;
+          $scope.penmode = !getPixel(event.target, $scope);
+          $scope.penStart = event.target;
+          $scope.overlay.fill(false);
+          $scope.overlay.set(false);
+          return false;
+        },
+        'penUp': function (event) {
+          $scope.pen = false;
+          setEllipse($scope.penStart, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          $scope.penStart = {};
+          $scope.overlay.fill(false);
+          clearSelection();
+        },
+        'penOver': function (event) {
+          if ($scope.pen) {
+            if ($scope.penStart) {
+              setEllipse($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
             }
             $scope.lastPixel = event.target;
           }
