@@ -24,7 +24,7 @@ angular.module('super-micro-paint', [])
       $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
     }
   }();
-  
+
   $scope.getDisplayPixel = function(x, y) {
     if ($scope.overlay.get(x, y)) {
       return 'pixel-blink';
@@ -266,6 +266,40 @@ angular.module('super-micro-paint', [])
       if (tools[$scope.activeTool].penUp) {
         tools[$scope.activeTool].penUp(event);
       }
+      updatePreviews();
     };
+  var updatePreviews = function() {
+    $scope.frames.map( function(frame, index) {
+      var previewCanvas = document.getElementById('preview' + index);
+      drawToCanvas(frame, previewCanvas);
+    });
+  };
+  var aniTimer = function() {
+    var aniState = 0;
+    var aniCanvas = document.getElementById('previewani');
+    var animate = function() {
+      drawToCanvas($scope.frames[aniState], aniCanvas);
+      if (aniState >= $scope.numFrames - 1) {
+        aniState = aniState - 3;
+      } else {
+        aniState++;
+      }
+    };
+    window.setInterval(animate, 250);
+  }();
+    var drawToCanvas = function(frame, canvas) {
+      var ctx = canvas.getContext('2d');
+      var pixelScale = 2;
+      var offset = 0.5;
+      ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+      ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+      ctx.clearRect (0, 0, canvas.width, canvas.height);
+      frame.forEach( function (value, x, y) {
+        if (value === true) {
+          ctx.fillRect(x * pixelScale + offset, y * pixelScale - offset, pixelScale, pixelScale);
+        }
+      });
+    };
+
 }]);
 

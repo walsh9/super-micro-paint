@@ -28,6 +28,23 @@
     -ms-user-select: none;
     user-select: none;
 }
+.preview {
+    width: 828px;
+    margin: 10px auto; 
+    padding: 0;
+}
+#previewani {
+    float: right;
+}
+.preview canvas {
+    background-color: rgb(220,240,230);
+    width: 68px;
+    margin: 10px auto;
+    box-shadow: inset 0px 0px 10px #888;
+    border: 2px solid rgb(120, 140, 130);
+    border-radius: 5px;
+    padding: 5px;
+}
 .btn, .btn:hover, .btn:active, .nav-tabs li a, 
 .nav-tabs, .nav-tabs li, .nav-tabs li a, .nav-tabs li a:hover {
     border-width: 0px;
