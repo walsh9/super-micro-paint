@@ -69,24 +69,19 @@
     margin: 0 0px;
     background-color: transparent;
 }
-.pixel-off::after {
+.pixel::after {
     content: '';
     display:block;
     width: 23px;
     height: 23px;
     position: relative;
     top: 1px;
-    left: 1px;
+    left: 1px;    
+}
+.pixel-off::after {
     background-color: rgba(40, 40, 40, .05);
 }
 .pixel-on::after {
-    content: '';
-    display:block;
-    width: 23px;
-    height: 23px;
-    position: relative;
-    top: 1px;
-    left: 1px;
     background-color: rgba(40, 40, 40, .85);
     box-shadow: 1px 1px 2px #888;
 }

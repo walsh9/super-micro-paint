@@ -23,16 +23,29 @@ angular.module('super-micro-paint', [])
     if (location.hash.length > 0) {
       $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
     }
-  };
-  init();
-
+  }();
+  
   $scope.getDisplayPixel = function(x, y) {
-    if ($scope.overlay.get(x, y) === false) {
-      return $scope.frames[$scope.currentFrame].get(x, y);
+    if ($scope.overlay.get(x, y)) {
+      return 'pixel-blink';
     } else {
-      return !$scope.frames[$scope.currentFrame].get(x, y);
+      return $scope.frames[$scope.currentFrame].get(x, y) ? 'pixel-on' : 'pixel-off';
     }
   };
+  var blinkTimer = function() {
+    var blinkState = true;
+    var blinkStyle = document.createElement('style');
+    document.head.appendChild(blinkStyle);
+    var blink = function() {
+      if (blinkState === true) {
+        blinkStyle.innerText = ".pixel-blink::after {background-color: rgba(40, 40, 40, .05);}";
+      } else {
+        blinkStyle.innerText = ".pixel-blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
+      }
+      blinkState = !blinkState;
+    };
+    window.setInterval(blink, 400);
+  }();
 
   var clearSelection = function () {
     var selection = ('getSelection' in window) ? 
