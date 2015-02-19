@@ -249,12 +249,14 @@ angular.module('super-micro-paint', [])
       if (tools[$scope.activeTool].penDown) {
         tools[$scope.activeTool].penDown(event);
         updatePreviews();
+        event.preventDefault()
       }
     };
     $scope.penOver = function (event) {
       if (tools[$scope.activeTool].penOver) {
         tools[$scope.activeTool].penOver(event);
         updatePreviews();
+        event.preventDefault()
       }
     };
     $scope.setFrame = function (event) {
@@ -265,6 +267,7 @@ angular.module('super-micro-paint', [])
         tools[$scope.activeTool].penUp(event);
       }
       updatePreviews();
+      event.preventDefault()
     };
   var updatePreviews = function() {
     $scope.frames.map( function(frame, index) {
