@@ -5,6 +5,7 @@
         <title>Super Micro Paint</title>
         <link href="style.css" rel="stylesheet">
         <link href="icomoon/style.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
         <script src="array2d.js"></script>
         <script src="super-pixel-grid.js"></script>
         <script src="lib/lodash.min.js"></script>
@@ -13,6 +14,8 @@
         <script src="app.js"></script>
     </head>
     <body ng-app="super-micro-paint" ng-controller="MainCtrl">
+      <div class="case">
+        <h1>Super Micro Paint</h1>
         <div class="container">
             <div class="btn-group tools">
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'pencil']">
@@ -87,5 +90,6 @@
            <canvas width="65" height="33" id="preview3"></canvas>
            <canvas width="65" height="33" id="previewani"></canvas>
         </div>
+      </div>
     </body>
 </html>
