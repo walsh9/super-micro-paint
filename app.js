@@ -237,7 +237,8 @@ angular.module('super-micro-paint', [])
         }
     };
     $scope.save = function() {
-      location.hash = $scope.frames[$scope.currentFrame].toUrlSafeBase64();
+      location.hash = $scope.frames.map(function(frame) {return frame.toUrlSafeBase64();})
+        .reduce(function (a, b) {return a + b;});
     };
     $scope.doLifeStep = function () {
       setUndo();
@@ -302,7 +303,7 @@ angular.module('super-micro-paint', [])
     };
     var init = function() {
       if (location.hash.length > 0) {
-        $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
+        $scope.frames.forEach(function (frame, i) {return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));})
       }
     }();
 }]);
