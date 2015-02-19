@@ -76,19 +76,14 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-group frameselect">
-              <label class="btn btn-primary" ng-repeat="frame in frames" ng-class="{true:'active', false:''}[$index==$parent.currentFrame]">
-                <input type="radio" value="{{$index}}" name="test" ng-model="$parent.currentFrame">
-                <span class="icon-frame-{{$index + 1}}" />
-              </label>
-            </div>
         </div>
-        <div class="preview">
-           <canvas width="65" height="33" id="preview0"></canvas>
-           <canvas width="65" height="33" id="preview1"></canvas>
-           <canvas width="65" height="33" id="preview2"></canvas>
-           <canvas width="65" height="33" id="preview3"></canvas>
-           <canvas width="65" height="33" id="previewani"></canvas>
+        <div class="previews">
+           <div class="previewwrap" ng-repeat="frame in frames" ng-class="{true:'active', false:''}[$index==$parent.currentFrame]" ng-click="$parent.currentFrame = $index;">
+            <canvas width="64" height="32" id="preview{{$index}}"> </canvas> 
+           </div>
+           <div class="previewwrapani">
+            <canvas width="64" height="32" id="previewani"></canvas>
+           </div>
         </div>
       </div>
     </body>

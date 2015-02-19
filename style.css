@@ -65,23 +65,37 @@ h1 {
     z-index: -1;
     opacity: 0;
 }
-.preview {
+.previews {
     width: 828px;
-    margin: 10px auto; 
+    margin: 10px 5px; 
     padding: 0;
 }
-#previewani {
+.previewwrapani {
     float: right;
 }
-.preview canvas {
+.previewwrap, .previewwrapani {
+    display: inline-block;
     background-color: rgb(220,240,230);
-    width: 68px;
-    margin: 10px auto;
+    width: 66px;
+    height: 34px;
+    margin: 10px 5px;
     box-shadow: inset 0px 0px 10px #888;
     border: 2px solid rgb(120, 140, 130);
     border-radius: 5px;
     padding: 5px;
+    cursor: pointer;
 }
+.previewwrap canvas, .previewwrapani canvas{
+    padding: 0.5px 0.5px 0.5px 0;
+    position: absolute;
+    border: 1px solid rgba(40, 40, 40, .05);
+}
+.previewwrap.active canvas {
+    padding: 0.5px 0.5px 0.5px 0;
+    border: 1px solid rgba(40, 40, 40, .45);
+    border-radius: 2px;
+}
+
 .btn, .btn:hover, .btn:active, .nav-tabs li a, 
 .nav-tabs, .nav-tabs li, .nav-tabs li a, .nav-tabs li a:hover {
     border-width: 0px;

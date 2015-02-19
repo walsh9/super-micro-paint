@@ -19,11 +19,6 @@ angular.module('super-micro-paint', [])
     $scope.range = function(n) {
         return new Array(n);
     };
-  var init = function() {
-    if (location.hash.length > 0) {
-      $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
-    }
-  }();
 
   $scope.getDisplayPixel = function(x, y) {
     if ($scope.overlay.get(x, y)) {
@@ -252,11 +247,13 @@ angular.module('super-micro-paint', [])
     $scope.penDown = function (event) {
       if (tools[$scope.activeTool].penDown) {
         tools[$scope.activeTool].penDown(event);
+        updatePreviews();
       }
     };
     $scope.penOver = function (event) {
       if (tools[$scope.activeTool].penOver) {
         tools[$scope.activeTool].penOver(event);
+        updatePreviews();
       }
     };
     $scope.setFrame = function (event) {
@@ -284,22 +281,29 @@ angular.module('super-micro-paint', [])
       } else {
         aniState++;
       }
+    updatePreviews();
     };
     window.setInterval(animate, 250);
   }();
     var drawToCanvas = function(frame, canvas) {
       var ctx = canvas.getContext('2d');
       var pixelScale = 2;
-      var offset = 0.5;
+      var offset = 0.0;
+      ctx.clearRect (0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = 'rgba(40, 40, 40, .05)';
+      ctx.fillRect (0, 0, canvas.width, canvas.height);
       ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
       ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-      ctx.clearRect (0, 0, canvas.width, canvas.height);
       frame.forEach( function (value, x, y) {
         if (value === true) {
           ctx.fillRect(x * pixelScale + offset, y * pixelScale - offset, pixelScale, pixelScale);
         }
       });
     };
-
+    var init = function() {
+      if (location.hash.length > 0) {
+        $scope.frames[$scope.currentFrame].fromUrlSafeBase64(location.hash.slice(1));
+      }
+    }();
 }]);
 
