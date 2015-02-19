@@ -48,6 +48,12 @@ h1 {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    position: relative;
+}
+.tools2 {
+    position: absolute;
+    right: 8px;
+    top: 5px;
 }
 .btn {
     font-size: 14px;

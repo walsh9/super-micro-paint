@@ -17,7 +17,7 @@
       <div class="case">
         <h1>Super Micro Paint</h1>
         <div class="container">
-            <div class="btn-group tools">
+            <div class="btn-group tools tools1">
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'pencil']">
                 <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked>
                 <span class="icon-pencil" />
@@ -42,9 +42,46 @@
                 <input type="radio" ng-model="activeTool" value="select" disabled>
                 <span class="icon-select" />
               </label>
+            </div>
+            <div class="btn-group tools tools2">
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-left" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-right" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-up" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-down" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-clear" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-invert" />
+                </button>
+              </label>
               <label class="btn btn-primary">
                 <button type="button" ng-click="doLifeStep()">
                 <span class="icon-life" />
+                </button>
+              </label>
+              <label class="btn btn-primary">
+                <button type="button" ng-click="" disabled>
+                <span class="icon-copy" />
                 </button>
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canUndo()]">
