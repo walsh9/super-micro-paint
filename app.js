@@ -255,7 +255,11 @@ angular.module('super-micro-paint', [])
       var currentFrame = $scope.frames[$scope.currentFrame];
       currentFrame.nudge(xOffset, yOffset);
     };
-
+    $scope.invert = function(xOffset, yOffset) {
+      setUndo();
+      var currentFrame = $scope.frames[$scope.currentFrame];
+      currentFrame.invert();
+    };
     $scope.penDown = function (event) {
       if (tools[$scope.activeTool].penDown) {
         tools[$scope.activeTool].penDown(event);

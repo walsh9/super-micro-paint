@@ -34,6 +34,15 @@ SuperPixelGrid.prototype.nudge = function(xOffset, yOffset) {
     return this;
 };
 
+SuperPixelGrid.prototype.invert = function(xOffset, yOffset) {
+    var self = this;
+    var inverse = self.map(function(value) {
+        return !value;
+    });
+    this.rawArray = inverse.rawArray.slice(0);
+    return this;
+};
+
 SuperPixelGrid.prototype.drawLine = function(x0, y0, x1, y1, color) {
     var self = this;
     self.forLine(x0, y0, x1, y1, function(val, x, y) {
