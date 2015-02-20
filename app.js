@@ -33,9 +33,9 @@ angular.module('super-micro-paint', [])
     document.head.appendChild(blinkStyle);
     var blink = function() {
       if (blinkState === true) {
-        blinkStyle.innerText = ".pixel-blink::after {background-color: rgba(40, 40, 40, .05);}";
+        blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .05);}";
       } else {
-        blinkStyle.innerText = ".pixel-blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
+        blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
       }
       blinkState = !blinkState;
     };
