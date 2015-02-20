@@ -21,7 +21,17 @@ SuperPixelGrid.prototype.setPixel = function(x, y, color) {
 };
 
 SuperPixelGrid.prototype.togglePixel = function(x, y) {
-      this.setPixel(x, y, !this.get(x, y));    
+      this.setPixel(x, y, !this.get(x, y));
+      return this;   
+};
+
+SuperPixelGrid.prototype.nudge = function(xOffset, yOffset) {
+    var self = this;
+    var nudged = self.map(function(value, x, y) {
+        return self.get((x + self.width - xOffset) % self.width, (y + self.height - yOffset) % self.height);
+    });
+    this.rawArray = nudged.rawArray.slice(0);
+    return this;
 };
 
 SuperPixelGrid.prototype.drawLine = function(x0, y0, x1, y1, color) {
@@ -96,8 +106,6 @@ SuperPixelGrid.prototype.drawEllipse = function(x0, y0, x1, y1, color) {
        self.setPixel(x1 + 1, y1--, color); 
     }
 };
-
-
 
 SuperPixelGrid.prototype.floodFill = function(x, y, color) {
   // if pixel is already toggled, stop

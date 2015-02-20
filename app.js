@@ -245,10 +245,15 @@ angular.module('super-micro-paint', [])
       var currentFrame = $scope.frames[$scope.currentFrame];
       currentFrame = currentFrame.lifeStep();
     };
-    $scope.clear =  function () {
+    $scope.clear = function () {
       setUndo();
       var currentFrame = $scope.frames[$scope.currentFrame];
       currentFrame.fill(false);
+    };
+    $scope.nudge = function(xOffset, yOffset) {
+      setUndo();
+      var currentFrame = $scope.frames[$scope.currentFrame];
+      currentFrame.nudge(xOffset, yOffset);
     };
 
     $scope.penDown = function (event) {
