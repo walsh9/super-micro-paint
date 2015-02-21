@@ -211,7 +211,6 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function(s) {
         var pad = "000000";
         sixBits = pad.substring(0, pad.length - sixBits.length) + sixBits;
         var bitArray = sixBits.split('').map( function(n) {return n == 1;} );
-        console.log(bitArray);
         rawArray = rawArray.concat(bitArray);
     }
     this.rawArray = rawArray.slice(0, this.width * this.height);

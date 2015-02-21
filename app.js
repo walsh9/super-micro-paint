@@ -16,6 +16,7 @@ angular.module('super-micro-paint', [])
     $scope.penmode = false;
     $scope.penStart = {};
     $scope.lastPixel = {};
+    $scope.mode = 'normal';
     $scope.range = function(n) {
         return new Array(n);
     };
@@ -70,8 +71,8 @@ angular.module('super-micro-paint', [])
       var y1 = Math.floor(pixel1.getAttribute('data-index').split(',')[1]);
       frame.drawEllipse(x0, y0, x1, y1, mode);
     };
-    var setUndo = function() {
-      var f = $scope.currentFrame;
+    var setUndo = function(frame) {
+      var f = frame || $scope.currentFrame;
       $scope.undoBuffers[f].push($scope.frames[f].toString());
     };
     var setRedo = function() {
@@ -247,14 +248,14 @@ angular.module('super-micro-paint', [])
       currentFrame.invert();
     };
     $scope.penDown = function (event) {
-      if (tools[$scope.activeTool].penDown) {
+      if (tools[$scope.activeTool].penDown && $scope.mode === 'normal') {
         tools[$scope.activeTool].penDown(event);
         updatePreviews();
         event.preventDefault();
       }
     };
     $scope.penOver = function (event) {
-      if (tools[$scope.activeTool].penOver) {
+      if (tools[$scope.activeTool].penOver && $scope.mode === 'normal') {
         tools[$scope.activeTool].penOver(event);
         updatePreviews();
         event.preventDefault();
@@ -264,7 +265,7 @@ angular.module('super-micro-paint', [])
       // when frame changes
     };
     $scope.penUp = function (event) {
-      if (tools[$scope.activeTool].penUp) {
+      if (tools[$scope.activeTool].penUp && $scope.mode === 'normal') {
         tools[$scope.activeTool].penUp(event);
       }
       updatePreviews();
@@ -290,6 +291,25 @@ angular.module('super-micro-paint', [])
     };
     window.setInterval(animate, 250);
   }();
+  $scope.copyStart = function() {
+    if ($scope.mode !== 'copy') {
+      $scope.mode = 'copy';
+    }
+  };
+  $scope.previewClick = function(n){
+    if ($scope.mode === 'normal') {
+      $scope.currentFrame = n;
+    } else if ($scope.mode === 'copy') {
+      if ($scope.currentFrame != n) {
+        setUndo(n);
+        copyFrame($scope.currentFrame, n);
+      } 
+      $scope.mode = 'normal';
+    }
+  };
+  var copyFrame = function (from, to) {
+    $scope.frames[to].rawArray =  $scope.frames[from].rawArray.slice();
+  };
     var drawToCanvas = function(frame, canvas) {
       var ctx = canvas.getContext('2d');
       var pixelScale = 2;

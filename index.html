@@ -19,83 +19,79 @@
         <div class="container">
             <div class="btn-group tools tools1">
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'pencil']">
-                <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked>
+                <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked ng-disabled="mode != 'normal'">
                 <span class="icon-pencil" />
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'fill']">
-                <input type="radio" name="tool" ng-model="activeTool" value="fill">
+                <input type="radio" name="tool" ng-model="activeTool" value="fill" ng-disabled="mode != 'normal'">
                 <span class="icon-fill" />
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'line']">
-                <input type="radio" ng-model="activeTool" value="line">
+                <input type="radio" ng-model="activeTool" value="line" ng-disabled="mode != 'normal'">
                 <span class="icon-line" />
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'rectangle']">
-                <input type="radio" ng-model="activeTool" value="rectangle">
+                <input type="radio" ng-model="activeTool" value="rectangle" ng-disabled="mode != 'normal'">
                 <span class="icon-square" />
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'ellipse']">
-                <input type="radio" ng-model="activeTool" value="ellipse">
+                <input type="radio" ng-model="activeTool" value="ellipse" ng-disabled="mode != 'normal'">
                 <span class="icon-circle" />
-              </label>
-              <label class="btn btn-primary">
-                <input type="radio" ng-model="activeTool" value="select" disabled>
-                <span class="icon-select" />
               </label>
             </div>
             <div class="btn-group tools tools2">
               <label class="btn btn-primary">
-                <button type="button" ng-click="nudge(-1, 0)">
+                <button type="button" ng-click="nudge(-1, 0)" ng-disabled="mode != 'normal'">
                 <span class="icon-left" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="nudge(1, 0)">
+                <button type="button" ng-click="nudge(1, 0)" ng-disabled="mode != 'normal'">
                 <span class="icon-right" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="nudge(0, -1)">
+                <button type="button" ng-click="nudge(0, -1)" ng-disabled="mode != 'normal'">
                 <span class="icon-up" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="nudge(0, 1)">
+                <button type="button" ng-click="nudge(0, 1)" ng-disabled="mode != 'normal'">
                 <span class="icon-down" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="clear()">
+                <button type="button" ng-click="clear()" ng-disabled="mode != 'normal'">
                 <span class="icon-clear" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="invert()">
+                <button type="button" ng-click="invert()" ng-disabled="mode != 'normal'">
                 <span class="icon-invert" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="doLifeStep()">
+                <button type="button" ng-click="doLifeStep()" ng-disabled="mode != 'normal'">
                 <span class="icon-life" />
                 </button>
               </label>
-              <label class="btn btn-primary">
-                <button type="button" ng-click="" disabled>
+              <label class="btn btn-primary" ng-class="{'blink': mode == 'copy'}">
+                <button type="button" ng-click="copyStart()">
                 <span class="icon-copy" />
                 </button>
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canUndo()]">
-                <button type="button" ng-click="undo()" ng-disabled="!canUndo()">
+                <button type="button" ng-click="undo()" ng-disabled="!canUndo() || mode != 'normal'">
                 <span class="icon-undo" />
                 </button>
               </label>
               <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canRedo()]">
-                <button type="button" ng-click="redo()" ng-disabled="!canRedo()">
+                <button type="button" ng-click="redo()" ng-disabled="!canRedo() || mode != 'normal'">
                 <span class="icon-redo" />
                 </button>
               </label>
               <label class="btn btn-primary">
-                <button type="button" ng-click="save()">
+                <button type="button" ng-click="save()" ng-disabled="mode != 'normal'">
                 <span class="icon-save" />
                 </button>
               </label>
@@ -115,7 +111,7 @@
             </div>
         </div>
         <div class="previews">
-           <div class="previewwrap" ng-repeat="frame in frames" ng-class="{true:'active', false:''}[$index==$parent.currentFrame]" ng-click="$parent.currentFrame = $index;">
+           <div class="previewwrap" ng-repeat="frame in frames" ng-class="{'active': $index==$parent.currentFrame, 'blink': $index==$parent.currentFrame && mode == 'copy'}" ng-click="previewClick($index);">
             <canvas width="64" height="32" id="preview{{$index}}"> </canvas> 
            </div>
            <div class="previewwrapani">

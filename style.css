@@ -63,7 +63,7 @@ h1 {
     white-space: nowrap;
     cursor: pointer;
     padding: 6px;
-    margin:; 2px;
+    margin: 2px;
 }
 .previews {
     width: 828px;
@@ -89,11 +89,22 @@ h1 {
     padding: 0.5px 0.5px 0.5px 0;
     position: absolute;
     border: 1px solid rgba(40, 40, 40, .05);
+    border-radius: 2px;
 }
 .previewwrap.active canvas {
-    padding: 0.5px 0.5px 0.5px 0;
     border: 1px solid rgba(40, 40, 40, .45);
-    border-radius: 2px;
+}
+.previewwrap.blink canvas {
+    -webkit-animation: blinky-preview  0.8s steps(1) 0s infinite;
+    animation: blinky-preview  0.8s steps(1) 0s infinite;    
+}
+@-webkit-keyframes blinky-preview {
+    0% { border: 1px solid rgba(40, 40, 40, .45);}
+    50% { border: 1px solid rgba(40, 40, 40, .05);}
+}
+@keyframes blinky-preview {
+    0% { border: 1px solid rgba(40, 40, 40, .45);}
+    50% { border: 1px solid rgba(40, 40, 40, .05);}
 }
 .icon-line:before {
     content: "／";
@@ -165,6 +176,30 @@ h1 {
 .btn button[disabled] {
     color: rgba(40, 40, 40, .05);
     text-shadow: none;
+}
+.btn.blink button span::before {
+    -webkit-animation: blinky-button  0.8s steps(1) 0s infinite;
+    animation: blinky-button  0.8s steps(1) 0s infinite;
+}
+@-webkit-keyframes blinky-button {
+    0% {
+        color: rgba(40, 40, 40, .85);
+        text-shadow: 1px 1px 2px #888;   
+    }
+    50% {
+        color: rgba(40, 40, 40, .05);
+        text-shadow: none;
+    }
+}
+@keyframes blinky-button {
+    0% {
+        color: rgba(40, 40, 40, .85);
+        text-shadow: 1px 1px 2px #888;   
+    }
+    50% {
+        color: rgba(40, 40, 40, .05);
+        text-shadow: none;
+    }
 }
 .row {
     padding: 0;
