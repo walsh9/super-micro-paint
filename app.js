@@ -305,6 +305,7 @@ angular.module('super-micro-paint', [])
       if ($scope.currentFrame != n) {
         setUndo(n);
         copyFrame($scope.currentFrame, n);
+        $scope.currentFrame = n;
       } 
       $scope.mode = 'normal';
     }
