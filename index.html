@@ -18,23 +18,23 @@
         <h1>Super Micro Paint</h1>
         <div class="container">
             <div class="btn-group tools tools1">
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'pencil']">
+              <label class="btn btn-primary" ng-class="{'active': activeTool == 'pencil'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked ng-disabled="mode != 'normal'">
                 <span class="icon-pencil" />
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'fill']">
+              <label class="btn btn-primary" ng-class="{'active': activeTool == 'fill'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="fill" ng-disabled="mode != 'normal'">
                 <span class="icon-fill" />
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'line']">
+              <label class="btn btn-primary" ng-class="{'active': activeTool == 'line'}">
                 <input type="radio" ng-model="activeTool" value="line" ng-disabled="mode != 'normal'">
                 <span class="icon-line" />
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'rectangle']">
+              <label class="btn btn-primary" ng-class="{'active': activeTool == 'rectangle'}">
                 <input type="radio" ng-model="activeTool" value="rectangle" ng-disabled="mode != 'normal'">
                 <span class="icon-square" />
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[activeTool == 'ellipse']">
+              <label class="btn btn-primary" ng-class="{'active': activeTool == 'ellipse'}">
                 <input type="radio" ng-model="activeTool" value="ellipse" ng-disabled="mode != 'normal'">
                 <span class="icon-circle" />
               </label>
@@ -80,12 +80,12 @@
                 <span class="icon-copy" />
                 </button>
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canUndo()]">
+              <label class="btn btn-primary" ng-class="{'active': canUndo()}">
                 <button type="button" ng-click="undo()" ng-disabled="!canUndo() || mode != 'normal'">
                 <span class="icon-undo" />
                 </button>
               </label>
-              <label class="btn btn-primary" ng-class="{true: 'active', false: ''}[canRedo()]">
+              <label class="btn btn-primary" ng-class="{'active': canRedo()}">
                 <button type="button" ng-click="redo()" ng-disabled="!canRedo() || mode != 'normal'">
                 <span class="icon-redo" />
                 </button>
@@ -97,7 +97,7 @@
               </label>
             </div>
             <div class="tab-content">
-                <div class="tab-pane" ng-class="{true: 'active', false:''}[$first]" id="{{$index + 1}}">
+                <div class="tab-pane" ng-class="{'active': $first}" id="{{$index + 1}}">
                     <div class="frame"
                      ng-mousedown="penDown($event)"
                      ng-mouseover="penOver($event)"
