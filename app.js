@@ -27,20 +27,6 @@ angular.module('super-micro-paint', [])
       return $scope.frames[$scope.currentFrame].get(x, y) ? 'pixel-on' : 'pixel-off';
     }
   };
-  var blinkTimer = function() {
-    var blinkState = true;
-    var blinkStyle = document.createElement('style');
-    document.head.appendChild(blinkStyle);
-    var blink = function() {
-      if (blinkState === true) {
-        blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .05);}";
-      } else {
-        blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
-      }
-      blinkState = !blinkState;
-    };
-    window.setInterval(blink, 400);
-  }();
 
   var clearSelection = function () {
     var selection = ('getSelection' in window) ? 
