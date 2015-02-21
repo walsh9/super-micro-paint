@@ -17,96 +17,92 @@
       <div class="case">
         <h1>Super Micro Paint</h1>
         <div class="container">
-            <div class="btn-group tools tools1">
-              <label class="btn btn-primary" ng-class="{'active': activeTool == 'pencil'}">
+            <div class="tools drawing-tools">
+              <label class="btn" ng-class="{'active': activeTool == 'pencil'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked ng-disabled="mode != 'normal'">
                 <span class="icon-pencil" />
               </label>
-              <label class="btn btn-primary" ng-class="{'active': activeTool == 'fill'}">
+              <label class="btn" ng-class="{'active': activeTool == 'fill'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="fill" ng-disabled="mode != 'normal'">
                 <span class="icon-fill" />
               </label>
-              <label class="btn btn-primary" ng-class="{'active': activeTool == 'line'}">
+              <label class="btn" ng-class="{'active': activeTool == 'line'}">
                 <input type="radio" ng-model="activeTool" value="line" ng-disabled="mode != 'normal'">
                 <span class="icon-line" />
               </label>
-              <label class="btn btn-primary" ng-class="{'active': activeTool == 'rectangle'}">
+              <label class="btn" ng-class="{'active': activeTool == 'rectangle'}">
                 <input type="radio" ng-model="activeTool" value="rectangle" ng-disabled="mode != 'normal'">
                 <span class="icon-square" />
               </label>
-              <label class="btn btn-primary" ng-class="{'active': activeTool == 'ellipse'}">
+              <label class="btn" ng-class="{'active': activeTool == 'ellipse'}">
                 <input type="radio" ng-model="activeTool" value="ellipse" ng-disabled="mode != 'normal'">
                 <span class="icon-circle" />
               </label>
             </div>
-            <div class="btn-group tools tools2">
-              <label class="btn btn-primary">
+            <div class="tools picture-tools">
+              <label class="btn">
                 <button type="button" ng-click="nudge(-1, 0)" ng-disabled="mode != 'normal'">
                 <span class="icon-left" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="nudge(1, 0)" ng-disabled="mode != 'normal'">
                 <span class="icon-right" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="nudge(0, -1)" ng-disabled="mode != 'normal'">
                 <span class="icon-up" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="nudge(0, 1)" ng-disabled="mode != 'normal'">
                 <span class="icon-down" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="clear()" ng-disabled="mode != 'normal'">
                 <span class="icon-clear" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="invert()" ng-disabled="mode != 'normal'">
                 <span class="icon-invert" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="doLifeStep()" ng-disabled="mode != 'normal'">
                 <span class="icon-life" />
                 </button>
               </label>
-              <label class="btn btn-primary" ng-class="{'blink': mode == 'copy'}">
+              <label class="btn" ng-class="{'blink': mode == 'copy'}">
                 <button type="button" ng-click="copyStart()">
                 <span class="icon-copy" />
                 </button>
               </label>
-              <label class="btn btn-primary" ng-class="{'active': canUndo()}">
+              <label class="btn" ng-class="{'active': canUndo()}">
                 <button type="button" ng-click="undo()" ng-disabled="!canUndo() || mode != 'normal'">
                 <span class="icon-undo" />
                 </button>
               </label>
-              <label class="btn btn-primary" ng-class="{'active': canRedo()}">
+              <label class="btn" ng-class="{'active': canRedo()}">
                 <button type="button" ng-click="redo()" ng-disabled="!canRedo() || mode != 'normal'">
                 <span class="icon-redo" />
                 </button>
               </label>
-              <label class="btn btn-primary">
+              <label class="btn">
                 <button type="button" ng-click="save()" ng-disabled="mode != 'normal'">
                 <span class="icon-save" />
                 </button>
               </label>
             </div>
-            <div class="tab-content">
-                <div class="tab-pane" ng-class="{'active': $first}" id="{{$index + 1}}">
-                    <div class="frame"
-                     ng-mousedown="penDown($event)"
-                     ng-mouseover="penOver($event)"
-                     ng-mouseup="penUp($event)"
-                     >
-                        <div ng-repeat="y in range(height) track by $index" class="row">
-                            <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="getDisplayPixel($index, $parent.$index)" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
-                        </div>
-                    </div>
+            <div class="frame"
+             ng-mousedown="penDown($event)"
+             ng-mouseover="penOver($event)"
+             ng-mouseup="penUp($event)"
+             >
+                <div ng-repeat="y in range(height) track by $index" class="row">
+                    <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="getDisplayPixel($index, $parent.$index)" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
                 </div>
             </div>
         </div>
@@ -134,6 +130,6 @@
         };
         window.setInterval(blink, 400);
       }();
-    </script>
-  </body>
+      </script>
+    </body>
 </html>
