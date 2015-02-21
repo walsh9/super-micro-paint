@@ -294,6 +294,8 @@ angular.module('super-micro-paint', [])
   $scope.copyStart = function() {
     if ($scope.mode !== 'copy') {
       $scope.mode = 'copy';
+    } else {
+      $scope.mode = 'normal';
     }
   };
   $scope.previewClick = function(n){
