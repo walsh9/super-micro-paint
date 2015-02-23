@@ -8,15 +8,8 @@ SuperPixelGrid.prototype = new Array2d();
 SuperPixelGrid.prototype.constructor = SuperPixelGrid;
 
 SuperPixelGrid.prototype.setPixel = function(x, y, color) {
-    try {
+    if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
       this.set(x, y, color);
-    } 
-    catch(e) {
-      if (e instanceof RangeError) {
-        // ignore range error hey it happens
-      } else {
-        throw e;
-      }
     }
 };
 

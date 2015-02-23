@@ -108,7 +108,7 @@
             </div>
         </div>
         <div class="previews">
-           <div class="previewwrap" ng-repeat="frame in frames" ng-class="{'active': $index==$parent.currentFrame, 'blink': $index==$parent.currentFrame && mode == 'copy'}" ng-click="previewClick($index);">
+           <div class="previewwrap" ng-repeat="frame in frames" ng-class="{'active': $index==$parent.currentFrame, 'blink': $index==$parent.currentFrame && mode == 'copy'}" ng-click="previewClick($index);" on-finish-render="ngRepeatFinished">
             <canvas width="64" height="32" id="preview{{$index}}"> </canvas> 
            </div>
            <div class="previewwrapani">
