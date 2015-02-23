@@ -50,6 +50,15 @@ h1 {
     user-select: none;
     position: relative;
 }
+.container {
+    -ms-touch-action: none;
+    touch-action: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-touch-callout: none;
+}
 .picture-tools {
     position: absolute;
     right: 8px;

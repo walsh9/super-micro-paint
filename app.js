@@ -116,110 +116,106 @@ angular.module('super-micro-paint', [])
     };
     var tools = {};
     tools.pencil = {
-        'penDown': function (event) {
+        'penDown': function (target) {
           setUndo();
           $scope.pen = true;
-          $scope.penmode = !getPixel(event.target, $scope);
-          togglePixel(event.target, $scope);
-          $scope.lastPixel = event.target;
-          return false;
+          $scope.penmode = !getPixel(target, $scope);
+          togglePixel(target, $scope);
+          $scope.lastPixel = target;
         },
-        'penUp': function (event) {
+        'penUp': function (target) {
           $scope.pen = false;
           $scope.lastPixel = {};
           clearSelection();
         },
-        'penOver': function (event) {
+        'penOver': function (target) {
           if ($scope.pen) {
             if ($scope.lastPixel) {
-              setLine($scope.lastPixel, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+              setLine($scope.lastPixel, target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
             }
-            $scope.lastPixel = event.target;
+            $scope.lastPixel = target;
           }
         }
     };
     tools.fill = {
-        'penDown': function (event) {
+        'penDown': function (target) {
           setUndo();
-          $scope.penmode = !getPixel(event.target, $scope);
-          fillPixels(event.target, $scope);
+          $scope.penmode = !getPixel(target, $scope);
+          fillPixels(target, $scope);
         }
     };
     tools.line = {
-        'penDown': function (event) {
+        'penDown': function (target) {
           setUndo();
           $scope.pen = true;
-          $scope.penmode = !getPixel(event.target, $scope);
-          $scope.penStart = event.target;
+          $scope.penmode = !getPixel(target, $scope);
+          $scope.penStart = target;
           $scope.overlay.fill(false);
           $scope.overlay.set(false);
-          return false;
         },
-        'penUp': function (event) {
+        'penUp': function (target) {
           $scope.pen = false;
-          setLine($scope.penStart, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          setLine($scope.penStart, target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
         },
-        'penOver': function (event) {
+        'penOver': function (target) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setLine($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              setLine($scope.penStart, target, $scope.penStart, $scope.overlay.fill(false), $scope);          
             }
-            $scope.lastPixel = event.target;
+            $scope.lastPixel = target;
           }
         }
     };
     tools.rectangle = {
-        'penDown': function (event) {
+        'penDown': function (target) {
           setUndo();
           $scope.pen = true;
-          $scope.penmode = !getPixel(event.target, $scope);
-          $scope.penStart = event.target;
+          $scope.penmode = !getPixel(target, $scope);
+          $scope.penStart = target;
           $scope.overlay.fill(false);
           $scope.overlay.set(false);
-          return false;
         },
-        'penUp': function (event) {
+        'penUp': function (target) {
           $scope.pen = false;
-          setRectangle($scope.penStart, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          setRectangle($scope.penStart, target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
         },
-        'penOver': function (event) {
+        'penOver': function (target) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setRectangle($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              setRectangle($scope.penStart, target, $scope.penStart, $scope.overlay.fill(false), $scope);          
             }
-            $scope.lastPixel = event.target;
+            $scope.lastPixel = target;
           }
         }
     };
     tools.ellipse = {
-        'penDown': function (event) {
+        'penDown': function (target) {
           setUndo();
           $scope.pen = true;
-          $scope.penmode = !getPixel(event.target, $scope);
-          $scope.penStart = event.target;
+          $scope.penmode = !getPixel(target, $scope);
+          $scope.penStart = target;
           $scope.overlay.fill(false);
           $scope.overlay.set(false);
-          return false;
         },
-        'penUp': function (event) {
+        'penUp': function (target) {
           $scope.pen = false;
-          setEllipse($scope.penStart, event.target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          setEllipse($scope.penStart, target, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
         },
-        'penOver': function (event) {
+        'penOver': function (target) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setEllipse($scope.penStart, event.target, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              setEllipse($scope.penStart, target, $scope.penStart, $scope.overlay.fill(false), $scope);          
             }
-            $scope.lastPixel = event.target;
+            $scope.lastPixel = target;
           }
         }
     };
@@ -248,28 +244,43 @@ angular.module('super-micro-paint', [])
       currentFrame.invert();
     };
     $scope.penDown = function (event) {
-      if (tools[$scope.activeTool].penDown && $scope.mode === 'normal') {
-        tools[$scope.activeTool].penDown(event);
+      var target;
+      if (event instanceof MouseEvent) {
+        target = event.target;
+      } else if (event instanceof TouchEvent) {
+        target = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
+      }
+      event.preventDefault();
+      if (target && tools[$scope.activeTool].penDown && $scope.mode === 'normal') {
+        tools[$scope.activeTool].penDown(target);
         updatePreviews();
-        event.preventDefault();
       }
     };
     $scope.penOver = function (event) {
-      if (tools[$scope.activeTool].penOver && $scope.mode === 'normal') {
-        tools[$scope.activeTool].penOver(event);
-        updatePreviews();
-        event.preventDefault();
+      var target;
+      if (event instanceof MouseEvent) {
+        target = event.target;
+      } else if (event instanceof TouchEvent) {
+        target = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
       }
-    };
-    $scope.setFrame = function (event) {
-      // when frame changes
+      event.preventDefault();
+      if (target && tools[$scope.activeTool].penOver && $scope.mode === 'normal') {
+        tools[$scope.activeTool].penOver(target);
+        updatePreviews();
+      }
     };
     $scope.penUp = function (event) {
-      if (tools[$scope.activeTool].penUp && $scope.mode === 'normal') {
-        tools[$scope.activeTool].penUp(event);
+      var target;
+      if (event instanceof MouseEvent) {
+        target = event.target;
+      } else if (event instanceof TouchEvent) {
+        target = document.elementFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
       }
-      updatePreviews();
       event.preventDefault();
+      if (target && tools[$scope.activeTool].penUp && $scope.mode === 'normal') {
+        tools[$scope.activeTool].penUp(target);
+        updatePreviews();
+      }
     };
   var updatePreviews = function() {
     $scope.frames.map( function(frame, index) {
@@ -330,8 +341,14 @@ angular.module('super-micro-paint', [])
     };
     var init = function() {
       if (location.hash.length > 0) {
-        $scope.frames.forEach(function (frame, i) {return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));})
+        $scope.frames.forEach(function (frame, i) {return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));});
       }
+      var frame = document.querySelector(".frame");
+      frame.addEventListener("touchstart", function (e) {$scope.$apply($scope.penDown(e));}, false);
+      frame.addEventListener("touchmove", function (e) {$scope.$apply($scope.penOver(e));}, false);
+      frame.addEventListener("touchend", function (e) {$scope.$apply($scope.penUp(e));}, false);
+      console.log(frame);
+      document.body.addEventListener("touchcancel", $scope.penUp, false);
     }();
 }]);
 
