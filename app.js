@@ -230,9 +230,10 @@ angular.module('super-micro-paint', [])
       if (event.originalEvent instanceof MouseEvent) {
         point.x = Math.floor(event.target.getAttribute('data-index').split(',')[0]);
         point.y = Math.floor(event.target.getAttribute('data-index').split(',')[1]);
+        var testpoint = $scope.getPointFromCoords(event.pageX, event.pageY);
       } if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
         var touch = event.changedTouches[0];
-        point = $scope.getPointFromCoords(touch.clientX, touch.clientY);
+        point = $scope.getPointFromCoords(touch.pageX, touch.pageY);
       }
       return point;
     };
@@ -344,11 +345,11 @@ angular.module('super-micro-paint', [])
         var origin = getOffsetRect(document.querySelector("span[data-index^='0,0']"));
         var left = origin.left;
         var top = origin.top;
-        var width = getOffsetRect(document.querySelector("span[data-index^='1,0']")).left - left;
-        var height = getOffsetRect(document.querySelector("span[data-index^='0,1']")).top - top;
-        return function(clientX, clientY) {
-          x = Math.round((clientX - left) / width);
-          y = Math.round((clientY - top) / height);
+        var width = getOffsetRect(document.querySelector("span[data-index^='1,0,']")).left - left;
+        var height = getOffsetRect(document.querySelector("span[data-index^='0,1,']")).top - top;
+        return function(x, y) {
+          x = Math.floor((x - left) / width);
+          y = Math.floor((y - top - 11) / height);
           return {x: x, y: y};
         };
       };
