@@ -103,7 +103,7 @@
              ng-mouseup="penUp($event)"
              >
                 <div ng-repeat="y in range(height) track by $index" class="row">
-                    <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="getDisplayPixel($index, $parent.$index)" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
+                    <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="overlay.get($index, $parent.$index) ? 'blink' : frames[currentFrame].get($index, $parent.$index) ? 'pixel-on' : 'pixel-off'" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
                 </div>
             </div>
         </div>
@@ -123,9 +123,9 @@
         document.head.appendChild(blinkStyle);
         var blink = function() {
           if (blinkState === true) {
-            blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .05);}";
+            blinkStyle.innerHTML = ".pixel.blink::after {background-color: rgba(40, 40, 40, .05);}";
           } else {
-            blinkStyle.innerHTML = ".pixel-blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
+            blinkStyle.innerHTML = ".pixel.blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
           }
           blinkState = !blinkState;
         };

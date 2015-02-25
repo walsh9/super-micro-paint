@@ -21,14 +21,6 @@ angular.module('super-micro-paint', [])
         return new Array(n);
     };
 
-  $scope.getDisplayPixel = function(x, y) {
-    if ($scope.overlay.get(x, y)) {
-      return 'pixel-blink';
-    } else {
-      return $scope.frames[$scope.currentFrame].get(x, y) ? 'pixel-on' : 'pixel-off';
-    }
-  };
-
   var clearSelection = function () {
     var selection = ('getSelection' in window) ? 
         window.getSelection()
@@ -47,15 +39,6 @@ angular.module('super-micro-paint', [])
     var setPixel = function (pixel, mode, scope) {
       var currentFrame = scope.frames[scope.currentFrame];
       currentFrame.set(pixel.x, pixel.y, mode);
-    };
-    var setLine = function (pixel0, pixel1, mode, frame, scope) {
-      frame.drawLine(pixel0.x, pixel0.y, pixel1.x, pixel1.y, mode);
-    };
-    var setRectangle = function (pixel0, pixel1, mode, frame, scope) {
-      frame.drawRectangle(pixel0.x, pixel0.y, pixel1.x, pixel1.y, mode);
-    };
-    var setEllipse = function (pixel0, pixel1, mode, frame, scope) {
-      frame.drawEllipse(pixel0.x, pixel0.y, pixel1.x, pixel1.y, mode);
     };
     var setUndo = function(frame) {
       var f = frame || $scope.currentFrame;
@@ -85,16 +68,12 @@ angular.module('super-micro-paint', [])
     $scope.canRedo = function() {
       return $scope.redoBuffers[$scope.currentFrame].length > 0;
     };
-    var fillPixels = function (pixel, scope) {
-      var currentFrame = scope.frames[scope.currentFrame];
-      currentFrame.floodFill(pixel.x, pixel.y, $scope.penmode);
-    };
     var getPixel = function (pixel, scope) {
       var currentFrame = scope.frames[scope.currentFrame];
       return currentFrame.get(pixel.x, pixel.y);
     };
     var togglePixel = function (pixel, scope) {
-      setPixel(pixel, !getPixel(pixel, scope), scope);
+      
     };
     var tools = {};
     tools.pencil = {
@@ -102,7 +81,7 @@ angular.module('super-micro-paint', [])
           setUndo();
           $scope.pen = true;
           $scope.penmode = !getPixel(point, $scope);
-          togglePixel(point, $scope);
+          setPixel(point, !getPixel(point, $scope), $scope);
           $scope.lastPixel = point;
         },
         'penUp': function (point) {
@@ -112,8 +91,9 @@ angular.module('super-micro-paint', [])
         },
         'penOver': function (point) {
           if ($scope.pen) {
-            if ($scope.lastPixel) {
-              setLine($scope.lastPixel, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+            var lp = $scope.lastPixel;
+            if (lp && !(lp.x === point.x && lp.y === point.y)) {
+              $scope.frames[$scope.currentFrame].drawLine(lp.x, lp.y, point.x, point.y, $scope.penmode);
             }
             $scope.lastPixel = point;
           }
@@ -123,7 +103,7 @@ angular.module('super-micro-paint', [])
         'penDown': function (point) {
           setUndo();
           $scope.penmode = !getPixel(point, $scope);
-          fillPixels(point, $scope);
+          $scope.frames[$scope.currentFrame].floodFill(point.x, point.y, $scope.penmode);
         }
     };
     tools.line = {
@@ -136,8 +116,9 @@ angular.module('super-micro-paint', [])
           $scope.overlay.set(false);
         },
         'penUp': function (point) {
+          var ps = $scope.penStart;
           $scope.pen = false;
-          setLine($scope.penStart, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          $scope.frames[$scope.currentFrame].drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -145,7 +126,8 @@ angular.module('super-micro-paint', [])
         'penOver': function (point) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setLine($scope.penStart, point, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              var ps = $scope.penStart;
+              $scope.overlay.fill(false).drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
             }
             $scope.lastPixel = point;
           }
@@ -162,7 +144,9 @@ angular.module('super-micro-paint', [])
         },
         'penUp': function (point) {
           $scope.pen = false;
-          setRectangle($scope.penStart, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          setRectangle($scope.penStart, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);
+          var ps = $scope.penStart;
+          $scope.frames[$scope.currentFrame].drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -170,7 +154,8 @@ angular.module('super-micro-paint', [])
         'penOver': function (point) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setRectangle($scope.penStart, point, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              var ps = $scope.penStart;
+              $scope.overlay.fill(false).drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
             }
             $scope.lastPixel = point;
           }
@@ -187,7 +172,8 @@ angular.module('super-micro-paint', [])
         },
         'penUp': function (point) {
           $scope.pen = false;
-          setEllipse($scope.penStart, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);          
+          var ps = $scope.penStart;
+          $scope.frames[$scope.currentFrame].drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -195,7 +181,8 @@ angular.module('super-micro-paint', [])
         'penOver': function (point) {
           if ($scope.pen) {
             if ($scope.penStart) {
-              setEllipse($scope.penStart, point, $scope.penStart, $scope.overlay.fill(false), $scope);          
+              var ps = $scope.penStart;
+              $scope.overlay.fill(false).drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
             }
             $scope.lastPixel = point;
           }
