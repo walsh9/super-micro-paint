@@ -144,7 +144,6 @@ angular.module('super-micro-paint', [])
         },
         'penUp': function (point) {
           $scope.pen = false;
-          setRectangle($scope.penStart, point, $scope.penmode, $scope.frames[$scope.currentFrame], $scope);
           var ps = $scope.penStart;
           $scope.frames[$scope.currentFrame].drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
           $scope.penStart = {};
@@ -212,9 +211,10 @@ angular.module('super-micro-paint', [])
       var currentFrame = $scope.frames[$scope.currentFrame];
       currentFrame.invert();
     };
-    var pointFromEvent = function (event) {
+    var pointFromEvent = function ($event) {
+      event = $event.originalEvent;
       var point = {};
-      if (event.originalEvent instanceof MouseEvent) {
+      if (event instanceof MouseEvent) {
         point.x = Math.floor(event.target.getAttribute('data-index').split(',')[0]);
         point.y = Math.floor(event.target.getAttribute('data-index').split(',')[1]);
         var testpoint = $scope.getPointFromCoords(event.pageX, event.pageY);
@@ -224,24 +224,24 @@ angular.module('super-micro-paint', [])
       }
       return point;
     };
-    $scope.penDown = function (event) {
-      var point = pointFromEvent(event);
+    $scope.penDown = function ($event) {
+      var point = pointFromEvent($event);
       event.preventDefault();
       if (tools[$scope.activeTool].penDown && $scope.mode === 'normal') {
         tools[$scope.activeTool].penDown(point);
         updatePreviews();
       }
     };
-    $scope.penOver = function (event) {
-      var point = pointFromEvent(event);
+    $scope.penOver = function ($event) {
+      var point = pointFromEvent($event);
       event.preventDefault();
       if (tools[$scope.activeTool].penOver && $scope.mode === 'normal') {
         tools[$scope.activeTool].penOver(point);
         updatePreviews();
       }
     };
-    $scope.penUp = function (event) {
-      var point = pointFromEvent(event);
+    $scope.penUp = function ($event) {
+      var point = pointFromEvent($event);
       event.preventDefault();
       if (tools[$scope.activeTool].penUp && $scope.mode === 'normal') {
         tools[$scope.activeTool].penUp(point);
@@ -310,10 +310,10 @@ angular.module('super-micro-paint', [])
         $scope.frames.forEach(function (frame, i) {return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));});
       }
       var frame = document.querySelector(".frame");
-      frame.addEventListener("touchstart", function (e) {$scope.$apply($scope.penDown(e));}, false);
-      frame.addEventListener("touchmove", function (e) {$scope.$apply($scope.penOver(e));}, false);
-      frame.addEventListener("touchend", function (e) {$scope.$apply($scope.penUp(e));}, false);
-      document.body.addEventListener("touchcancel", $scope.penUp, false);
+      // frame.addEventListener("touchstart", function (e) {$scope.$apply($scope.penDown(e));}, false);
+      // frame.addEventListener("touchmove", function (e) {$scope.$apply($scope.penOver(e));}, false);
+      // frame.addEventListener("touchend", function (e) {$scope.$apply($scope.penUp(e));}, false);
+      // document.body.addEventListener("touchcancel", $scope.penUp, false);
 
       function getOffsetRect(elem) {
           var box = elem.getBoundingClientRect();
@@ -356,4 +356,64 @@ angular.module('super-micro-paint', [])
             }
         }
     };
-});
+}).directive('ngTouchstart', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    compile: function($element, attr) {
+      var fn = $parse(attr['ngTouchstart'], null, true);
+      return function ngEventHandler(scope, element) {
+        element.on('touchstart', function(event) {
+          var callback = function() {
+            fn(scope, {$event:event});
+          };
+          scope.$apply(callback);
+        });
+      };
+    }
+  };
+}]).directive('ngTouchmove', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    compile: function($element, attr) {
+      var fn = $parse(attr['ngTouchmove'], null, true);
+      return function ngEventHandler(scope, element) {
+        element.on('touchmove', function(event) {
+          var callback = function() {
+            fn(scope, {$event:event});
+          };
+          scope.$apply(callback);
+        });
+      };
+    }
+  };
+}]).directive('ngTouchend', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    compile: function($element, attr) {
+      var fn = $parse(attr['ngTouchend'], null, true);
+      return function ngEventHandler(scope, element) {
+        element.on('touchend', function(event) {
+          var callback = function() {
+            fn(scope, {$event:event});
+          };
+          scope.$apply(callback);
+        });
+      };
+    }
+  };
+}]).directive('ngTouchcancel', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    compile: function($element, attr) {
+      var fn = $parse(attr['ngTouchcancel'], null, true);
+      return function ngEventHandler(scope, element) {
+        element.on('touchcancel', function(event) {
+          var callback = function() {
+            fn(scope, {$event:event});
+          };
+          scope.$apply(callback);
+        });
+      };
+    }
+  };
+}]);

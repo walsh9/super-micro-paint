@@ -14,7 +14,7 @@
         <script src="app.js"></script>
         <meta name="viewport" content="width=900">
     </head>
-    <body ng-app="super-micro-paint" ng-controller="MainCtrl">
+    <body ng-app="super-micro-paint" ng-controller="MainCtrl" ng-touchcancel="penUp($event)">
       <div class="case">
         <h1>Super Micro Paint</h1>
         <div class="container">
@@ -98,9 +98,9 @@
               </label>
             </div>
             <div class="frame"
-             ng-mousedown="penDown($event)"
-             ng-mouseover="penOver($event)"
-             ng-mouseup="penUp($event)"
+             ng-mousedown="penDown($event)" ng-touchstart="penDown($event)"
+             ng-mouseover="penOver($event)" ng-touchmove="penOver($event)"
+             ng-mouseup="penUp($event)" ng-touchend="penUp($event)"
              >
                 <div ng-repeat="y in range(height) track by $index" class="row">
                     <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="overlay.get($index, $parent.$index) ? 'blink' : frames[currentFrame].get($index, $parent.$index) ? 'pixel-on' : 'pixel-off'" data-index="{{$index}},{{$parent.$index}},{{currentFrame}}"></span>
