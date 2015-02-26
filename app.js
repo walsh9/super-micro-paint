@@ -77,6 +77,35 @@ angular.module('super-micro-paint', [])
       return $scope.currentFrame.get(pixel.x, pixel.y);
     };
     var tools = {};
+    var buildPointToPointDrawingTool = function (drawingFunction) {
+      return {
+        'penDown': function (point) {
+          setUndo();
+          $scope.pen = true;
+          $scope.penmode = !getPixel(point, $scope);
+          $scope.penStart = point;
+          $scope.overlay.fill(false);
+          $scope.overlay.set(false);
+        },
+        'penUp': function (point) {
+          var ps = $scope.penStart;
+          $scope.pen = false;
+          $scope.currentFrame[drawingFunction](ps.x, ps.y, point.x, point.y, $scope.penmode);          
+          $scope.penStart = {};
+          $scope.overlay.fill(false);
+          clearSelection();
+        },
+        'penOver': function (point) {
+          if ($scope.pen) {
+            if ($scope.penStart) {
+              var ps = $scope.penStart;
+              $scope.overlay.fill(false)[drawingFunction](ps.x, ps.y, point.x, point.y, true);          
+            }
+            $scope.lastPixel = point;
+          }
+        }
+      };
+    };
     tools.pencil = {
         'penDown': function (point) {
           setUndo();
@@ -107,87 +136,9 @@ angular.module('super-micro-paint', [])
           $scope.currentFrame.floodFill(point.x, point.y, $scope.penmode);
         }
     };
-    tools.line = {
-        'penDown': function (point) {
-          setUndo();
-          $scope.pen = true;
-          $scope.penmode = !getPixel(point, $scope);
-          $scope.penStart = point;
-          $scope.overlay.fill(false);
-          $scope.overlay.set(false);
-        },
-        'penUp': function (point) {
-          var ps = $scope.penStart;
-          $scope.pen = false;
-          $scope.currentFrame.drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
-          $scope.penStart = {};
-          $scope.overlay.fill(false);
-          clearSelection();
-        },
-        'penOver': function (point) {
-          if ($scope.pen) {
-            if ($scope.penStart) {
-              var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawLine(ps.x, ps.y, point.x, point.y, true);          
-            }
-            $scope.lastPixel = point;
-          }
-        }
-    };
-    tools.rectangle = {
-        'penDown': function (point) {
-          setUndo();
-          $scope.pen = true;
-          $scope.penmode = !getPixel(point, $scope);
-          $scope.penStart = point;
-          $scope.overlay.fill(false);
-          $scope.overlay.set(false);
-        },
-        'penUp': function (point) {
-          $scope.pen = false;
-          var ps = $scope.penStart;
-          $scope.currentFrame.drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
-          $scope.penStart = {};
-          $scope.overlay.fill(false);
-          clearSelection();
-        },
-        'penOver': function (point) {
-          if ($scope.pen) {
-            if ($scope.penStart) {
-              var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawRectangle(ps.x, ps.y, point.x, point.y, true);
-            }
-            $scope.lastPixel = point;
-          }
-        }
-    };
-    tools.ellipse = {
-        'penDown': function (point) {
-          setUndo();
-          $scope.pen = true;
-          $scope.penmode = !getPixel(point, $scope);
-          $scope.penStart = point;
-          $scope.overlay.fill(false);
-          $scope.overlay.set(false);
-        },
-        'penUp': function (point) {
-          $scope.pen = false;
-          var ps = $scope.penStart;
-          $scope.currentFrame.drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
-          $scope.penStart = {};
-          $scope.overlay.fill(false);
-          clearSelection();
-        },
-        'penOver': function (point) {
-          if ($scope.pen) {
-            if ($scope.penStart) {
-              var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawEllipse(ps.x, ps.y, point.x, point.y, true);
-            }
-            $scope.lastPixel = point;
-          }
-        }
-    };
+    tools.line = buildPointToPointDrawingTool('drawLine');
+    tools.rectangle = buildPointToPointDrawingTool('drawRectangle');
+    tools.ellipse = buildPointToPointDrawingTool('drawEllipse');
     $scope.save = function() {
       location.hash = $scope.frames.map(function(frame) {return frame.toUrlSafeBase64();})
         .reduce(function (a, b) {return a + b;});
