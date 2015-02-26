@@ -4,13 +4,14 @@ angular.module('super-micro-paint', [])
     $scope.height = 16;
     $scope.width = 32;
     $scope._ = _;
-    $scope.currentFrame = 0;
     $scope.activeTool = 'pencil';
     $scope.undoBuffers = _.range(0, $scope.numFrames).map(function() {return [];});
     $scope.redoBuffers = _.range(0, $scope.numFrames).map(function() {return [];});
     $scope.frames = _.range(0, $scope.numFrames).map(function () {
       return new SuperPixelGrid($scope.width, $scope.height).fill(false);
     });
+    $scope.currentFrameNum = 0;
+    $scope.currentFrame = new SuperPixelGrid($scope.width, $scope.height).fill(false);
     $scope.overlay = new SuperPixelGrid($scope.width, $scope.height).fill(false);
     $scope.pen = false;
     $scope.penmode = false;
@@ -19,6 +20,11 @@ angular.module('super-micro-paint', [])
     $scope.mode = 'normal';
     $scope.range = function(n) {
         return new Array(n);
+    };
+    var switchToFrame = function (n) {
+      copyFrame($scope.currentFrame, $scope.frames[$scope.currentFrameNum]);
+      $scope.currentFrameNum = n;
+      copyFrame($scope.frames[n], $scope.currentFrame);
     };
 
   var clearSelection = function () {
@@ -37,43 +43,38 @@ angular.module('super-micro-paint', [])
       }
     };
     var setPixel = function (pixel, mode, scope) {
-      var currentFrame = scope.frames[scope.currentFrame];
-      currentFrame.set(pixel.x, pixel.y, mode);
+      scope.currentFrame.set(pixel.x, pixel.y, mode);
     };
     var setUndo = function(frame) {
-      var f = frame || $scope.currentFrame;
+      var f = frame || $scope.currentFrameNum;
       $scope.undoBuffers[f].push($scope.frames[f].toString());
     };
     var setRedo = function() {
-      var f = $scope.currentFrame;
-      $scope.redoBuffers[f].push($scope.frames[f].toString());
+      var f = $scope.currentFrameNum;
+      $scope.redoBuffers[f].push($scope.currentFrame.toString());
     };
     $scope.undo = function() {
-      var f = $scope.currentFrame;
+      var f = $scope.currentFrameNum;
       if ($scope.undoBuffers[f].length > 0) {
         setRedo();
-        $scope.frames[f] = $scope.frames[f].fromString($scope.undoBuffers[f].pop());
+        $scope.currentFrame = $scope.currentFrame.fromString($scope.undoBuffers[f].pop());
       }
     };
     $scope.redo = function() {
-      var f = $scope.currentFrame;
+      var f = $scope.currentFrameNum;
       if ($scope.redoBuffers[f].length > 0) {
         setUndo();
-        $scope.frames[f] = $scope.frames[f].fromString($scope.redoBuffers[f].pop());
+        $scope.currentFrame = $scope.currentFrame.fromString($scope.redoBuffers[f].pop());
       }
     };
     $scope.canUndo = function() {
-      return $scope.undoBuffers[$scope.currentFrame].length > 0;
+      return $scope.undoBuffers[$scope.currentFrameNum].length > 0;
     };
     $scope.canRedo = function() {
-      return $scope.redoBuffers[$scope.currentFrame].length > 0;
+      return $scope.redoBuffers[$scope.currentFrameNum].length > 0;
     };
     var getPixel = function (pixel, scope) {
-      var currentFrame = scope.frames[scope.currentFrame];
-      return currentFrame.get(pixel.x, pixel.y);
-    };
-    var togglePixel = function (pixel, scope) {
-      
+      return $scope.currentFrame.get(pixel.x, pixel.y);
     };
     var tools = {};
     tools.pencil = {
@@ -93,7 +94,7 @@ angular.module('super-micro-paint', [])
           if ($scope.pen) {
             var lp = $scope.lastPixel;
             if (lp && !(lp.x === point.x && lp.y === point.y)) {
-              $scope.frames[$scope.currentFrame].drawLine(lp.x, lp.y, point.x, point.y, $scope.penmode);
+              $scope.currentFrame.drawLine(lp.x, lp.y, point.x, point.y, $scope.penmode);
             }
             $scope.lastPixel = point;
           }
@@ -103,7 +104,7 @@ angular.module('super-micro-paint', [])
         'penDown': function (point) {
           setUndo();
           $scope.penmode = !getPixel(point, $scope);
-          $scope.frames[$scope.currentFrame].floodFill(point.x, point.y, $scope.penmode);
+          $scope.currentFrame.floodFill(point.x, point.y, $scope.penmode);
         }
     };
     tools.line = {
@@ -118,7 +119,7 @@ angular.module('super-micro-paint', [])
         'penUp': function (point) {
           var ps = $scope.penStart;
           $scope.pen = false;
-          $scope.frames[$scope.currentFrame].drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
+          $scope.currentFrame.drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -127,7 +128,7 @@ angular.module('super-micro-paint', [])
           if ($scope.pen) {
             if ($scope.penStart) {
               var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawLine(ps.x, ps.y, point.x, point.y, $scope.penmode);          
+              $scope.overlay.fill(false).drawLine(ps.x, ps.y, point.x, point.y, true);          
             }
             $scope.lastPixel = point;
           }
@@ -145,7 +146,7 @@ angular.module('super-micro-paint', [])
         'penUp': function (point) {
           $scope.pen = false;
           var ps = $scope.penStart;
-          $scope.frames[$scope.currentFrame].drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
+          $scope.currentFrame.drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -154,7 +155,7 @@ angular.module('super-micro-paint', [])
           if ($scope.pen) {
             if ($scope.penStart) {
               var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawRectangle(ps.x, ps.y, point.x, point.y, $scope.penmode);
+              $scope.overlay.fill(false).drawRectangle(ps.x, ps.y, point.x, point.y, true);
             }
             $scope.lastPixel = point;
           }
@@ -172,7 +173,7 @@ angular.module('super-micro-paint', [])
         'penUp': function (point) {
           $scope.pen = false;
           var ps = $scope.penStart;
-          $scope.frames[$scope.currentFrame].drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
+          $scope.currentFrame.drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
           $scope.penStart = {};
           $scope.overlay.fill(false);
           clearSelection();
@@ -181,7 +182,7 @@ angular.module('super-micro-paint', [])
           if ($scope.pen) {
             if ($scope.penStart) {
               var ps = $scope.penStart;
-              $scope.overlay.fill(false).drawEllipse(ps.x, ps.y, point.x, point.y, $scope.penmode);
+              $scope.overlay.fill(false).drawEllipse(ps.x, ps.y, point.x, point.y, true);
             }
             $scope.lastPixel = point;
           }
@@ -193,23 +194,19 @@ angular.module('super-micro-paint', [])
     };
     $scope.doLifeStep = function () {
       setUndo();
-      var currentFrame = $scope.frames[$scope.currentFrame];
-      currentFrame = currentFrame.lifeStep();
+      $scope.currentFrame = $scope.currentFrame.lifeStep();
     };
     $scope.clear = function () {
       setUndo();
-      var currentFrame = $scope.frames[$scope.currentFrame];
-      currentFrame.fill(false);
+      $scope.currentFrame.fill(false);
     };
     $scope.nudge = function(xOffset, yOffset) {
       setUndo();
-      var currentFrame = $scope.frames[$scope.currentFrame];
-      currentFrame.nudge(xOffset, yOffset);
+      $scope.currentFrame.nudge(xOffset, yOffset);
     };
     $scope.invert = function(xOffset, yOffset) {
       setUndo();
-      var currentFrame = $scope.frames[$scope.currentFrame];
-      currentFrame.invert();
+      $scope.currentFrame.invert();
     };
     var pointFromEvent = function ($event) {
       event = $event.originalEvent;
@@ -251,14 +248,22 @@ angular.module('super-micro-paint', [])
   var updatePreviews = function() {
     $scope.frames.map( function(frame, index) {
       var previewCanvas = document.getElementById('preview' + index);
-      drawToCanvas(frame, previewCanvas);
+      if (index === $scope.currentFrameNum) {
+       drawToCanvas($scope.currentFrame, previewCanvas);
+      } else {
+       drawToCanvas(frame, previewCanvas);
+      }
     });
   };
   var aniTimer = function() {
     var aniState = 0;
     var aniCanvas = document.getElementById('previewani');
     var animate = function() {
-      drawToCanvas($scope.frames[aniState], aniCanvas);
+      if (aniState === $scope.currentFrameNum) {
+        drawToCanvas($scope.currentFrame, aniCanvas);
+      } else {
+        drawToCanvas($scope.frames[aniState], aniCanvas);
+      }
       if (aniState >= $scope.numFrames - 1) {
         aniState = aniState - 3;
       } else {
@@ -275,20 +280,19 @@ angular.module('super-micro-paint', [])
       $scope.mode = 'normal';
     }
   };
-  $scope.previewClick = function(n){
+  $scope.previewClick = function (n){
     if ($scope.mode === 'normal') {
-      $scope.currentFrame = n;
+      switchToFrame(n);
     } else if ($scope.mode === 'copy') {
-      if ($scope.currentFrame != n) {
+      if ($scope.currentFrameNum != n) {
         setUndo(n);
-        copyFrame($scope.currentFrame, n);
-        $scope.currentFrame = n;
+        switchToFrame(n);
       } 
       $scope.mode = 'normal';
     }
   };
   var copyFrame = function (from, to) {
-    $scope.frames[to].rawArray =  $scope.frames[from].rawArray.slice();
+    to.rawArray =  from.rawArray.slice();
   };
     var drawToCanvas = function(frame, canvas) {
       var ctx = canvas.getContext('2d');
@@ -310,10 +314,6 @@ angular.module('super-micro-paint', [])
         $scope.frames.forEach(function (frame, i) {return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));});
       }
       var frame = document.querySelector(".frame");
-      // frame.addEventListener("touchstart", function (e) {$scope.$apply($scope.penDown(e));}, false);
-      // frame.addEventListener("touchmove", function (e) {$scope.$apply($scope.penOver(e));}, false);
-      // frame.addEventListener("touchend", function (e) {$scope.$apply($scope.penUp(e));}, false);
-      // document.body.addEventListener("touchcancel", $scope.penUp, false);
 
       function getOffsetRect(elem) {
           var box = elem.getBoundingClientRect();
