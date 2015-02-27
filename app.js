@@ -200,9 +200,9 @@ angular.module('super-micro-paint', [])
     $scope.frames.map( function(frame, index) {
       var previewCanvas = document.getElementById('preview' + index);
       if (index === $scope.currentFrameNum) {
-       drawToCanvas($scope.currentFrame, previewCanvas);
+       drawPreview($scope.currentFrame, previewCanvas);
       } else {
-       drawToCanvas(frame, previewCanvas);
+       drawPreview(frame, previewCanvas);
       }
     });
   };
@@ -211,9 +211,9 @@ angular.module('super-micro-paint', [])
     var aniCanvas = document.getElementById('previewani');
     var animate = function() {
       if (aniState === $scope.currentFrameNum) {
-        drawToCanvas($scope.currentFrame, aniCanvas);
+        drawPreview($scope.currentFrame, aniCanvas);
       } else {
-        drawToCanvas($scope.frames[aniState], aniCanvas);
+        drawPreview($scope.frames[aniState], aniCanvas);
       }
       if (aniState >= $scope.numFrames - 1) {
         aniState = aniState - 3;
@@ -245,7 +245,7 @@ angular.module('super-micro-paint', [])
   var copyFrame = function (from, to) {
     to.rawArray =  from.rawArray.slice();
   };
-    var drawToCanvas = function(frame, canvas) {
+    var drawPreview = function(frame, canvas) {
       var drawBackground = function(w, h, ctx) {
         ctx.fillStyle = 'rgba(40, 40, 40, .05)';
         ctx.fillRect (0, 0, w, h);
