@@ -209,3 +209,15 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function(s) {
     this.rawArray = rawArray.slice(0, this.width * this.height);
     return s;
 };
+
+SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawBG, drawOff, drawOn) {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect (0, 0, w, h);
+    drawBG.call(null, w, h, ctx);
+    this.forEach(function drawPixel(value, x, y) {
+        var x0 = x * pixelW;
+        var y0 = y * pixelH;
+        var drawPix = value ? drawOn : drawOff;
+        drawPix.call(null, x0, y0, pixelW, pixelH, ctx);
+    });
+};

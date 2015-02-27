@@ -246,19 +246,18 @@ angular.module('super-micro-paint', [])
     to.rawArray =  from.rawArray.slice();
   };
     var drawToCanvas = function(frame, canvas) {
-      var ctx = canvas.getContext('2d');
+      var drawBackground = function(w, h, ctx) {
+        ctx.fillStyle = 'rgba(40, 40, 40, .05)';
+        ctx.fillRect (0, 0, w, h);
+      };
+      var drawPixelOn = function(x, y, pixelW, pixelH, ctx) {
+        ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+        ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+        ctx.fillRect(x, y, pixelW, pixelH);
+      };
+      var drawPixelOff = function() {};
       var pixelScale = 2;
-      var offset = 0.0;
-      ctx.clearRect (0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(40, 40, 40, .05)';
-      ctx.fillRect (0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
-      ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-      frame.forEach( function (value, x, y) {
-        if (value === true) {
-          ctx.fillRect(x * pixelScale + offset, y * pixelScale - offset, pixelScale, pixelScale);
-        }
-      });
+      frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn);
     };
     var init = function() {
       if (location.hash.length > 0) {
