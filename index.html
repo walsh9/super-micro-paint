@@ -102,10 +102,7 @@
              ng-mousemove="penOver($event)" ng-touchmove="penOver($event)"
              ng-mouseup="penUp($event)" ng-touchend="penUp($event)"
              >
-             <pixel-canvas pixels="currentFrame" width="800" height="400"/>
-<!--                 <div ng-repeat="y in range(height) track by $index" class="row">
-                    <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="overlay.get($index, $parent.$index) ? 'blink' : currentFrame.get($index, $parent.$index) ? 'pixel-on' : 'pixel-off'" data-index="{{$index}},{{$parent.$index}},{{currentFrameNum}}"></span>
-                </div> -->
+              <pixel-canvas pixels="currentFrame" width="800" height="400"/>
             </div>
         </div> 
         <div class="previews">
@@ -117,21 +114,5 @@
            </div>
         </div>
       </div>
-      <script>
-      var blinkTimer = function() {
-        var blinkState = true;
-        var blinkStyle = document.createElement('style');
-        document.head.appendChild(blinkStyle);
-        var blink = function() {
-          if (blinkState === true) {
-            blinkStyle.innerHTML = ".pixel.blink::after {background-color: rgba(40, 40, 40, .05);}";
-          } else {
-            blinkStyle.innerHTML = ".pixel.blink::after {background-color: rgba(40, 40, 40, .85); box-shadow: 1px 1px 2px #888;}";
-          }
-          blinkState = !blinkState;
-        };
-        window.setInterval(blink, 400);
-      }();
-      </script>
     </body>
 </html>
