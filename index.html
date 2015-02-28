@@ -99,14 +99,15 @@
             </div>
             <div class="frame"
              ng-mousedown="penDown($event)" ng-touchstart="penDown($event)"
-             ng-mouseover="penOver($event)" ng-touchmove="penOver($event)"
+             ng-mousemove="penOver($event)" ng-touchmove="penOver($event)"
              ng-mouseup="penUp($event)" ng-touchend="penUp($event)"
              >
-                <div ng-repeat="y in range(height) track by $index" class="row">
+             <pixel-canvas pixels="currentFrame" width="800" height="400"/>
+<!--                 <div ng-repeat="y in range(height) track by $index" class="row">
                     <span ng-repeat="x in range(width) track by $index" class="pixel" ng-class="overlay.get($index, $parent.$index) ? 'blink' : currentFrame.get($index, $parent.$index) ? 'pixel-on' : 'pixel-off'" data-index="{{$index}},{{$parent.$index}},{{currentFrameNum}}"></span>
-                </div>
+                </div> -->
             </div>
-        </div>
+        </div> 
         <div class="previews">
            <div class="previewwrap" ng-repeat="frame in frames" ng-class="{'active': $index==$parent.currentFrameNum, 'blink': $index==$parent.currentFrameNum && mode == 'copy'}" ng-click="previewClick($index);" on-finish-render="ngRepeatFinished">
             <canvas width="64" height="32" id="preview{{$index}}"> </canvas> 

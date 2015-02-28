@@ -169,11 +169,7 @@ angular.module('super-micro-paint', [])
             event = $event.originalEvent;
             var point = {};
             if (event instanceof MouseEvent) {
-                point.x = Math.floor(event.target.getAttribute('data-index')
-                    .split(',')[0]);
-                point.y = Math.floor(event.target.getAttribute('data-index')
-                    .split(',')[1]);
-                var testpoint = $scope.getPointFromCoords(event.pageX, event.pageY);
+                point = $scope.getPointFromCoords(event.pageX, event.pageY);
             }
             if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
                 var touch = event.changedTouches[0];
@@ -256,17 +252,50 @@ angular.module('super-micro-paint', [])
         };
         var drawPreview = function (frame, canvas) {
             var drawBackground = function (w, h, ctx) {
+                ctx.save();
                 ctx.fillStyle = 'rgba(40, 40, 40, .05)';
                 ctx.fillRect(0, 0, w, h);
+                ctx.restore();
             };
             var drawPixelOn = function (x, y, pixelW, pixelH, ctx) {
+                ctx.save();
                 ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
                 ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
                 ctx.fillRect(x, y, pixelW, pixelH);
+                ctx.restore();
             };
             var drawPixelOff = function () {};
             var pixelScale = 2;
             frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn);
+        };
+        var drawCurrentFrame = function () {
+            canvas = document.getElementById('canvas'); 
+            var drawBackground = function (w, h, ctx) {
+                ctx.save();
+                ctx.fillStyle = '#DCF0E6';
+                ctx.fillRect(0, 0, w, h);
+                ctx.restore();
+            };
+            var drawPixelOn = function (x, y, pixelW, pixelH, ctx) {
+                ctx.save();
+                ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+                ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+                ctx.shadowOffsetX = 1;
+                ctx.shadowOffsetY = 1;
+                ctx.shadowBlur = 2;
+                ctx.shadowColor = '#888';
+                ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                ctx.restore();
+            };
+            var drawPixelOff = function () {
+                ctx.save();
+                ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
+                ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
+                ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
+                ctx.restore();
+            };
+            var pixelScale = 25;
+            $scope.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn);
         };
         var init = function () {
             if (location.hash.length > 0) {
@@ -275,57 +304,9 @@ angular.module('super-micro-paint', [])
                 });
             }
             var frame = document.querySelector(".frame");
-
-            function getOffsetRect(elem) {
-                var box = elem.getBoundingClientRect();
-                var body = document.body;
-                var docElem = document.documentElement;
-                var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
-                var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
-                var clientTop = docElem.clientTop || body.clientTop || 0;
-                var clientLeft = docElem.clientLeft || body.clientLeft || 0;
-                var top = box.top + scrollTop - clientTop;
-                var left = box.left + scrollLeft - clientLeft;
-                return {
-                    top: Math.round(top),
-                    left: Math.round(left)
-                };
-            }
-            var fastPointGetter = function () {
-                var origin = getOffsetRect(document.querySelector("span[data-index^='0,0']"));
-                var left = origin.left;
-                var top = origin.top;
-                var width = getOffsetRect(document.querySelector("span[data-index^='1,0,']"))
-                    .left - left;
-                var height = getOffsetRect(document.querySelector("span[data-index^='0,1,']"))
-                    .top - top;
-                return function (x, y) {
-                    x = Math.floor((x - left) / width);
-                    y = Math.floor((y - top - 11) / height);
-                    return {
-                        x: x,
-                        y: y
-                    };
-                };
-            };
-            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-                $scope.getPointFromCoords = fastPointGetter();
-            });
         };
         init();
     }])
-    .directive('onFinishRender', function ($timeout) {
-        return {
-            restrict: 'A',
-            link: function (scope, element, attr) {
-                if (scope.$last === true) {
-                    $timeout(function () {
-                        scope.$emit('ngRepeatFinished');
-                    });
-                }
-            }
-        };
-    })
     .directive('ngTouchstart', ['$parse', function ($parse) {
         return {
             restrict: 'A',
@@ -397,4 +378,58 @@ angular.module('super-micro-paint', [])
                 };
             }
         };
-    }]);
+    }])
+    .directive('pixelCanvas', function() {
+        return {
+            restrict: 'E',
+            scope: {width: '@', height: '@', currentFrame: '='},
+            template: '<canvas width="{{width}}" height="{{height}}"></canvas>',
+            link: function (scope, element, attrs) {
+                var fastPointGetter = function (element, pitchX, pitchY) {
+                    var origin = $(element).offset();
+                    var left = origin.left;
+                    var top = origin.top;
+                    return function (x, y) {
+                        x = Math.floor((x - left) / pitchX);
+                        y = Math.floor((y - top) / pitchY);
+                        return {
+                            x: x,
+                            y: y
+                        };
+                    };
+                };
+                scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
+                var updateCanvas = function() {
+                    requestAnimationFrame(updateCanvas);
+                    var canvas = element.children()[0];
+                    var drawBackground = function (w, h, ctx) {
+                        ctx.save();
+                        ctx.fillStyle = '#DCF0E6';
+                        ctx.fillRect(0, 0, w, h);
+                        ctx.restore();
+                    };
+                    var drawPixelOn = function (x, y, pixelW, pixelH, ctx) {
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+                        ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+                        ctx.shadowOffsetX = 1;
+                        ctx.shadowOffsetY = 1;
+                        ctx.shadowBlur = 2;
+                        ctx.shadowColor = '#888';
+                        ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                        ctx.restore();
+                    };
+                    var drawPixelOff = function (x, y, pixelW, pixelH, ctx) {
+                        ctx.save();
+                        ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
+                        ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
+                        ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
+                        ctx.restore();
+                    };
+                    var pixelScale = 25;
+                    scope.$parent.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn);
+                };
+                updateCanvas();
+            }
+        };
+    });
