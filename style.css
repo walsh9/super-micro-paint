@@ -229,3 +229,25 @@ h1 {
 .frame canvas {
     margin: 0 7px;
 }
+.manual {
+    font-family: sans-serif;
+    z-index: 20;
+    background-color: #eee;
+    color: #111;
+    position: absolute;
+    top: 64px;
+    left: -568px;
+    right: 0;
+    width: 536px;
+    padding: 32px;
+    box-shadow: 0 0 5px #888;
+    transition: 0.4s ease-out;
+}
+.manual.show {
+    margin-left:-300px;
+    left: 50%;
+    transition: 0.4s ease-in;
+}
+.manual button {
+    float: right;
+}

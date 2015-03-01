@@ -12,7 +12,7 @@
         <script src="lib/jquery.min.js"></script>
         <script src="lib/angular.min.js"></script>
         <script src="app.js"></script>
-        <meta name="viewport" content="width=900">
+        <meta name="viewport" content="width=950">
     </head>
     <body ng-app="super-micro-paint" ng-controller="MainCtrl" ng-touchcancel="penUp($event)">
       <div class="case">
@@ -113,6 +113,39 @@
             <canvas width="64" height="32" id="previewani"></canvas>
            </div>
         </div>
+      </div>
+      <div class="manual" ng-class="{'show': showManual}" ng-click="showManual = !(showManual)">
+        <h2>Instructions</h2>
+        <h3>Super Micro Paint</h3>
+        Create mini drawings! Create mini animations! Four frames of action!
+        <ul>
+          <li>Top Right - Drawing Tools
+          <li>Top Left - Other Tools
+          <li>Center - Main Canvas.  This is where you create your masterpiece.
+          <li>Bottom Left - Frame previews and selectors. Touch these to switch frames.
+          <li>Bottom Right - Animation preview. Cycles the four frames of your animation.
+        </ul>
+        <h3>Drawing Tools</h3>
+        Start drawing on white to draw with black pixels. Start drawing on black to draw with white pixels.
+        <ul>
+          <li><span class="icon-pencil" /> <b>Pencil</b> - Click or tap to draw. You can also drag. 
+          <li><span class="icon-fill" /> <b>Paint Blop</b> - Click or tap to fill an area.
+          <li><span class="icon-line" /> <b>Line Tool</b> - Drag to draw a straight line.
+          <li><span class="icon-square" /> <b>Square &amp; Rectangle Tool</b> - Drag to draw a rectangle. Draws from one corner to opposite corner.
+          <li><span class="icon-circle" /> <b>Circle &amp; Ellipse Tool</b> - Drag to draw an ellipse. The center will be where you started dragging
+        </ul>
+        <h3>Other Tools</h3>
+        Most of these affect the whole frame.
+        <ul>
+          <li><span class="icon-left" /> <span class="icon-right" /> <span class="icon-up" /> <span class="icon-down" /> <b>Nudge Buttons</b> - Nudge the drawing by one pixel in a direction. This tool will wrap around the edges.
+          <li><span class="icon-clear" /> <b>Clear</b> - Erase the whole frame.
+          <li><span class="icon-invert" /> <b>Negative</b> - Invert the colors of the drawing.
+          <li><span class="icon-life" /> <b>Life</b> - The miracle of life.
+          <li><span class="icon-copy" /> <b>Copy</b> - Click this button once to copy the current frame. Then click the frame to copy to in the bottom left. Or click the copy button again to cancel.
+          <li><span class="icon-undo" /> <b>Undo</b> - Fix your mistake.
+          <li><span class="icon-redo" /> <b>Redo</b> - Hold on, that wasn't a mistake. Put it back.
+          <li><span class="icon-save" /> <b>Save</b>
+
       </div>
     </body>
 </html>
