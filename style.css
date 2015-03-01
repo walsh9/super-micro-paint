@@ -232,22 +232,80 @@ h1 {
 .manual {
     font-family: sans-serif;
     z-index: 20;
-    background-color: #eee;
-    color: #111;
     position: absolute;
     top: 64px;
     left: -568px;
     right: 0;
+    width: 600px;
+    transition: 0.4s ease-out;
+}
+.paper {
+    color: rgba(0, 0, 0, 0.65);
+    position: relative;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
     width: 536px;
     padding: 32px;
-    box-shadow: 0 0 5px #888;
-    transition: 0.4s ease-out;
+    z-index: 1;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px #888, inset 0 0 25px rgba(50, 50, 0, 0.25);
+    background: rgb(230,230,230);
+    background: -webkit-linear-gradient(top, rgba(255,255,255, 1),  rgba(230,230,200, 1) 50%, rgba(255,255,255, 1) 51%, rgba(230,230,200, 1));
+    background: -moz-linear-gradient(top, rgba(255,255,255, 1),  rgba(230,230,200, 1) 50%, rgba(255,255,255, 1) 51%, rgba(230,230,200, 1));
+    background: -ms-linear-gradient(top, rgba(255,255,255, 1),  rgba(230,230,200, 1) 50%, rgba(255,255,255, 1) 51%, rgba(230,230,200, 1));
+    background: -o-linear-gradient(top, rgba(255,255,255, 1),  rgba(230,230,200, 1) 50%, rgba(255,255,255, 1) 51%, rgba(230,230,200, 1));
+    background: linear-gradient(top, rgba(255,255,255, 1),  rgba(230,230,200, 1) 50%, rgba(255,255,255, 1) 51%, rgba(230,230,200, 1));
+}
+.paper::before,
+.paper::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    left: 0;
+    right: 0;
+}
+.paper::before {
+    top: 0;
+    bottom: 50%;
+    background: -webkit-linear-gradient(right, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));
+    background: -moz-linear-gradient(right, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));
+    background: -ms-linear-gradient(right, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));
+    background: -o-linear-gradient(right, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));
+    background: linear-gradient(right, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));
+}
+.paper::after {
+    top: 50%;
+    bottom: 0;
+    background: -webkit-linear-gradient(left, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));  
+    background: -moz-linear-gradient(left, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));  
+    background: -ms-linear-gradient(left, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));  
+    background: -o-linear-gradient(left, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));  
+    background: linear-gradient(left, rgba(255,255,255, 0.25),  rgba(200,200,200, 0.25) 50%, rgba(255,255,255, 0.25) 51%, rgba(200,200,200, 0.25));  
 }
 .manual.show {
     margin-left:-300px;
     left: 50%;
     transition: 0.4s ease-in;
 }
-.manual button {
-    float: right;
+.manual li {
+    display: block;
+}
+.manual li span {
+    display: inline-block;
+    width: 0;
+}
+.manual li span:before {
+    position: relative;
+    left: -32px;
+}
+.manual li span + span:before {
+    left: -16px;
+}.manual li span + span + span:before {
+    top: 16px;
+    left: -32px;
+}.manual li span + span + span + span:before {
+    top: 16px;
+    left: -16px;
 }
