@@ -54,8 +54,15 @@ angular.module('super-micro-paint', [])
             $scope.currentFrame.set(pixel.x, pixel.y, mode);
         };
         var setUndo = function (frame) {
-            var f = frame || $scope.currentFrameNum;
-            $scope.undoBuffers[f].push($scope.frames[f].toString());
+            var f, frameToSave;
+            if (frame === undefined) {
+                f = $scope.currentFrameNum;
+                frameToSave = $scope.currentFrame;
+            } else {
+                f = frame;
+                frameToSave = $scope.frames[f];
+            }
+            $scope.undoBuffers[f].push(frameToSave.toString());
         };
         var setRedo = function () {
             var f = $scope.currentFrameNum;
@@ -88,10 +95,10 @@ angular.module('super-micro-paint', [])
         var buildPointToPointDrawingTool = function (drawingFunction) {
             return {
                 'start': function (pen) {
-                    setUndo();
                     $scope.overlay.fill(false);
                 },
                 'finish': function (pen) {
+                    setUndo();
                     $scope.currentFrame[drawingFunction](pen.start.x, pen.start.y, pen.finish.x, pen.finish.y, pen.mode);
                     $scope.overlay.fill(false);
                     clearSelection();
