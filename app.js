@@ -173,6 +173,7 @@ angular.module('super-micro-paint', [])
         };
         drawingLoop();
         $scope.save = function () {
+            copyFrame($scope.currentFrame, $scope.frames[$scope.currentFrameNum]);
             location.hash = $scope.frames.map(function (frame) {
                     return frame.toUrlSafeBase64();
                 })
@@ -294,8 +295,9 @@ angular.module('super-micro-paint', [])
         var init = function () {
             if (location.hash.length > 0) {
                 $scope.frames.forEach(function (frame, i) {
-                    return frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));
+                    frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));
                 });
+                copyFrame($scope.frames[0], $scope.currentFrame);
             }
             var frame = document.querySelector(".frame");
         };
