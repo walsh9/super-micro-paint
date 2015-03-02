@@ -21,79 +21,79 @@
             <div class="tools drawing-tools">
               <label class="btn" ng-class="{'active': activeTool == 'pencil'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="pencil" checked ng-disabled="mode != 'normal'">
-                <span class="icon-pencil" />
+                <span class="icon-pencil"></span>
               </label>
               <label class="btn" ng-class="{'active': activeTool == 'fill'}">
                 <input type="radio" name="tool" ng-model="activeTool" value="fill" ng-disabled="mode != 'normal'">
-                <span class="icon-fill" />
+                <span class="icon-fill"></span>
               </label>
               <label class="btn" ng-class="{'active': activeTool == 'line'}">
                 <input type="radio" ng-model="activeTool" value="line" ng-disabled="mode != 'normal'">
-                <span class="icon-line" />
+                <span class="icon-line"></span>
               </label>
               <label class="btn" ng-class="{'active': activeTool == 'rectangle'}">
                 <input type="radio" ng-model="activeTool" value="rectangle" ng-disabled="mode != 'normal'">
-                <span class="icon-square" />
+                <span class="icon-square"></span>
               </label>
               <label class="btn" ng-class="{'active': activeTool == 'ellipse'}">
                 <input type="radio" ng-model="activeTool" value="ellipse" ng-disabled="mode != 'normal'">
-                <span class="icon-circle" />
+                <span class="icon-circle"></span>
               </label>
             </div>
             <div class="tools picture-tools">
               <label class="btn">
                 <button type="button" ng-click="nudge(-1, 0)" ng-disabled="mode != 'normal'">
-                <span class="icon-left" />
+                <span class="icon-left"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="nudge(1, 0)" ng-disabled="mode != 'normal'">
-                <span class="icon-right" />
+                <span class="icon-right"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="nudge(0, -1)" ng-disabled="mode != 'normal'">
-                <span class="icon-up" />
+                <span class="icon-up"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="nudge(0, 1)" ng-disabled="mode != 'normal'">
-                <span class="icon-down" />
+                <span class="icon-down"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="clear()" ng-disabled="mode != 'normal'">
-                <span class="icon-clear" />
+                <span class="icon-clear"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="invert()" ng-disabled="mode != 'normal'">
-                <span class="icon-invert" />
+                <span class="icon-invert"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="doLifeStep()" ng-disabled="mode != 'normal'">
-                <span class="icon-life" />
+                <span class="icon-life"></span>
                 </button>
               </label>
               <label class="btn" ng-class="{'blink': mode == 'copy'}">
                 <button type="button" ng-click="copyStart()">
-                <span class="icon-copy" />
+                <span class="icon-copy"></span>
                 </button>
               </label>
               <label class="btn" ng-class="{'active': canUndo()}">
                 <button type="button" ng-click="undo()" ng-disabled="!canUndo() || mode != 'normal'">
-                <span class="icon-undo" />
+                <span class="icon-undo"></span>
                 </button>
               </label>
               <label class="btn" ng-class="{'active': canRedo()}">
                 <button type="button" ng-click="redo()" ng-disabled="!canRedo() || mode != 'normal'">
-                <span class="icon-redo" />
+                <span class="icon-redo"></span>
                 </button>
               </label>
               <label class="btn">
                 <button type="button" ng-click="save()" ng-disabled="mode != 'normal'">
-                <span class="icon-save" />
+                <span class="icon-save"></span>
                 </button>
               </label>
             </div>
@@ -102,7 +102,7 @@
              ng-mousemove="penOver($event)" ng-touchmove="penOver($event)"
              ng-mouseup="penUp($event)" ng-touchend="penUp($event)"
              >
-              <pixel-canvas pixels="currentFrame" width="800" height="400"/>
+              <pixel-canvas pixels="currentFrame" width="800" height="400"></pixel-canvas>
             </div>
         </div> 
         <div class="previews">
