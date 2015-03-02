@@ -397,7 +397,7 @@ angular.module('super-micro-paint', [])
                     var top = origin.top;
                     return function (x, y) {
                         x = Math.floor((x - left) / pitchX);
-                        y = Math.floor((y - top) / pitchY);
+                        y = Math.floor((y - top - 14) / pitchY);
                         return {
                             x: x,
                             y: y
