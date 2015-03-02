@@ -298,42 +298,6 @@ angular.module('super-micro-paint', [])
                 });
             }
             var frame = document.querySelector(".frame");
-
-            function getOffsetRect(elem) {
-                var box = elem.getBoundingClientRect();
-                var body = document.body;
-                var docElem = document.documentElement;
-                var scrollTop = window.pageYOffset || docElem.scrollTop || body.scrollTop;
-                var scrollLeft = window.pageXOffset || docElem.scrollLeft || body.scrollLeft;
-                var clientTop = docElem.clientTop || body.clientTop || 0;
-                var clientLeft = docElem.clientLeft || body.clientLeft || 0;
-                var top = box.top + scrollTop - clientTop;
-                var left = box.left + scrollLeft - clientLeft;
-                return {
-                    top: Math.round(top),
-                    left: Math.round(left)
-                };
-            }
-            var fastPointGetter = function () {
-                var origin = getOffsetRect(document.querySelector("span[data-index^='0,0']"));
-                var left = origin.left;
-                var top = origin.top;
-                var width = getOffsetRect(document.querySelector("span[data-index^='1,0,']"))
-                    .left - left;
-                var height = getOffsetRect(document.querySelector("span[data-index^='0,1,']"))
-                    .top - top;
-                return function (x, y) {
-                    x = Math.floor((x - left) / width);
-                    y = Math.floor((y - top - 11) / height);
-                    return {
-                        x: x,
-                        y: y
-                    };
-                };
-            };
-            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
-                $scope.getPointFromCoords = fastPointGetter();
-            });
         };
         init();
     }])
