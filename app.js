@@ -197,7 +197,7 @@ angular.module('super-micro-paint', [])
             $scope.currentFrame.invert();
         };
         var pointFromEvent = function ($event) {
-            event = $event.originalEvent;
+            var event = $event.originalEvent;
             var point = {};
             if (event instanceof MouseEvent) {
                 point = $scope.getPointFromCoords(event.pageX, event.pageY);
