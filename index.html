@@ -4,17 +4,17 @@
         <meta charset="UTF-8">
         <title>Super Micro Paint</title>
         <link href='//fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-        <link href="style.css" rel="stylesheet">
-        <link href="icomoon/style.css" rel="stylesheet">
-        <script src="array2d.js"></script>
-        <script src="super-pixel-grid.js"></script>
-        <script src="lib/lodash.min.js"></script>
-        <script src="lib/jquery.min.js"></script>
-        <script src="lib/angular.min.js"></script>
-        <script src="app.js"></script>
+        <link href="assets/css/style.css" rel="stylesheet">
+        <link href="assets/icomoon/style.css" rel="stylesheet">
+        <script src="assets/lib/lodash.min.js"></script>
+        <script src="assets/lib/array2d.js"></script>
+        <script src="assets/lib/super-pixel-grid.js"></script>
+        <script src="assets/lib/jquery.min.js"></script>
+        <script src="assets/lib/angular.min.js"></script>
+        <script src="app/components/smp/smpController.js"></script>
         <meta name="viewport" content="width=950">
     </head>
-    <body ng-app="super-micro-paint" ng-controller="MainCtrl" ng-touchcancel="penUp($event)">
+    <body ng-app="super-micro-paint" ng-controller="smpController" ng-touchcancel="penUp($event)">
       <div class="case">
         <h1>Super Micro Paint</h1>
         <div class="container">

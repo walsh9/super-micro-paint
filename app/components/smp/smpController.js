@@ -1,5 +1,5 @@
 angular.module('super-micro-paint', [])
-    .controller('MainCtrl', ['$scope', function ($scope) {
+    .controller('smpController', ['$scope', function ($scope) {
         $scope.numFrames = 4;
         $scope.height = 16;
         $scope.width = 32;

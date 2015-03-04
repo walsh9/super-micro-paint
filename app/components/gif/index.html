@@ -11,6 +11,13 @@
         <script src="super-pixel-grid.js"></script>
 </head>
 <body>
+<div>
+<label>Size:  <select></select></label>
+<label>Mode:  <select></select></label>
+<label>Color: <select></select></label>
+<label>Speed: <select></select></label>
+
+</div>
     <script>
     var getParameterByName = function (name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -134,7 +141,7 @@
         ctx.restore();
     };
 
-    var drawmode = 2;
+    var drawmode = 0;
     var pixelScale = 15;    
     for (var i = 0; i < numFrames; i++) {
         drawing[i] = new SuperPixelGrid(w,h);
@@ -142,7 +149,8 @@
     }
     var gif = new GIF({
       workers: 2,
-      quality: 1
+      quality: 1,
+      workerScript: '../lib/gif.worker.js',
     });
     drawing.forEach(function (frame){
         var canvas = document.createElement('canvas');
