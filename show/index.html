@@ -18,8 +18,8 @@
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
     <div>
-        <label>Size:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales" ng-change="drawGif()"></select></label>{{scale}}x
-        <label>Mode:  <select ng-model="renderMode" ng-options="m.mode as m.label for m in renderModes" ng-change="drawGif()"></select></label>
+        <label>Mode:  <select ng-model="renderMode" ng-options="m.mode as m.label for m in renderModes" ng-change="modeChanged()"></select></label>
+        <label>Scale:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>{{scale}}x
     </div>
     <div id="output">
     </div>

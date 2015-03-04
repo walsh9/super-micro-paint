@@ -12,23 +12,36 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.delay = 400;
         $scope.scale = 15;
         $scope.color = 0;
-
         var h = 16;
         var w = 32;
+
+        $scope.renderModes = [
+            {label:'LCD', mode:0, minSize: 1},  
+            {label:'VFD', mode:1, minSize: 4}, 
+            {label:'LED', mode:2, minSize: 8},  
+        ];
+        $scope.modeChanged = function() {
+            if ($scope.scale < $scope.renderModes[$scope.renderMode].minSize) {
+                $scope.scale = $scope.renderModes[$scope.renderMode].minSize;
+            }  
+            drawGif();
+        };
 
         $scope.scales = [];
         for (i = 1; i <= 16; i++) {
             var s = {
-                'label': i + "x (" + w * i + " x " + h * i + ")",
-                'scale' : i,
+                label: i + "x (" + w * i + " x " + h * i + ")",
+                scale: i,
             };
             $scope.scales.push(s);
         }
-        $scope.renderModes = [
-            {'label':'LCD', 'mode':0},  
-            {'label':'VFD', 'mode':1}, 
-            {'label':'LED', 'mode':2},  
-        ];
+        $scope.validScale = function(s) {
+            return s.scale >= $scope.renderModes[$scope.renderMode].minSize;
+        };
+        $scope.scaleChanged = function() {
+            drawGif();
+        };
+
         var numFrames = 4;
         var drawing = [];
         var base64Drawing = getParameterByName('smp');
@@ -145,7 +158,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             drawing[i] = new SuperPixelGrid(w,h);
             drawing[i].fromUrlSafeBase64(base64Drawing.slice(i * 86));
         }
-        $scope.drawGif = function() {
+        var drawGif = function() {
             var elem = document.querySelector('#output');
             var gif = new GIF({
               workers: 2,
@@ -173,5 +186,5 @@ angular.module('super-micro-paint', ['touch-directives'])
             });
             gif.render();
         };
-        $scope.drawGif();
+        drawGif();
 }]);
