@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta charset="UTF-8">
+        <title>Super Micro Paint</title>
+        <link href='//fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+        <link href="../assets/css/show.css" rel="stylesheet">
+        <link href="../assets/icomoon/style.css" rel="stylesheet">
+        <script src="../assets/lib/lodash.min.js"></script>
+        <script src="../assets/lib/gif.js"></script>
+        <script src="../assets/lib/array2d.js"></script>
+        <script src="../assets/lib/super-pixel-grid.js"></script>
+        <script src="../assets/lib/jquery.min.js"></script>
+        <script src="../assets/lib/angular.min.js"></script>
+        <script src="../app/shared/touchDirectives.js"></script>
+        <script src="../app/components/gif/gifController.js"></script>
+</head>
+<body ng-app="super-micro-paint" ng-controller="gifController">
+    <div>
+        <label>Size:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales" ng-change="drawGif()"></select></label>{{scale}}x
+        <label>Mode:  <select ng-model="renderMode" ng-options="m.mode as m.label for m in renderModes" ng-change="drawGif()"></select></label>
+    </div>
+    <div id="output">
+    </div>
+</body>
+</html>

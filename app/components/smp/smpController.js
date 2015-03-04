@@ -356,4 +356,4 @@ angular.module('super-micro-paint', ['touch-directives'])
                 updateCanvas();
             }
         };
-    })
+    });
