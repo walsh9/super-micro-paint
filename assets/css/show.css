@@ -30,6 +30,7 @@
     margin-top: -20px;
     width: 40px;
     height: 40px;
+    box-shadow: 0 0 3px #888, inset 0 0 3px #888;
     border-radius: 50%;
     border-right: 10px solid #e0e0e0;
     border-left: 10px solid #e0e0e0;
