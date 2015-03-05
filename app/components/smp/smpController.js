@@ -279,18 +279,20 @@ angular.module('super-micro-paint', ['touch-directives'])
             to.rawArray = from.rawArray.slice();
         };
         var drawPreview = function (frame, canvas) {
-            var drawBackground = function (w, h, ctx) {
-                ctx.fillStyle = 'rgba(40, 40, 40, .05)';
-                ctx.fillRect(0, 0, w, h);
+            var drawCommands = {
+                bg: function (w, h, ctx) {
+                    ctx.fillStyle = 'rgba(40, 40, 40, .05)';
+                    ctx.fillRect(0, 0, w, h);
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+                    ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+                    ctx.fillRect(x, y, pixelW, pixelH);
+                },
+                off: function () {}
             };
-            var drawPixelOn = function (x, y, pixelW, pixelH, ctx) {
-                ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
-                ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-                ctx.fillRect(x, y, pixelW, pixelH);
-            };
-            var drawPixelOff = function () {};
             var pixelScale = 2;
-            frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn);
+            frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawCommands);
         };
         var init = function () {
             if (location.hash.length > 0) {
@@ -326,32 +328,34 @@ angular.module('super-micro-paint', ['touch-directives'])
                 var updateCanvas = function() {
                     requestAnimationFrame(updateCanvas);
                     var canvas = element.children()[0];
-                    var drawBackground = function (w, h, ctx) {
-                        ctx.save();
-                        ctx.fillStyle = '#DCF0E6';
-                        ctx.fillRect(0, 0, w, h);
-                        ctx.restore();
-                    };
-                    var drawPixelOn = function (x, y, pixelW, pixelH, ctx) {
-                        ctx.save();
-                        ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
-                        ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-                        ctx.shadowOffsetX = 1;
-                        ctx.shadowOffsetY = 1;
-                        ctx.shadowBlur = 2;
-                        ctx.shadowColor = '#888';
-                        ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
-                        ctx.restore();
-                    };
-                    var drawPixelOff = function (x, y, pixelW, pixelH, ctx) {
-                        ctx.save();
-                        ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
-                        ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
-                        ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
-                        ctx.restore();
+                    var drawCommands = {
+                        bg: function (w, h, ctx) {
+                            ctx.save();
+                            ctx.fillStyle = '#DCF0E6';
+                            ctx.fillRect(0, 0, w, h);
+                            ctx.restore();
+                        },
+                        on: function (x, y, pixelW, pixelH, ctx) {
+                            ctx.save();
+                            ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
+                            ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
+                            ctx.shadowOffsetX = 1;
+                            ctx.shadowOffsetY = 1;
+                            ctx.shadowBlur = 2;
+                            ctx.shadowColor = '#888';
+                            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                            ctx.restore();
+                        },
+                        off: function (x, y, pixelW, pixelH, ctx) {
+                            ctx.save();
+                            ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
+                            ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
+                            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
+                            ctx.restore();
+                        }
                     };
                     var pixelScale = 25;
-                    scope.$parent.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawBackground, drawPixelOff, drawPixelOn, scope.$parent.overlay);
+                    scope.$parent.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawCommands, scope.$parent.overlay);
                 };
                 updateCanvas();
             }

@@ -221,18 +221,18 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function (s) {
     this.rawArray = rawArray.slice(0, this.width * this.height);
     return s;
 };
-SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawBG, drawOff, drawOn, overlay) {
+SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawCommands, overlay) {
     var ctx = canvas.getContext('2d');
     var blinkState = (Math.floor(Date.now() / 400) % 2 === 1);
     ctx.clearRect(0, 0, w, h);
-    drawBG.call(null, w, h, ctx);
+    drawCommands.bg.call(null, w, h, ctx);
     this.forEach(function drawPixel(value, x, y) {
         var x0 = x * pixelW;
         var y0 = y * pixelH;
         if (overlay && overlay.get(x, y)) {
             value = blinkState;
         }
-        var drawPix = value ? drawOn : drawOff;
+        var drawPix = value ? drawCommands.on : drawCommands.off;
         drawPix.call(null, x0, y0, pixelW, pixelH, ctx);
     });
 };
