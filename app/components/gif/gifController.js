@@ -175,7 +175,8 @@ angular.module('super-micro-paint', ['touch-directives'])
             drawing[i].fromUrlSafeBase64(base64Drawing.slice(i * 86));
         }
         var drawGif = function() {
-            var elem = document.querySelector('#output');
+            var container = $('#output');
+            container.addClass('loading');
             var gif = new GIF({
               workers: 4,
               quality: 1,
@@ -193,12 +194,11 @@ angular.module('super-micro-paint', ['touch-directives'])
                 gif.addFrame(canvas, {delay: delay});
             });
             gif.on('finished', function(blob) {
-                var img = document.createElement('img');
-                img.setAttribute('src', URL.createObjectURL(blob));
-                while (elem.firstChild) {
-                    elem.removeChild(elem.firstChild);
-                }
-                elem.appendChild(img);
+                var img = $('<img>');
+                img.attr('src', URL.createObjectURL(blob));
+                container.empty();
+                container.removeClass('loading');
+                container.append(img);
             });
             gif.render();
         };
