@@ -8,18 +8,22 @@ angular.module('super-micro-paint', ['touch-directives'])
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         };
 
-        $scope.renderMode = 0;
+        $scope.renderMode = 'LCD';
         $scope.delay = 400;
         $scope.scale = 15;
         $scope.color = 0;
         var h = 16;
         var w = 32;
 
-        $scope.renderModes = [
-            {label:'LCD', mode:0, minSize: 1},  
-            {label:'VFD', mode:1, minSize: 4}, 
-            {label:'LED', mode:2, minSize: 8},  
-        ];
+        $scope.renderModes = {};
+        $scope.renderModes.LCD = {};
+        $scope.renderModes.VFD = {};
+        $scope.renderModes.LED = {};
+
+        $scope.renderModes.LCD.minSize = 1;
+        $scope.renderModes.VFD.minSize = 4;
+        $scope.renderModes.LED.minSize = 8;
+
         $scope.modeChanged = function() {
             if ($scope.scale < $scope.renderModes[$scope.renderMode].minSize) {
                 $scope.scale = $scope.renderModes[$scope.renderMode].minSize;
@@ -42,46 +46,57 @@ angular.module('super-micro-paint', ['touch-directives'])
             drawGif();
         };
 
+        $scope.speeds = [
+            {label:'Slow', delay:800, minSize: 8},  
+            {label:'Normal', delay:400, minSize: 1},  
+            {label:'Fast', delay:100, minSize: 4}, 
+        ];
+        $scope.speedChanged = function() {
+            drawGif();
+        };
+
         var numFrames = 4;
         var drawing = [];
         var base64Drawing = getParameterByName('smp');
 
-        var draw = {};
-        draw.bg = [];
-        draw.on = [];
-        draw.off = [];
-        draw.bg[0] = function (w, h, ctx) {
+        $scope.renderModes.LCD.draw = {};
+        $scope.renderModes.LCD.draw.bg = function (w, h, ctx) {
             ctx.save();
             ctx.fillStyle = '#DCF0E6';
             ctx.fillRect(0, 0, w, h);
             ctx.restore();
         };
-        draw.on[0] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.LCD.draw.on = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
+            var small = pixelW <= 6;
+            var shadowSize = small ? 0 : 1;
             ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
             ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-            ctx.shadowOffsetX = 1;
-            ctx.shadowOffsetY = 1;
-            ctx.shadowBlur = 2;
+            ctx.shadowOffsetX = shadowSize;
+            ctx.shadowOffsetY = shadowSize;
+            ctx.shadowBlur =  shadowSize * 2;
             ctx.shadowColor = '#888';
-            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+            ctx.fillRect(x + shadowSize, y + shadowSize, pixelW - shadowSize * 2, pixelH - shadowSize * 2);
             ctx.restore();
         };
-        draw.off[0] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.LCD.draw.off = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
+            var small = pixelW <= 6;
+            var gapSize = small ? 0 : 1;
             ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
             ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
-            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
+            ctx.fillRect(x + gapSize, y + gapSize, pixelW - gapSize * 2, pixelH - gapSize * 2);              
             ctx.restore();
         };
 
-        draw.bg[1] = function (w, h, ctx) {
+        $scope.renderModes.VFD.draw = {};
+        $scope.renderModes.VFD.draw.bg = function (w, h, ctx) {
             ctx.save();
             ctx.fillStyle = 'rgb(0, 0, 0)';
             ctx.fillRect(0, 0, w, h);
             ctx.restore();
         };
-        draw.on[1] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.VFD.draw.on = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
             ctx.fillStyle = 'rgba(128, 240, 240, 1)';
             ctx.shadowOffsetX = 0;
@@ -91,20 +106,21 @@ angular.module('super-micro-paint', ['touch-directives'])
             ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
             ctx.restore();
         };
-        draw.off[1] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.VFD.draw.off = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
             ctx.fillStyle = 'rgba(10, 10, 10, 1)';
             ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
             ctx.restore();        
         };
 
-        draw.bg[2] = function (w, h, ctx) {
+        $scope.renderModes.LED.draw = {};
+        $scope.renderModes.LED.draw.bg = function (w, h, ctx) {
             ctx.save();
             ctx.fillStyle = 'rgb(0, 0, 0)';
             ctx.fillRect(0, 0, w, h);
             ctx.restore();
         };
-        draw.on[2] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.LED.draw.on = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
             var center = {};
             center.x = x + pixelW / 2;
@@ -129,7 +145,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             ctx.fill();
             ctx.restore();
         };
-        draw.off[2] = function (x, y, pixelW, pixelH, ctx) {
+        $scope.renderModes.LED.draw.off = function (x, y, pixelW, pixelH, ctx) {
             ctx.save();
             var center = {};
             center.x = x + pixelW / 2;
@@ -161,19 +177,19 @@ angular.module('super-micro-paint', ['touch-directives'])
         var drawGif = function() {
             var elem = document.querySelector('#output');
             var gif = new GIF({
-              workers: 2,
+              workers: 4,
               quality: 1,
               workerScript: '../assets/lib/gif.worker.js',
             });
             drawing.forEach(function (frame){
                 var delay = $scope.delay;
-                var drawmode = $scope.renderMode;
+                var draw = $scope.renderModes[$scope.renderMode].draw;
                 var pixelScale = $scope.scale;    
                 var canvas = document.createElement('canvas');
                 canvas.width = w * pixelScale;
                 canvas.height = h * pixelScale;
                 var ctx = canvas.getContext('2d');
-                frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, draw.bg[drawmode], draw.off[drawmode], draw.on[drawmode]);
+                frame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, draw.bg, draw.off, draw.on);
                 gif.addFrame(canvas, {delay: delay});
             });
             gif.on('finished', function(blob) {

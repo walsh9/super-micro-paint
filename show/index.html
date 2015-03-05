@@ -18,8 +18,14 @@
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
     <div>
-        <label>Mode:  <select ng-model="renderMode" ng-options="m.mode as m.label for m in renderModes" ng-change="modeChanged()"></select></label>
-        <label>Scale:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>{{scale}}x
+        <label>Mode:  <select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
+
+<!--         <label>Color:  <select ng-model="delay" ng-options="c.scheme as c.label for c  in renderModes[renderMode].colorSchemes" ng-change="speedChanged()"></select></label>
+ -->
+        <label>Scale:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
+
+        <label>Speed:  <select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
+
     </div>
     <div id="output">
     </div>
