@@ -17,6 +17,8 @@
         <script src="../app/components/gif/gifController.js"></script>
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
+    <div id="output">
+    </div>
     <div>
         <label>Mode:  <select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
 
@@ -26,8 +28,8 @@
 
         <label>Speed:  <select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
 
-    </div>
-    <div id="output">
+        <label>Invert:  <input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
+
     </div>
 </body>
 </html>

@@ -1,9 +1,10 @@
 #output {
-  width: -webkit-min-content;
-  width: -moz-min-content;
-  width: min-content;
-  margin: auto;
-  position: relative;
+    width: -webkit-min-content;
+    width: -moz-min-content;
+    width: min-content;
+    margin: auto;
+    position: relative;
+    height: 280px;
 }
 @-webkit-keyframes spin {
     from {

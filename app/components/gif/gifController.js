@@ -12,6 +12,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.delay = 400;
         $scope.scale = 15;
         $scope.color = 0;
+        $scope.invert = false;
         var h = 16;
         var w = 32;
 
@@ -55,8 +56,13 @@ angular.module('super-micro-paint', ['touch-directives'])
             drawGif();
         };
 
+        $scope.invertChanged = function() {
+            drawing.forEach( function (frame) {frame.invert();} );
+            drawGif();
+        };
         var numFrames = 4;
         var drawing = [];
+        var inverse = [];
         var base64Drawing = getParameterByName('smp');
 
         $scope.renderModes.LCD.draw = {};
