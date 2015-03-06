@@ -134,64 +134,70 @@ angular.module('super-micro-paint', ['touch-directives'])
         };
 
         $scope.renderModes.LED = {};
-        $scope.renderModes.LED.minSize = 8;
-        $scope.renderModes.LED.drawCommands = {
-            bg: function (w, h, ctx) {
-                ctx.save();
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(0, 0, w, h);
-                ctx.restore();
-            },
-            on: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                var center = {};
-                center.x = x + pixelW / 2;
-                center.y = y + pixelH / 2;
-                ctx.fillStyle = 'rgba(230, 120, 120, 1)';
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = 'rgba(240, 100, 100, 1)';
-                ctx.beginPath();
-                ctx.arc(center.x, center.y, pixelW / 2 - 2, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.fillStyle = 'rgba(240, 220, 220, 0.5)';
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 0.5;
-                ctx.shadowColor = 'rgba(240, 220, 220, 1)';
-                ctx.beginPath();
-                ctx.arc(center.x, center.y - 1, pixelW / 8, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            },
-            off: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                var center = {};
-                center.x = x + pixelW / 2;
-                center.y = y + pixelH / 2;
-                ctx.fillStyle = 'rgba(15, 15, 15, 1)';
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 1;
-                ctx.shadowColor = 'rgba(240, 240, 240, .6)';
-                ctx.beginPath();
-                ctx.arc(center.x, center.y, pixelW / 2 - 2, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.fillStyle = 'rgba(240, 220, 220, 0.5)';
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 0.5;
-                ctx.shadowColor = 'rgba(240, 220, 220, 1)';
-                ctx.beginPath();
-                ctx.arc(center.x, center.y - 1, pixelW / 16, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.restore();
-            }
+        $scope.renderModes.LED.minSize = 10;
+        $scope.renderModes.LED.colors = {
+            'Red': {on1: '#ff6b6b', on2: '#cc0000', off: '#330000'},
+            'Blue': {on1: '#9bddff', on2: '#33aacc', off: '#002233'},
+            'White': {on1: '#ffffff', on2: '#cccccc', off: '#333333'},
+        };
+        $scope.renderModes.LED.drawCommands = function (colors) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = 'rgb(0, 0, 0)';
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                        var center = {};
+                        center.x = x + pixelW / 2;
+                        center.y = y + pixelH / 2;
+                        var gradient = ctx.createRadialGradient(center.x, center.y + pixelH * 0.15, pixelH * 0.1, center.x, center.y, pixelH / 2 - 2);
+                        gradient.addColorStop(0,  '#ffffff');
+                        gradient.addColorStop(0.3, colors.on1);
+                        gradient.addColorStop(1,  colors.on2);
+                        ctx.fillStyle = gradient;
+                        ctx.shadowColor = colors.on1;
+                        ctx.shadowOffsetX = 0;
+                        ctx.shadowOffsetY = 0;
+                        ctx.shadowBlur = pixelH;
+                        ctx.beginPath();
+                        ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                        ctx.closePath();
+                        ctx.fill();
+                    ctx.restore();
+                    ctx.save();
+                        ctx.globalCompositeOperation = 'lighten';
+                        var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 2);
+                        gradient.addColorStop(0,  '#eeeeee');
+                        gradient.addColorStop(0.1,'#000000');
+                        gradient.addColorStop(1,  '#222222');
+                        ctx.fillStyle = gradient;
+                        ctx.beginPath();
+                        ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.globalCompositeOperation = 'source-over';
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var center = {};
+                    center.x = x + pixelW / 2;
+                    center.y = y + pixelH / 2;
+                    var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 2);
+                    gradient.addColorStop(0,   colors.on2);
+                    gradient.addColorStop(0.1, colors.off);
+                    gradient.addColorStop(1,  '#222222');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.restore();
+                }
+            };
         };
 
         $scope.renderModes.block = {};
