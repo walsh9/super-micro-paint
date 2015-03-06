@@ -19,7 +19,8 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.modeChanged = function() {
             if ($scope.scale < $scope.renderModes[$scope.renderMode].minSize) {
                 $scope.scale = $scope.renderModes[$scope.renderMode].minSize;
-            }  
+            }
+            $scope.colors = Object.keys($scope.renderModes[$scope.renderMode].colors)[0];
             drawGif();
         };
 
@@ -37,7 +38,6 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.scaleChanged = function() {
             drawGif();
         };
-
         $scope.speeds = [
             {label:'Slow', delay:800, minSize: 8},  
             {label:'Normal', delay:400, minSize: 1},  
@@ -101,32 +101,36 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes.VFD = {};
         $scope.renderModes.VFD.minSize = 4;
         $scope.renderModes.VFD.colors = {
-            'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
-            'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
+            'Flourescent Blue': {bg: 'rgb(0, 0, 0)', on: 'rgb(128, 240, 240)', off: 'rgb(10, 20, 20)'},
+            'Flourescent Green': {bg: 'rgb(0, 0, 0)', on: 'rgb(128, 255, 128)', off: 'rgb(10, 20, 10)'},
+            'Flourescent Red':   {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 96, 64)', off: 'rgb(20, 10, 10)'},
+            'Flourescent Amber':  {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 191, 60)', off: 'rgb(20, 15, 10)'},
         };
-        $scope.renderModes.VFD.drawCommands = {
-            bg: function (w, h, ctx) {
-                ctx.save();
-                ctx.fillStyle = 'rgb(0, 0, 0)';
-                ctx.fillRect(0, 0, w, h);
-                ctx.restore();
-            },
-            on: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                ctx.fillStyle = 'rgba(128, 240, 240, 1)';
-                ctx.shadowOffsetX = 0;
-                ctx.shadowOffsetY = 0;
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = 'rgba(128, 240, 240, 1)';
-                ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
-                ctx.restore();
-            },
-            off: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                ctx.fillStyle = 'rgba(10, 10, 10, 1)';
-                ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
-                ctx.restore();        
-            }
+        $scope.renderModes.VFD.drawCommands = function(colors) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.bg;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.on;
+                    ctx.shadowOffsetX = 0;
+                    ctx.shadowOffsetY = 0;
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = colors.on;
+                    ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.off;
+                    ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                    ctx.restore();        
+                }
+            };
         };
 
         $scope.renderModes.LED = {};
