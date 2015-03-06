@@ -203,9 +203,9 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes.block = {};
         $scope.renderModes.block.minSize = 8;
         $scope.renderModes.block.colors = {
-            Red:    {bg: '#f5f5f5', fg: '#ff0000'},
-            Blue:   {bg: '#f5f5f5', fg: '#0066dd'},
-            Yellow: {bg: '#f5f5f5', fg: '#eecc00'},
+            Red:    {bg: '#f8f8f8', fg: '#ff0000'},
+            Blue:   {bg: '#f8f8f8', fg: '#0066dd'},
+            Yellow: {bg: '#f8f8f8', fg: '#eecc00'},
         };
         $scope.renderModes.block.drawCommands = function (colors) {
             return {
