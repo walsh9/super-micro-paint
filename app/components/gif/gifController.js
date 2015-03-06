@@ -203,13 +203,15 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes.block = {};
         $scope.renderModes.block.minSize = 8;
         $scope.renderModes.block.colors = {
-            Red: {}
+            Red:    {bg: '#f5f5f5', fg: '#ff0000'},
+            Blue:   {bg: '#f5f5f5', fg: '#0066dd'},
+            Yellow: {bg: '#f5f5f5', fg: '#eecc00'},
         };
-        $scope.renderModes.block.drawCommands = function () {
+        $scope.renderModes.block.drawCommands = function (colors) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
-                    ctx.fillStyle = 'rgb(250, 250, 250)';
+                    ctx.fillStyle = colors.bg;
                     ctx.fillRect(0, 0, w, h);
                     ctx.restore();
                 },
@@ -218,44 +220,48 @@ angular.module('super-micro-paint', ['touch-directives'])
                     var center = {};
                     center.x = x + pixelW / 2;
                     center.y = y + pixelH / 2;
-                    ctx.fillStyle = 'rgb(200, 0, 0)';
-                    ctx.fillRect(x, y, pixelW, pixelH);
-                    ctx.fillStyle = 'rgb(200, 0, 0)';
-                    ctx.fillRect(x, y + pixelH / 2, pixelW, pixelH);
-                    ctx.fillStyle = 'rgb(255, 0, 0)';
-                    ctx.fillRect(x, y, pixelW - 1, pixelH - 1);
-                    //ctx.scale(1, 0.9);
+                    var grd1 = ctx.createLinearGradient(x, y, x+pixelW, y + pixelH);
+                    grd1.addColorStop(0,   '#ffffff');
+                    grd1.addColorStop(0.1, colors.fg);
+                    grd1.addColorStop(1,   colors.fg);
+                    var grd2 = ctx.createLinearGradient(x + pixelW *0.33, y + pixelH * 0.33, x + pixelW * 0.66, y + pixelH * 0.66);
+                    grd2.addColorStop(0,    '#ffffff');
+                    grd2.addColorStop(0.01, colors.fg);
+                    grd2.addColorStop(1,    colors.fg);
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+                    ctx.shadowOffsetX = pixelW / 8;
+                    ctx.shadowOffsetY = pixelH / 8;
+                    ctx.shadowBlur = pixelW / 3;
+                    ctx.fillStyle = colors.fg;
+                    ctx.fillRect(x, y, pixelW - 0.01, pixelH - 0.01);
+                    ctx.shadowOffsetX = pixelW / 10;
+                    ctx.shadowOffsetY = pixelH / 10;
+                    ctx.shadowBlur = pixelW / 10;
+                    ctx.fillStyle = grd2;
                     ctx.beginPath();
-                    ctx.fillStyle = 'rgb(200, 0, 0)';
-                    ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
+                    ctx.arc(center.x, center.y, pixelW / 3.3, 0, Math.PI*2); 
                     ctx.closePath();
                     ctx.fill();
-                    ctx.beginPath();
-                    ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-                    ctx.arc(center.x, center.y, pixelW / 3, 0, Math.PI*2); 
-                    ctx.closePath();
-                    ctx.fill();
-                    //ctx.scale(1, 1);
                     ctx.restore();
                 },
                 off: function (x, y, pixelW, pixelH, ctx) {
                     ctx.save();
-                    y = y + pixelH / 2;
                     var center = {};
                     center.x = x + pixelW / 2;
                     center.y = y + pixelH / 2;
-                    //ctx.scale(1, 0.9);
+                    var grd = ctx.createLinearGradient(x + pixelW *0.33, y + pixelH * 0.33, x + pixelW * 0.66, y + pixelH * 0.66);
+                    grd.addColorStop(0,    '#ffffff');
+                    grd.addColorStop(0.01, colors.bg);
+                    grd.addColorStop(1,    colors.bg);
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+                    ctx.shadowOffsetX = pixelW / 10;
+                    ctx.shadowOffsetY = pixelH / 10;
+                    ctx.shadowBlur = pixelW / 10;
+                    ctx.fillStyle = grd;
                     ctx.beginPath();
-                    ctx.fillStyle = 'rgba(180, 180, 180, 1)';
-                    ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
+                    ctx.arc(center.x, center.y, pixelW / 3.3, 0, Math.PI*2); 
                     ctx.closePath();
                     ctx.fill();
-                    ctx.fillStyle = 'rgba(250, 250, 250, 1)';
-                    ctx.beginPath();
-                    ctx.arc(center.x, center.y, pixelW / 3 , 0, Math.PI*2); 
-                    ctx.closePath();
-                    ctx.fill();
-                    //ctx.scale(1, 1);
                     ctx.restore();
                 }
             };
