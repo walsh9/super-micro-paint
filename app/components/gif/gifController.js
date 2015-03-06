@@ -62,7 +62,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes = {};
 
         $scope.renderModes.LCD = {};
-        $scope.renderModes.LCD.minSize = 1;
+        $scope.renderModes.LCD.minSize = 8;
         $scope.renderModes.LCD.colors = {
             'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
             'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
@@ -77,26 +77,48 @@ angular.module('super-micro-paint', ['touch-directives'])
                 },
                 on: function (x, y, pixelW, pixelH, ctx) {
                     ctx.save();
-                    var small = pixelW <= 6;
-                    var shadowSize = small ? 0 : 1;
                     ctx.fillStyle = colors.on;
-                    ctx.shadowOffsetX = shadowSize;
-                    ctx.shadowOffsetY = shadowSize;
-                    ctx.shadowBlur =  shadowSize * 2;
+                    ctx.shadowOffsetX = 1;
+                    ctx.shadowOffsetY = 1;
+                    ctx.shadowBlur =  2;
                     ctx.shadowColor = '#888';
-                    ctx.fillRect(x + shadowSize, y + shadowSize, pixelW - shadowSize * 2, pixelH - shadowSize * 2);
+                    ctx.fillRect(x + 1, y + 1, pixelW - 1 * 2, pixelH - 1 * 2);
                     ctx.restore();
                 },
                 off: function (x, y, pixelW, pixelH, ctx) {
                     ctx.save();
-                    var small = pixelW <= 6;
-                    var gapSize = small ? 0 : 1;
                     ctx.fillStyle = colors.off;
-                    ctx.fillRect(x + gapSize, y + gapSize, pixelW - gapSize * 2, pixelH - gapSize * 2);              
+                    ctx.fillRect(x + 1, y + 1, pixelW - 1 * 2, pixelH - 1 * 2);              
                     ctx.restore();
                 }
             };
         };
+
+        $scope.renderModes['Just Pixels'] = {};
+        $scope.renderModes['Just Pixels'].minSize = 1;
+        $scope.renderModes['Just Pixels'].colors = {
+            'Super Micro Paint': {bg: '#DCF0E6', fg: 'rgba(40, 40, 40, 0.85)'},
+            'Green Boy': {bg: '#D8D8C0', fg: '#113711'},
+        };
+        $scope.renderModes['Just Pixels'].drawCommands = function(colors) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.bg;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.fg;
+                    ctx.fillRect(x, y, pixelW, pixelH);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                }
+            };
+        };
+
 
         $scope.renderModes.VFD = {};
         $scope.renderModes.VFD.minSize = 4;
@@ -134,7 +156,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         };
 
         $scope.renderModes.LED = {};
-        $scope.renderModes.LED.minSize = 10;
+        $scope.renderModes.LED.minSize = 12;
         $scope.renderModes.LED.colors = {
             'Red': {on1: '#ff6b6b', on2: '#660000', off: '#330000'},
             'Blue': {on1: '#9bddff', on2: '#006699', off: '#002233'},
@@ -201,7 +223,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         };
 
         $scope.renderModes.block = {};
-        $scope.renderModes.block.minSize = 8;
+        $scope.renderModes.block.minSize = 12;
         $scope.renderModes.block.colors = {
             Red:    {bg: '#f8f8f8', fg: '#ff0000'},
             Blue:   {bg: '#f8f8f8', fg: '#0066dd'},
