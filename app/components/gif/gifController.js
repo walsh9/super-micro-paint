@@ -168,7 +168,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                         ctx.fill();
                     ctx.restore();
                     ctx.save();
-                        ctx.globalCompositeOperation = 'lighten';
+                        ctx.globalCompositeOperation = 'lighter';
                         var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 2);
                         gradient.addColorStop(0,  '#eeeeee');
                         gradient.addColorStop(0.1,'#000000');
@@ -202,58 +202,63 @@ angular.module('super-micro-paint', ['touch-directives'])
 
         $scope.renderModes.block = {};
         $scope.renderModes.block.minSize = 8;
-        $scope.renderModes.block.drawCommands = {
-            bg: function (w, h, ctx) {
-                ctx.save();
-                ctx.fillStyle = 'rgb(250, 250, 250)';
-                ctx.fillRect(0, 0, w, h);
-                ctx.restore();
-            },
-            on: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                var center = {};
-                center.x = x + pixelW / 2;
-                center.y = y + pixelH / 2;
-                ctx.fillStyle = 'rgb(200, 0, 0)';
-                ctx.fillRect(x, y, pixelW, pixelH);
-                ctx.fillStyle = 'rgb(200, 0, 0)';
-                ctx.fillRect(x, y + pixelH / 2, pixelW, pixelH);
-                ctx.fillStyle = 'rgb(255, 0, 0)';
-                ctx.fillRect(x, y, pixelW - 1, pixelH - 1);
-                //ctx.scale(1, 0.9);
-                ctx.beginPath();
-                ctx.fillStyle = 'rgb(200, 0, 0)';
-                ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.beginPath();
-                ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-                ctx.arc(center.x, center.y, pixelW / 3, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                //ctx.scale(1, 1);
-                ctx.restore();
-            },
-            off: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                y = y + pixelH / 2;
-                var center = {};
-                center.x = x + pixelW / 2;
-                center.y = y + pixelH / 2;
-                //ctx.scale(1, 0.9);
-                ctx.beginPath();
-                ctx.fillStyle = 'rgba(180, 180, 180, 1)';
-                ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                ctx.fillStyle = 'rgba(250, 250, 250, 1)';
-                ctx.beginPath();
-                ctx.arc(center.x, center.y, pixelW / 3 , 0, Math.PI*2); 
-                ctx.closePath();
-                ctx.fill();
-                //ctx.scale(1, 1);
-                ctx.restore();
-            }
+        $scope.renderModes.block.colors = {
+            Red: {}
+        };
+        $scope.renderModes.block.drawCommands = function () {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = 'rgb(250, 250, 250)';
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var center = {};
+                    center.x = x + pixelW / 2;
+                    center.y = y + pixelH / 2;
+                    ctx.fillStyle = 'rgb(200, 0, 0)';
+                    ctx.fillRect(x, y, pixelW, pixelH);
+                    ctx.fillStyle = 'rgb(200, 0, 0)';
+                    ctx.fillRect(x, y + pixelH / 2, pixelW, pixelH);
+                    ctx.fillStyle = 'rgb(255, 0, 0)';
+                    ctx.fillRect(x, y, pixelW - 1, pixelH - 1);
+                    //ctx.scale(1, 0.9);
+                    ctx.beginPath();
+                    ctx.fillStyle = 'rgb(200, 0, 0)';
+                    ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.fillStyle = 'rgba(255, 0, 0, 1)';
+                    ctx.arc(center.x, center.y, pixelW / 3, 0, Math.PI*2); 
+                    ctx.closePath();
+                    ctx.fill();
+                    //ctx.scale(1, 1);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    y = y + pixelH / 2;
+                    var center = {};
+                    center.x = x + pixelW / 2;
+                    center.y = y + pixelH / 2;
+                    //ctx.scale(1, 0.9);
+                    ctx.beginPath();
+                    ctx.fillStyle = 'rgba(180, 180, 180, 1)';
+                    ctx.arc(center.x, center.y + 1, pixelW / 3, 0, Math.PI*2); 
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.fillStyle = 'rgba(250, 250, 250, 1)';
+                    ctx.beginPath();
+                    ctx.arc(center.x, center.y, pixelW / 3 , 0, Math.PI*2); 
+                    ctx.closePath();
+                    ctx.fill();
+                    //ctx.scale(1, 1);
+                    ctx.restore();
+                }
+            };
         };
 
         for (var i = 0; i < numFrames; i++) {
