@@ -9,9 +9,9 @@ angular.module('super-micro-paint', ['touch-directives'])
         };
 
         $scope.renderMode = 'LCD';
+        $scope.colors = 'Super Micro Paint';
         $scope.delay = 400;
         $scope.scale = 15;
-        $scope.color = 0;
         $scope.invert = false;
         var h = 16;
         var w = 32;
@@ -46,11 +46,14 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.speedChanged = function() {
             drawGif();
         };
-
+        $scope.colorsChanged = function() {
+            drawGif();
+        };
         $scope.invertChanged = function() {
             drawing.forEach( function (frame) {frame.invert();} );
             drawGif();
         };
+
         var numFrames = 4;
         var drawing = [];
         var inverse = [];
@@ -60,35 +63,39 @@ angular.module('super-micro-paint', ['touch-directives'])
 
         $scope.renderModes.LCD = {};
         $scope.renderModes.LCD.minSize = 1;
-        $scope.renderModes.LCD.drawCommands = {
-            bg: function (w, h, ctx) {
-                ctx.save();
-                ctx.fillStyle = '#DCF0E6';
-                ctx.fillRect(0, 0, w, h);
-                ctx.restore();
-            },
-            on: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                var small = pixelW <= 6;
-                var shadowSize = small ? 0 : 1;
-                ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
-                ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
-                ctx.shadowOffsetX = shadowSize;
-                ctx.shadowOffsetY = shadowSize;
-                ctx.shadowBlur =  shadowSize * 2;
-                ctx.shadowColor = '#888';
-                ctx.fillRect(x + shadowSize, y + shadowSize, pixelW - shadowSize * 2, pixelH - shadowSize * 2);
-                ctx.restore();
-            },
-            off: function (x, y, pixelW, pixelH, ctx) {
-                ctx.save();
-                var small = pixelW <= 6;
-                var gapSize = small ? 0 : 1;
-                ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
-                ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
-                ctx.fillRect(x + gapSize, y + gapSize, pixelW - gapSize * 2, pixelH - gapSize * 2);              
-                ctx.restore();
-            }
+        $scope.renderModes.LCD.colors = {
+            'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
+            'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
+        };
+        $scope.renderModes.LCD.drawCommands = function(colors) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.bg;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var small = pixelW <= 6;
+                    var shadowSize = small ? 0 : 1;
+                    ctx.fillStyle = colors.on;
+                    ctx.shadowOffsetX = shadowSize;
+                    ctx.shadowOffsetY = shadowSize;
+                    ctx.shadowBlur =  shadowSize * 2;
+                    ctx.shadowColor = '#888';
+                    ctx.fillRect(x + shadowSize, y + shadowSize, pixelW - shadowSize * 2, pixelH - shadowSize * 2);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var small = pixelW <= 6;
+                    var gapSize = small ? 0 : 1;
+                    ctx.fillStyle = colors.off;
+                    ctx.fillRect(x + gapSize, y + gapSize, pixelW - gapSize * 2, pixelH - gapSize * 2);              
+                    ctx.restore();
+                }
+            };
         };
 
         $scope.renderModes.VFD = {};
@@ -249,7 +256,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             });
             drawing.forEach(function (frame){
                 var delay = $scope.delay;
-                var drawCommands = $scope.renderModes[$scope.renderMode].drawCommands;
+                var drawCommands = $scope.renderModes[$scope.renderMode].drawCommands($scope.renderModes[$scope.renderMode].colors[$scope.colors]);
                 var pixelScale = $scope.scale;    
                 var canvas = document.createElement('canvas');
                 canvas.width = w * pixelScale;
