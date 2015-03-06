@@ -138,7 +138,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes.LED.colors = {
             'Red': {on1: '#ff6b6b', on2: '#cc0000', off: '#330000'},
             'Blue': {on1: '#9bddff', on2: '#33aacc', off: '#002233'},
-            'White': {on1: '#ffffff', on2: '#cccccc', off: '#333333'},
+            'White': {on1: '#ffffff', on2: '#dddddd', off: '#333333'},
         };
         $scope.renderModes.LED.drawCommands = function (colors) {
             return {
