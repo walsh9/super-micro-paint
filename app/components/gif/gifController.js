@@ -100,6 +100,10 @@ angular.module('super-micro-paint', ['touch-directives'])
 
         $scope.renderModes.VFD = {};
         $scope.renderModes.VFD.minSize = 4;
+        $scope.renderModes.VFD.colors = {
+            'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
+            'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
+        };
         $scope.renderModes.VFD.drawCommands = {
             bg: function (w, h, ctx) {
                 ctx.save();

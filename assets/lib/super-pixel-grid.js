@@ -223,16 +223,24 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function (s) {
 };
 SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawCommands, overlay) {
     var ctx = canvas.getContext('2d');
+    var self = this;
     var blinkState = (Math.floor(Date.now() / 400) % 2 === 1);
     ctx.clearRect(0, 0, w, h);
     drawCommands.bg.call(null, w, h, ctx);
-    this.forEach(function drawPixel(value, x, y) {
-        var x0 = x * pixelW;
-        var y0 = y * pixelH;
-        if (overlay && overlay.get(x, y)) {
-            value = blinkState;
-        }
-        var drawPix = value ? drawCommands.on : drawCommands.off;
-        drawPix.call(null, x0, y0, pixelW, pixelH, ctx);
-    });
+    var drawPixels = function(state) {
+        self.forEach(function drawPixel(value, x, y) {
+            if (overlay && overlay.get(x, y)) {
+                value = blinkState;
+            }
+            if (value === state) {
+                var x0 = x * pixelW;
+                var y0 = y * pixelH;
+                var drawPix = value ? drawCommands.on : drawCommands.off;
+                drawPix.call(null, x0, y0, pixelW, pixelH, ctx);
+            }
+        });
+    };
+    drawPixels(false); // Draw all 'off' pixels
+    drawPixels(true);  // Then draw all 'on' pixels
+
 };
