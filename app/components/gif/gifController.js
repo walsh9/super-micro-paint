@@ -136,9 +136,9 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.renderModes.LED = {};
         $scope.renderModes.LED.minSize = 10;
         $scope.renderModes.LED.colors = {
-            'Red': {on1: '#ff6b6b', on2: '#cc0000', off: '#330000'},
-            'Blue': {on1: '#9bddff', on2: '#33aacc', off: '#002233'},
-            'White': {on1: '#ffffff', on2: '#dddddd', off: '#333333'},
+            'Red': {on1: '#ff6b6b', on2: '#660000', off: '#330000'},
+            'Blue': {on1: '#9bddff', on2: '#006699', off: '#002233'},
+            'White': {on1: '#ffffff', on2: '#cccccc', off: '#333333'},
         };
         $scope.renderModes.LED.drawCommands = function (colors) {
             return {
@@ -154,9 +154,9 @@ angular.module('super-micro-paint', ['touch-directives'])
                         center.x = x + pixelW / 2;
                         center.y = y + pixelH / 2;
                         var gradient = ctx.createRadialGradient(center.x, center.y + pixelH * 0.15, pixelH * 0.1, center.x, center.y, pixelH / 2 - 2);
-                        gradient.addColorStop(0,  '#ffffff');
+                        gradient.addColorStop(0,   '#ffffff');
                         gradient.addColorStop(0.3, colors.on1);
-                        gradient.addColorStop(1,  colors.on2);
+                        gradient.addColorStop(1, colors.on2);
                         ctx.fillStyle = gradient;
                         ctx.shadowColor = colors.on1;
                         ctx.shadowOffsetX = 0;
