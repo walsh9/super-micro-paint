@@ -14,15 +14,15 @@ angular.module('super-micro-paint', ['upload'])
         $scope.invert = false;
         $scope.isReady = false;
         $scope.blob = {};
-        $scope.gfyUrl = "";
+        $scope.gfyName = "";
         var h = 16;
         var w = 32;
         $scope.upload = function() {
              $scope.isReady = false;
-             gfycat.upload($scope.blob).then(function (url) {
-                console.log(url);
+             gfycat.upload($scope.blob).then(function (name) {
+                console.log(name);
                 $scope.$apply(function () {
-                    $scope.gfyUrl = url;
+                    $scope.gfyName = name;
                     $scope.isReady = true;
                 });
             });

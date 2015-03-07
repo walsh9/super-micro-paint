@@ -31,7 +31,7 @@
         <label>Invert:  <input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
         <div class="actions">
-        <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button>{{gfyUrl}}
+        <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button><a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank">{{gfyName}}</a>
     </div>
 </body>
 </html>
