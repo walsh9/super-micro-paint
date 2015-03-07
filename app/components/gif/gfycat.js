@@ -23,7 +23,7 @@ angular.module('upload',[])
     var transcode = function (key) {
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
-            var transcodeUrl = "http://upload.gfycat.com/transcode/" + key;
+            var transcodeUrl = "https://upload.gfycat.com/transcode/" + key;
             xhr.open('GET', transcodeUrl, true );
             xhr.onload = function(response) {
                 if (this.status == 200) {
