@@ -233,14 +233,17 @@ angular.module('super-micro-paint', ['upload'])
             };
         };
 
-        $scope.renderModes.block = {};
-        $scope.renderModes.block.minSize = 12;
-        $scope.renderModes.block.colors = {
-            Red:    {bg: '#f8f8f8', fg: '#ff0000'},
-            Blue:   {bg: '#f8f8f8', fg: '#0066dd'},
-            Yellow: {bg: '#f8f8f8', fg: '#eecc00'},
+        $scope.renderModes["Plastic Blocks"] = {};
+        $scope.renderModes["Plastic Blocks"].minSize = 12;
+        $scope.renderModes["Plastic Blocks"].colors = {
+            "Red on White":    {bg: '#f8f8f8', fg: '#ff0000'},
+            "Blue on Red":    {bg: '#ff0000', fg: '#0066dd'},
+            "Blue on White":   {bg: '#f8f8f8', fg: '#0066dd'},
+            "Yellow on White": {bg: '#f8f8f8', fg: '#eecc00'},
+            "Yellow on Blue":  {bg: '#0066dd', fg: '#eecc00'},
+            "Blue on Yellow":     {bg: '#eecc00', fg: '#0066dd'},
         };
-        $scope.renderModes.block.drawCommands = function (colors) {
+        $scope.renderModes["Plastic Blocks"].drawCommands = function (colors) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
