@@ -13,7 +13,7 @@
         <script src="../assets/lib/super-pixel-grid.js"></script>
         <script src="../assets/lib/jquery.min.js"></script>
         <script src="../assets/lib/angular.min.js"></script>
-        <script src="../app/shared/touchDirectives.js"></script>
+        <script src="../app/components/gif/gfycat.js"></script>
         <script src="../app/components/gif/gifController.js"></script>
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
@@ -30,6 +30,8 @@
 
         <label>Invert:  <input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
+        <div class="actions">
+        <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button>{{gfyUrl}}
     </div>
 </body>
 </html>

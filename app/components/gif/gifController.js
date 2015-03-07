@@ -1,5 +1,5 @@
-angular.module('super-micro-paint', ['touch-directives'])
-    .controller('gifController', ['$scope', function ($scope) {
+angular.module('super-micro-paint', ['upload'])
+    .controller('gifController', ['$scope', 'gfycat', function ($scope, gfycat) {
 
         var getParameterByName = function (name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -7,15 +7,26 @@ angular.module('super-micro-paint', ['touch-directives'])
             results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         };
-
         $scope.renderMode = 'LCD';
         $scope.colors = 'Super Micro Paint';
         $scope.delay = 400;
         $scope.scale = 15;
         $scope.invert = false;
+        $scope.isReady = false;
+        $scope.blob = {};
+        $scope.gfyUrl = "";
         var h = 16;
         var w = 32;
-
+        $scope.upload = function() {
+             $scope.isReady = false;
+             gfycat.upload($scope.blob).then(function (url) {
+                console.log(url);
+                $scope.$apply(function () {
+                    $scope.gfyUrl = url;
+                    $scope.isReady = true;
+                });
+            });
+        };
         $scope.modeChanged = function() {
             if ($scope.scale < $scope.renderModes[$scope.renderMode].minSize) {
                 $scope.scale = $scope.renderModes[$scope.renderMode].minSize;
@@ -294,6 +305,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             drawing[i].fromUrlSafeBase64(base64Drawing.slice(i * 86));
         }
         var drawGif = function() {
+            $scope.isReady = false;
             var container = $('#output');
             container.addClass('loading');
             var gif = new GIF({
@@ -318,6 +330,8 @@ angular.module('super-micro-paint', ['touch-directives'])
                 container.empty();
                 container.removeClass('loading');
                 container.append(img);
+                $scope.blob = blob;
+                $scope.$apply(function () {$scope.isReady = true;});
             });
             gif.render();
         };
