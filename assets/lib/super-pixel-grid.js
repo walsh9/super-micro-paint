@@ -188,26 +188,69 @@ SuperPixelGrid.prototype.fromString = function (s) {
     return this;
 };
 SuperPixelGrid.prototype.toUrlSafeBase64 = function () {
+    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split('');
+    var rlEncode = function (s) {
+        var flag = "~";
+        var maxRun = 68;
+        var minRun = 4;
+        var len = s.length;
+        var encodedString = "";
+        var runLength, i;
+        for (i = 0; i < len; i++) {
+            encodedString += s[i];
+            runLength = 1;
+            while (i + 1 < len && s[i] == s[i + 1] && runLength < maxRun - 1)
+            {   
+                runLength++;
+                i++;
+            }
+            if (runLength >= minRun) {
+                encodedString += flag + dictionary[runLength - minRun];
+            } else {
+                i = i - runLength + 1;
+            }
+        }
+        return encodedString;
+    };
     var bits = this.rawArray.map(function (n) {
             return n ? 1 : 0;
         })
         .slice();
-    var s = "";
-    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".split('');
+    var str = "";
     while (bits.length % 6 !== 0) {
         bits.push("0");
     }
     while (bits.length > 0) {
         var sixBits = bits.splice(0, 6);
-        s += dictionary[parseInt(sixBits.join(''), 2)];
+        str += dictionary[parseInt(sixBits.join(''), 2)];
     }
-    return s;
+    return rlEncode(str);
 };
-SuperPixelGrid.prototype.fromUrlSafeBase64 = function (s) {
+
+SuperPixelGrid.prototype.fromUrlSafeBase64 = function (str) {
+    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_".split('');
+    var rlDecode = function (s) {
+        var flag = "~";
+        var minRun = 4;
+        var len = s.length;
+        decodedString = "";
+        var i, j, runLength;
+        for (i = 0; i < len; i++) {
+            decodedString += s[i];
+            if (i + 1 < len && s[i + 1] === flag) {
+                runLength = dictionary.indexOf(s[i+2]) + minRun - 1;
+                for(j = 0; j < runLength; j++) {
+                    decodedString += s[i];
+                }
+                i += 2;
+            }
+        }
+        return decodedString;
+    };
+    str = rlDecode(str);
     var rawArray = [];
-    var dictionary = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_.".split('');
-    for (var i = 0; i < s.length; i++) {
-        var char = s[i];
+    for (var i = 0; i < str.length; i++) {
+        var char = str[i];
         var sixBits = dictionary.indexOf(char)
             .toString(2);
         var pad = "000000";
@@ -219,7 +262,7 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function (s) {
         rawArray = rawArray.concat(bitArray);
     }
     this.rawArray = rawArray.slice(0, this.width * this.height);
-    return s;
+    return str;
 };
 SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawCommands, overlay) {
     var ctx = canvas.getContext('2d');

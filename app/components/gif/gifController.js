@@ -309,7 +309,7 @@ angular.module('super-micro-paint', ['upload'])
 
         for (var i = 0; i < numFrames; i++) {
             drawing[i] = new SuperPixelGrid(w,h);
-            drawing[i].fromUrlSafeBase64(base64Drawing.slice(i * 86));
+            drawing[i].fromUrlSafeBase64(base64Drawing.split('.')[i]);
         }
         var drawGif = function() {
             $scope.isReady = false;

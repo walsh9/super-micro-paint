@@ -178,7 +178,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                     return frame.toUrlSafeBase64();
                 })
                 .reduce(function (a, b) {
-                    return a + b;
+                    return a + "." + b;
                 });
         };
         $scope.doLifeStep = function () {
@@ -297,7 +297,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         var init = function () {
             if (location.hash.length > 0) {
                 $scope.frames.forEach(function (frame, i) {
-                    frame.fromUrlSafeBase64(location.hash.slice(1 + i * 86));
+                    frame.fromUrlSafeBase64(location.hash.split('.')[i]);
                 });
                 copyFrame($scope.frames[0], $scope.currentFrame);
             }
