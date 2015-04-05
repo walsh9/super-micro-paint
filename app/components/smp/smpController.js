@@ -200,12 +200,14 @@ angular.module('super-micro-paint', ['touch-directives'])
         var pointFromEvent = function ($event) {
             var event = $event.originalEvent;
             var point = {};
-            if (event instanceof MouseEvent) {
-                point = $scope.getPointFromCoords(event.pageX, event.pageY);
-            }
-            if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
-                var touch = event.changedTouches[0];
-                point = $scope.getPointFromCoords(touch.pageX, touch.pageY);
+            if ($scope.getPointFromCoords) {
+                if (event instanceof MouseEvent) {
+                    point = $scope.getPointFromCoords(event.pageX, event.pageY);
+                }
+                if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
+                    var touch = event.changedTouches[0];
+                    point = $scope.getPointFromCoords(touch.pageX, touch.pageY);
+                }
             }
             return point;
         };
@@ -324,7 +326,9 @@ angular.module('super-micro-paint', ['touch-directives'])
                         };
                     };
                 };
-                scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
+                window.setTimeout(function () {
+                    scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
+                }, 1500);
                 var updateCanvas = function() {
                     requestAnimationFrame(updateCanvas);
                     var canvas = element.children()[0];
