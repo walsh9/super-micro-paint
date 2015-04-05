@@ -297,7 +297,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         var init = function () {
             if (location.hash.length > 0) {
                 $scope.frames.forEach(function (frame, i) {
-                    frame.fromUrlSafeBase64(location.hash.split('.')[i]);
+                    frame.fromUrlSafeBase64(location.hash.substring(1).split('.')[i]);
                 });
                 copyFrame($scope.frames[0], $scope.currentFrame);
             }
