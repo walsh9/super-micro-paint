@@ -11,7 +11,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.colors = 'Super Micro Paint';
         $scope.colors2 = '';
         $scope.delay = 400;
-        $scope.scale = 15;
+        $scope.scale = 16;
         $scope.invert = false;
         $scope.isReady = false;
         $scope.blob = {};
