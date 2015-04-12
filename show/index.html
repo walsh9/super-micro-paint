@@ -22,7 +22,11 @@
     <div>
         <label>Mode:  <select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
 
-        <label>Color Scheme:  <select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
+        <label ng-show="!modeUsesDualColors(renderModes[renderMode])">Color Scheme:  <select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
+
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])">1st Color:  <select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set1" ng-change="colorsChanged()"></select></label>
+
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])">2nd Color:  <select ng-model="colors2" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set2" ng-change="colorsChanged()"></select></label>
 
         <label>Scale:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
 

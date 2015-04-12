@@ -9,6 +9,7 @@ angular.module('super-micro-paint', ['upload'])
         };
         $scope.renderMode = 'LCD';
         $scope.colors = 'Super Micro Paint';
+        $scope.colors2 = '';
         $scope.delay = 400;
         $scope.scale = 15;
         $scope.invert = false;
@@ -31,8 +32,18 @@ angular.module('super-micro-paint', ['upload'])
             if ($scope.scale < $scope.renderModes[$scope.renderMode].minSize) {
                 $scope.scale = $scope.renderModes[$scope.renderMode].minSize;
             }
-            $scope.colors = Object.keys($scope.renderModes[$scope.renderMode].colors)[0];
+            if ($scope.modeUsesDualColors($scope.renderModes[$scope.renderMode])) {
+                $scope.colors = Object.keys($scope.renderModes[$scope.renderMode].colors.set1)[0];
+                $scope.colors2 = Object.keys($scope.renderModes[$scope.renderMode].colors.set2)[0];
+            } else {
+                $scope.colors = Object.keys($scope.renderModes[$scope.renderMode].colors)[0];
+                $scope.colors2 = '';
+            }
             drawGif();
+        };
+
+        $scope.modeUsesDualColors = function(mode) {
+            return (mode.colors.hasOwnProperty("dual") && mode.colors.dual === true);
         };
 
         $scope.scales = [];
@@ -236,22 +247,27 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes["Plastic Blocks"] = {};
         $scope.renderModes["Plastic Blocks"].minSize = 12;
         $scope.renderModes["Plastic Blocks"].colors = {
-            "Red on White":    {bg: '#f8f8f8', fg: '#ff0000'},
-            "Green on White":    {bg: '#f8f8f8', fg: '#00aa44'},
-            "Blue on White":   {bg: '#f8f8f8', fg: '#1166cc'},
-            "White on Blue":   {bg: '#1166cc', fg: '#f8f8f8'},
-            "White on Red":   {bg: '#ff0000', fg: '#f8f8f8'},
-            "White on Green":   {bg: '#00aa44', fg: '#f8f8f8'},
-            "Blue on Green":   {bg: '#00aa44', fg: '#0066dd'},
-            "Yellow on White": {bg: '#f8f8f8', fg: '#eecc00'},
-            "Yellow on Blue":  {bg: '#1166cc', fg: '#eecc00'},
-            "Blue on Yellow":     {bg: '#eecc00', fg: '#1166cc'},
+            dual: true,
+            set1: {
+                "Red":    {fg: '#ff0000'},
+                "Green":  {fg: '#00aa44'},
+                "Blue":   {fg: '#1166cc'},
+                "White":  {fg: '#f8f8f8'},
+                "Yellow": {fg: '#eecc00'},
+            },
+            set2: {
+                "White":  {bg: '#f8f8f8'},
+                "Red":    {bg: '#ff0000'},
+                "Green":  {bg: '#00aa44'},
+                "Blue":   {bg: '#1166cc'},
+                "Yellow": {bg: '#eecc00'},
+            }
         };
-        $scope.renderModes["Plastic Blocks"].drawCommands = function (colors) {
+        $scope.renderModes["Plastic Blocks"].drawCommands = function (colors, colors2) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
-                    ctx.fillStyle = colors.bg;
+                    ctx.fillStyle = colors2.bg;
                     ctx.fillRect(0, 0, w, h);
                     ctx.restore();
                 },
@@ -291,8 +307,8 @@ angular.module('super-micro-paint', ['upload'])
                     center.y = y + pixelH / 2;
                     var grd = ctx.createLinearGradient(x + pixelW *0.33, y + pixelH * 0.33, x + pixelW * 0.66, y + pixelH * 0.66);
                     grd.addColorStop(0,    '#ffffff');
-                    grd.addColorStop(0.01, colors.bg);
-                    grd.addColorStop(1,    colors.bg);
+                    grd.addColorStop(0.01, colors2.bg);
+                    grd.addColorStop(1,    colors2.bg);
                     ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
                     ctx.shadowOffsetX = pixelW / 10;
                     ctx.shadowOffsetY = pixelH / 10;
@@ -322,7 +338,17 @@ angular.module('super-micro-paint', ['upload'])
             });
             drawing.forEach(function (frame){
                 var delay = $scope.delay;
-                var drawCommands = $scope.renderModes[$scope.renderMode].drawCommands($scope.renderModes[$scope.renderMode].colors[$scope.colors]);
+                var drawCommands = {};
+                if ($scope.modeUsesDualColors($scope.renderModes[$scope.renderMode])) {
+                    drawCommands = $scope.renderModes[$scope.renderMode].drawCommands(
+                        $scope.renderModes[$scope.renderMode].colors.set1[$scope.colors], 
+                        $scope.renderModes[$scope.renderMode].colors.set2[$scope.colors2]
+                        );
+                } else {
+                    drawCommands = $scope.renderModes[$scope.renderMode].drawCommands(
+                        $scope.renderModes[$scope.renderMode].colors[$scope.colors]
+                        );
+                }
                 var pixelScale = $scope.scale;    
                 var canvas = document.createElement('canvas');
                 canvas.width = w * pixelScale;
