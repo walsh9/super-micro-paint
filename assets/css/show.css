@@ -40,4 +40,21 @@
     -webkit-animation: 1.5s spin linear infinite;
     animation: 1.5s spin linear infinite;
 }
+label {
+    display: block;
+}
+#controls {
+    width: 500px;
+    margin: auto
+}
+label span {
+    font-family: sans-serif;
+    display: inline-block;
+    text-align: right;
+    font-weight: bold;
+    width: 150px;
+}
+button {
+    margin-left: 150px;
+}
 

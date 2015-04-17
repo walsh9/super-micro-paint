@@ -19,23 +19,24 @@
 <body ng-app="super-micro-paint" ng-controller="gifController">
     <div id="output">
     </div>
-    <div>
-        <label>Mode:  <select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
+    <div id="controls">
+        <label><span>Mode:</span><select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
 
-        <label ng-show="!modeUsesDualColors(renderModes[renderMode])">Color Scheme:  <select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
+        <label ng-show="!modeUsesDualColors(renderModes[renderMode])"><span>Color Scheme:</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
 
-        <label ng-show="modeUsesDualColors(renderModes[renderMode])">1st Color:  <select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set1" ng-change="colorsChanged()"></select></label>
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>1st Color:</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set1" ng-change="colorsChanged()"></select></label>
 
-        <label ng-show="modeUsesDualColors(renderModes[renderMode])">2nd Color:  <select ng-model="colors2" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set2" ng-change="colorsChanged()"></select></label>
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>2nd Color:</span><select ng-model="colors2" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set2" ng-change="colorsChanged()"></select></label>
 
-        <label>Scale:  <select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
+        <label><span>Scale:</span><select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
 
-        <label>Speed:  <select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
+        <label><span>Speed:</span><select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
 
-        <label>Invert:  <input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
+        <label><span>Invert:</span><input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
         <div class="actions">
         <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button><a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank">{{gfyName}}</a>
+        </div>
     </div>
 </body>
 </html>
