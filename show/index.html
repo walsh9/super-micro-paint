@@ -35,7 +35,13 @@
         <label><span>Invert:</span><input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
         <div class="actions">
-        <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button><a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank">{{gfyName}}</a>
+        <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button>
+        <div class="preupload">
+            <span class="spinner"></span>
+        </div>
+        <div class="postupload" ng-show="(gfyName !== '')">
+            <a href="http://twitter.com/home/?status=Check out this pic I drew with @supermicropaint http://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a>
+            <a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank"><img src="{{gfyLink}}"></a>
         </div>
     </div>
 </body>

@@ -16,14 +16,16 @@ angular.module('super-micro-paint', ['upload'])
         $scope.isReady = false;
         $scope.blob = {};
         $scope.gfyName = "";
+        $scope.gfyLink = "";
         var h = 16;
         var w = 32;
         $scope.upload = function() {
              $scope.isReady = false;
-             gfycat.upload($scope.blob).then(function (name) {
-                console.log(name);
+             gfycat.upload($scope.blob).then(function (response) {
+                console.log(response.gfyName);
                 $scope.$apply(function () {
-                    $scope.gfyName = name;
+                    $scope.gfyName = response.gfyName;
+                    $scope.gfyLink = response.gifUrl;
                     $scope.isReady = true;
                 });
             });

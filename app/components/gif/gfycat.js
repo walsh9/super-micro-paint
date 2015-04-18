@@ -13,7 +13,7 @@ angular.module('upload',[])
             try {
                 var response = JSON.parse(jsonResponse);
                 console.log(response);             
-                resolve(response.gfyName);
+                resolve(response);
             }
             catch(e) {
                 reject(Error('Error parsing response: ' + e));
