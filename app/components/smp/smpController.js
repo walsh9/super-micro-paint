@@ -34,6 +34,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.events.current = undefined;
         $scope.events.finish = undefined;
         $scope.mode = 'normal';
+        $scope.isReady = false;
         $scope.range = function (n) {
             return new Array(n);
         };
@@ -133,30 +134,32 @@ angular.module('super-micro-paint', ['touch-directives'])
         tools.rectangle = buildPointToPointDrawingTool('drawRectangle');
         tools.ellipse = buildPointToPointDrawingTool('drawEllipse');
         var drawUpdate = function() {
-            var pen = $scope.pen;
-            var events = $scope.events;
-            if (events.start) {
-                pen.drawing = true;
-                pen.start = pen.last = pointFromEvent(events.start);
-                pen.mode = !getPixel(pen.start);
-                events.start = undefined;
-                if (tools[$scope.activeTool].start) {
-                    tools[$scope.activeTool].start(pen);
+            if ($scope.isReady) {
+                var pen = $scope.pen;
+                var events = $scope.events;
+                if (events.start) {
+                    pen.drawing = true;
+                    pen.start = pen.last = pointFromEvent(events.start);
+                    pen.mode = !getPixel(pen.start);
+                    events.start = undefined;
+                    if (tools[$scope.activeTool].start) {
+                        tools[$scope.activeTool].start(pen);
+                    }
+                } else if (pen.drawing === true && events.current && !events.finish) {
+                    pen.current = pointFromEvent(events.current);
+                    if (tools[$scope.activeTool].update && !(pen.current.x === pen.last.x && pen.current.y === pen.last.y)) {
+                        tools[$scope.activeTool].update(pen);
+                    }
+                    pen.last = pen.current;
+                    events.current = undefined;
+                } else if (pen.drawing === true && events.finish) {
+                    pen.drawing = false;
+                    pen.finish = pointFromEvent(events.finish);
+                    if (tools[$scope.activeTool].finish) {
+                        tools[$scope.activeTool].finish(pen);
+                    }
+                    events.finish = events.current = undefined;
                 }
-            } else if (pen.drawing === true && events.current && !events.finish) {
-                pen.current = pointFromEvent(events.current);
-                if (tools[$scope.activeTool].update && !(pen.current.x === pen.last.x && pen.current.y === pen.last.y)) {
-                    tools[$scope.activeTool].update(pen);
-                }
-                pen.last = pen.current;
-                events.current = undefined;
-            } else if (pen.drawing === true && events.finish) {
-                pen.drawing = false;
-                pen.finish = pointFromEvent(events.finish);
-                if (tools[$scope.activeTool].finish) {
-                    tools[$scope.activeTool].finish(pen);
-                }
-                events.finish = events.current = undefined;
             }
             window.requestAnimationFrame(drawUpdate);
         };
@@ -331,6 +334,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                 };
                 window.setTimeout(function () {
                     scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
+                    scope.$parent.isReady = true;
                 }, 1500);
                 var updateCanvas = function() {
                     requestAnimationFrame(updateCanvas);
