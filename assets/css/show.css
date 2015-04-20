@@ -1,3 +1,22 @@
+body {
+    margin: 0;
+    background: #089;
+}
+#top {
+    margin: 0 0 20px 0;    
+    padding: 20px 0 0 0;
+    width: 100%;
+    background: #789;
+    border-bottom: 5px solid #567;
+    border-top: 5px solid #567;
+}
+h1 {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 28px;
+    color: white;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
 #output {
     width: -webkit-min-content;
     width: -moz-min-content;
@@ -53,10 +72,20 @@ label input, label select{
 }
 label span {
     font-family: sans-serif;
+    font-size: 14px;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
     display: inline-block;
     text-align: right;
     font-weight: bold;
     width: 145px;
+}
+h2 {
+    font-family: sans-serif;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 button {
     margin-left: 150px;
@@ -80,7 +109,7 @@ a.btn {
     border:1px solid #dcdcdc;
     display:inline-block;
     cursor:pointer;
-    color:#666666;
+    color:#222;
     font-family:arial;
     font-size:11px;
     padding: 2px 0;

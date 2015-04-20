@@ -17,7 +17,9 @@
         <script src="../app/components/gif/gifController.js"></script>
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
-    <div id="output">
+        <h1>Share Your Masterpiece</h1>
+    <div id="top">
+        <div id="output"></div>
     </div>
     <div id="controls">
         <label><span>Mode:</span><select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
@@ -35,12 +37,10 @@
         <label><span>Invert:</span><input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
         <div class="actions">
+        <h2>Share</h2>
         <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button>
-        <div class="preupload">
-            <span class="spinner"></span>
-        </div>
         <div class="postupload" ng-show="(gfyName !== '')">
-            <a href="http://twitter.com/home/?status=Check out this pic I drew with @supermicropaint http://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a>
+            <a href="http://twitter.com/home/?status=Check out this gif I made with @supermicropaint http://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a>
             <a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank"><img src="{{gfyLink}}"></a>
         </div>
     </div>
