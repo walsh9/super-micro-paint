@@ -90,6 +90,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes.LCD.colors = {
             'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
             'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
+            'Indigo Glow': {bg: '#66BBEE', on: 'rgba(40, 40, 40, 0.90)', off: 'rgba(40, 40, 40, 0.01)'}
         };
         $scope.renderModes.LCD.drawCommands = function(colors) {
             return {
@@ -121,14 +122,33 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes['Just Pixels'] = {};
         $scope.renderModes['Just Pixels'].minSize = 1;
         $scope.renderModes['Just Pixels'].colors = {
-            'Super Micro Paint': {bg: '#DCF0E6', fg: 'rgba(40, 40, 40, 0.85)'},
-            'Green Boy': {bg: '#D8D8C0', fg: '#113711'},
+            dual: true,
+            set1: {
+                "Black":   {fg: '#000000'},
+                "Blue":    {fg: '#0000ff'},
+                "Green":   {fg: '#00ff00'},
+                "Cyan":    {fg: '#00ffff'},
+                "Red":     {fg: '#ff0000'},
+                "Magenta": {fg: '#ff00ff'},
+                "Yellow":  {fg: '#ffff00'},
+                "White":   {fg: '#ffffff'},
+            },
+            set2: {
+                "White":   {fg: '#ffffff'},
+                "Black":   {fg: '#000000'},
+                "Blue":    {fg: '#0000ff'},
+                "Green":   {fg: '#00ff00'},
+                "Cyan":    {fg: '#00ffff'},
+                "Red":     {fg: '#ff0000'},
+                "Magenta": {fg: '#ff00ff'},
+                "Yellow":  {fg: '#ffff00'},
+            }
         };
-        $scope.renderModes['Just Pixels'].drawCommands = function(colors) {
+        $scope.renderModes['Just Pixels'].drawCommands = function(colors, colors2) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
-                    ctx.fillStyle = colors.bg;
+                    ctx.fillStyle = colors2.bg;
                     ctx.fillRect(0, 0, w, h);
                     ctx.restore();
                 },
