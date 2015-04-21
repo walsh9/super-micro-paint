@@ -90,7 +90,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes.LCD.colors = {
             'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
             'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
-            'Indigo Glow': {bg: '#66BBEE', on: 'rgba(40, 40, 40, 0.90)', off: 'rgba(40, 40, 40, 0.01)'}
+            'Indigo Glow': {bg: '#66BBEE', on: 'rgba(20, 20, 20, 0.90)', off: 'rgba(40, 40, 40, 0.01)'}
         };
         $scope.renderModes.LCD.drawCommands = function(colors) {
             return {
@@ -293,7 +293,7 @@ angular.module('super-micro-paint', ['upload'])
                 "White":  {fg: '#f8f8f8'},
                 "Yellow": {fg: '#eecc00'},
                 "Sand":   {fg: '#ffeecc'},
-                "Gray":   {bg: '#b4b4b4'},
+                "Gray":   {fg: '#b4b4b4'},
             },
             set2: {
                 "White":  {bg: '#f8f8f8'},
