@@ -374,7 +374,7 @@ angular.module('super-micro-paint', ['upload'])
             var container = $('#output');
             container.addClass('loading');
             var gif = new GIF({
-              workers: 4,
+              workers: 2,
               quality: 1,
               workerScript: '../assets/lib/gif.worker.js',
             });
