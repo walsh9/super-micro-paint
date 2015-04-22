@@ -1,21 +1,14 @@
 body {
     margin: 0;
-    background: #089;
+    background: #ffffff;
+    font-family: "Roboto", sans-serif;
 }
 #top {
     margin: 0 0 20px 0;    
     padding: 20px 0 0 0;
     width: 100%;
-    background: #789;
-    border-bottom: 5px solid #567;
-    border-top: 5px solid #567;
-}
-h1 {
-    font-family: sans-serif;
-    text-align: center;
-    font-size: 28px;
-    color: white;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+    background: #f3f5f9;
+    border-bottom: 1px solid #e5eaf2;
 }
 #output {
     width: -webkit-min-content;
@@ -61,34 +54,38 @@ h1 {
 }
 label {
     display: block;
+    margin-bottom: 5px;
 }
 #controls {
-    width: 500px;
+    width: 334px;
     margin: auto
 }
 label input, label select{
     width: 200px;
     margin-left: 5px;
+    padding; 5px;
+    border-radius: 2px;
+    border: 1px solid #9ab;
+    background: #fff;
 }
 label span {
-    font-family: sans-serif;
-    font-size: 14px;
-    color: white;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    font-weight: 400;
+    font-size: 12px;
+    color: #678;
     display: inline-block;
-    text-align: right;
-    font-weight: bold;
-    width: 145px;
+    text-align: left;
+    width: 120px;
 }
 h2 {
-    font-family: sans-serif;
-    text-align: center;
-    font-size: 16px;
-    color: white;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+    font-weight: 100;
+    font-size: 24px;
+    color: #678;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5eaf2;
 }
 button {
-    margin-left: 150px;
+    margin-left: 120px;
+    margin-bottom: 5px;
     width: 200px;
 }
 a.btn {
@@ -133,11 +130,11 @@ a.btn:active {
 }
 .postupload a img {
     display: block;
-    margin-left: 154px;
+    margin-left: 124px;
     width: 192px;
 }
 .postupload a.tweet {
-    margin-left: 150px;
+    margin-left: 120px;
     margin-bottom: 5px;
     width: 200px;
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
         <meta charset="UTF-8">
         <title>Super Micro Paint</title>
-        <link href='//fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:100,400' rel='stylesheet' type='text/css'>
         <link href="../assets/css/show.css" rel="stylesheet">
         <link href="../assets/icomoon/style.css" rel="stylesheet">
         <script src="../assets/lib/lodash.min.js"></script>
@@ -17,27 +17,27 @@
         <script src="../app/components/gif/gifController.js"></script>
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
-        <h1>Share Your Masterpiece</h1>
     <div id="top">
         <div id="output"></div>
     </div>
     <div id="controls">
-        <label><span>Mode:</span><select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
+        <h2>Settings</h2>
+        <label><span>Mode</span><select ng-model="renderMode" ng-options="k as k for (k, v) in renderModes" ng-change="modeChanged()"></select></label>
 
-        <label ng-show="!modeUsesDualColors(renderModes[renderMode])"><span>Color Scheme:</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
+        <label ng-show="!modeUsesDualColors(renderModes[renderMode])"><span>Color Scheme</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors" ng-change="colorsChanged()"></select></label>
 
-        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>1st Color:</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set1" ng-change="colorsChanged()"></select></label>
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>1st Color</span><select ng-model="colors" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set1" ng-change="colorsChanged()"></select></label>
 
-        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>2nd Color:</span><select ng-model="colors2" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set2" ng-change="colorsChanged()"></select></label>
+        <label ng-show="modeUsesDualColors(renderModes[renderMode])"><span>2nd Color</span><select ng-model="colors2" ng-options="k as k for (k, v)  in renderModes[renderMode].colors.set2" ng-change="colorsChanged()"></select></label>
 
-        <label><span>Scale:</span><select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
+        <label><span>Scale</span><select ng-model="scale" ng-options="s.scale as s.label for s  in scales | filter:validScale" ng-change="scaleChanged()"></select></label>
 
-        <label><span>Speed:</span><select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
+        <label><span>Speed</span><select ng-model="delay" ng-options="s.delay as s.label for s  in speeds" ng-change="speedChanged()"></select></label>
 
-        <label><span>Invert:</span><input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
+        <label><span>Invert</span><input type="checkbox" ng-model="invert" ng-options="s.delay as s.label for s  in speeds" ng-change="invertChanged()"></select></label>
 
         <div class="actions">
-        <h2>Share</h2>
+        <h2>Share Your Masterpiece</h2>
         <button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button>
         <div class="postupload" ng-show="(gfyName !== '')">
             <a href="http://twitter.com/home/?status=Check out this gif I made with @supermicropaint http://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a>
