@@ -60,15 +60,17 @@ label {
     width: 334px;
     margin: auto
 }
-label input, label select{
+label input, label select, a.btn, button {
     width: 200px;
-    margin-left: 5px;
     padding; 5px;
     border-radius: 2px;
     border: 1px solid #9ab;
+}
+label input, label select {
     background: #fff;
 }
 label span {
+    vertical-align: top;
     font-weight: 400;
     font-size: 12px;
     color: #678;
@@ -83,12 +85,7 @@ h2 {
     padding-bottom: 20px;
     border-bottom: 1px solid #e5eaf2;
 }
-button {
-    margin-left: 120px;
-    margin-bottom: 5px;
-    width: 200px;
-}
-a.btn {
+a.btn, button {
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
     box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -100,21 +97,17 @@ a.btn {
     background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
     background-color:#ffffff;
-    -moz-border-radius:6px;
-    -webkit-border-radius:6px;
-    border-radius:6px;
-    border:1px solid #dcdcdc;
     display:inline-block;
     cursor:pointer;
     color:#222;
-    font-family:arial;
     font-size:11px;
+    margin: 0;
     padding: 2px 0;
     text-align: center;
     text-decoration:none;
     text-shadow:0px 1px 0px #ffffff;
 }
-a.btn:hover {
+a.btn:hover, button:hover {
     background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f6f6f6), color-stop(1, #ffffff));
     background:-moz-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
     background:-webkit-linear-gradient(top, #f6f6f6 5%, #ffffff 100%);
@@ -124,18 +117,14 @@ a.btn:hover {
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f6f6f6', endColorstr='#ffffff',GradientType=0);
     background-color:#f6f6f6;
 }
-a.btn:active {
+a.btn:active, button:active  {
     position:relative;
     top:1px;
 }
 .postupload a img {
-    display: block;
-    margin-left: 124px;
+    display: inline-block;
     width: 192px;
+    margin-left: 3px;
 }
-.postupload a.tweet {
-    margin-left: 120px;
-    margin-bottom: 5px;
-    width: 200px;
-}
+
 
