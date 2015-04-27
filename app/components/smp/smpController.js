@@ -34,7 +34,6 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.events.current = undefined;
         $scope.events.finish = undefined;
         $scope.mode = 'normal';
-        $scope.isReady = false;
         $scope.range = function (n) {
             return new Array(n);
         };
@@ -139,32 +138,30 @@ angular.module('super-micro-paint', ['touch-directives'])
         tools.rectangle = buildPointToPointDrawingTool('drawRectangle');
         tools.ellipse = buildPointToPointDrawingTool('drawEllipse');
         var drawUpdate = function() {
-            if ($scope.isReady) {
-                var pen = $scope.pen;
-                var events = $scope.events;
-                if (events.start) {
-                    pen.drawing = true;
-                    pen.start = pen.last = pointFromEvent(events.start);
-                    pen.mode = !getPixel(pen.start);
-                    events.start = undefined;
-                    if (tools[$scope.activeTool].start) {
-                        tools[$scope.activeTool].start(pen);
-                    }
-                } else if (pen.drawing === true && events.current && !events.finish) {
-                    pen.current = pointFromEvent(events.current);
-                    if (tools[$scope.activeTool].update && !(pen.current.x === pen.last.x && pen.current.y === pen.last.y)) {
-                        tools[$scope.activeTool].update(pen);
-                    }
-                    pen.last = pen.current;
-                    events.current = undefined;
-                } else if (pen.drawing === true && events.finish) {
-                    pen.drawing = false;
-                    pen.finish = pointFromEvent(events.finish);
-                    if (tools[$scope.activeTool].finish) {
-                        tools[$scope.activeTool].finish(pen);
-                    }
-                    events.finish = events.current = undefined;
+            var pen = $scope.pen;
+            var events = $scope.events;
+            if (events.start) {
+                pen.drawing = true;
+                pen.start = pen.last = pointFromEvent(events.start);
+                pen.mode = !getPixel(pen.start);
+                events.start = undefined;
+                if (tools[$scope.activeTool].start) {
+                    tools[$scope.activeTool].start(pen);
                 }
+            } else if (pen.drawing === true && events.current && !events.finish) {
+                pen.current = pointFromEvent(events.current);
+                if (tools[$scope.activeTool].update && !(pen.current.x === pen.last.x && pen.current.y === pen.last.y)) {
+                    tools[$scope.activeTool].update(pen);
+                }
+                pen.last = pen.current;
+                events.current = undefined;
+            } else if (pen.drawing === true && events.finish) {
+                pen.drawing = false;
+                pen.finish = pointFromEvent(events.finish);
+                if (tools[$scope.activeTool].finish) {
+                    tools[$scope.activeTool].finish(pen);
+                }
+                events.finish = events.current = undefined;
             }
             window.requestAnimationFrame(drawUpdate);
         };
@@ -215,14 +212,12 @@ angular.module('super-micro-paint', ['touch-directives'])
         var pointFromEvent = function ($event) {
             var event = $event.originalEvent;
             var point = {};
-            if ($scope.getPointFromCoords) {
-                if (event instanceof MouseEvent) {
-                    point = $scope.getPointFromCoords(event.pageX, event.pageY);
-                }
-                if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
-                    var touch = event.changedTouches[0];
-                    point = $scope.getPointFromCoords(touch.pageX, touch.pageY);
-                }
+            if (event instanceof MouseEvent) {
+                point = $scope.getPointFromCoords(event.pageX, event.pageY);
+            }
+            if (('ontouchstart' in window || navigator.msMaxTouchPoints) && event instanceof TouchEvent) {
+                var touch = event.changedTouches[0];
+                point = $scope.getPointFromCoords(touch.pageX, touch.pageY);
             }
             return point;
         };
@@ -329,6 +324,19 @@ angular.module('super-micro-paint', ['touch-directives'])
             scope: {width: '@', height: '@', currentFrame: '='},
             template: '<canvas width="{{width}}" height="{{height}}"></canvas>',
             link: function (scope, element, attrs) {
+                var slowPointGetter = function (element, pitchX, pitchY) {
+                    return function(x, y) {
+                        var origin = $(element).offset();
+                        var left = origin.left;
+                        var top = origin.top;
+                        x = Math.floor((x - left) / pitchX);
+                        y = Math.floor((y - top) / pitchY);
+                        return {
+                            x: x,
+                            y: y
+                        };                        
+                    };
+                };
                 var fastPointGetter = function (element, pitchX, pitchY) {
                     var origin = $(element).offset();
                     var left = origin.left;
@@ -342,10 +350,10 @@ angular.module('super-micro-paint', ['touch-directives'])
                         };
                     };
                 };
+                scope.$parent.getPointFromCoords = slowPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
                 window.setTimeout(function () {
                     scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
-                    scope.$parent.isReady = true;
-                }, 1500);
+                }, 5000);
                 var updateCanvas = function() {
                     requestAnimationFrame(updateCanvas);
                     var canvas = element.children()[0];
