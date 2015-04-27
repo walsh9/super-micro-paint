@@ -74,6 +74,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             if ($scope.undoBuffers[f].length > 0) {
                 setRedo();
                 $scope.currentFrame = $scope.currentFrame.fromString($scope.undoBuffers[f].pop());
+                $scope.save();
             }
         };
         $scope.redo = function () {
@@ -81,6 +82,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             if ($scope.redoBuffers[f].length > 0) {
                 setUndo();
                 $scope.currentFrame = $scope.currentFrame.fromString($scope.redoBuffers[f].pop());
+                $scope.save();
             }
         };
         $scope.canUndo = function () {
@@ -105,6 +107,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                     setUndo();
                     $scope.currentFrame[drawingFunction](pen.start.x, pen.start.y, pen.finish.x, pen.finish.y, pen.mode);
                     $scope.overlay.fill(false);
+                    $scope.save();
                     clearSelection();
                 },
                 'update': function (pen) {
@@ -118,6 +121,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                 setPixel(pen.start, pen.mode);
             },
             'finish': function (pen) {
+                $scope.save();
                 clearSelection();
             },
             'update': function (pen) {
@@ -128,6 +132,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             'start': function (pen) {
                 setUndo();
                 $scope.currentFrame.floodFill(pen.start.x, pen.start.y, pen.mode);
+                $scope.save();
             }
         };
         tools.line = buildPointToPointDrawingTool('drawLine');
@@ -190,18 +195,22 @@ angular.module('super-micro-paint', ['touch-directives'])
         $scope.doLifeStep = function () {
             setUndo();
             $scope.currentFrame = $scope.currentFrame.lifeStep();
+            $scope.save();
         };
         $scope.clear = function () {
             setUndo();
             $scope.currentFrame.fill(false);
+            $scope.save();
         };
         $scope.nudge = function (xOffset, yOffset) {
             setUndo();
             $scope.currentFrame.nudge(xOffset, yOffset);
+            $scope.save();
         };
         $scope.invert = function (xOffset, yOffset) {
             setUndo();
             $scope.currentFrame.invert();
+            $scope.save();
         };
         var pointFromEvent = function ($event) {
             var event = $event.originalEvent;
@@ -279,6 +288,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                     setUndo(n);
                     copyFrame($scope.currentFrame, $scope.frames[n]);
                     switchToFrame(n);
+                    $scope.save();
                 }
                 $scope.mode = 'normal';
             }
