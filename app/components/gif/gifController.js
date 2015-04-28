@@ -15,6 +15,8 @@ angular.module('super-micro-paint', ['upload'])
         $scope.invert = false;
         $scope.isReady = false;
         $scope.blob = {};
+        $scope.currentPage = location.href;
+        $scope.editPage = "../#" + getParameterByName('smp');
         $scope.gfyName = "";
         $scope.gfyLink = "";
         var h = 16;
