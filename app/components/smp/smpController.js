@@ -94,7 +94,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             return $scope.currentFrame.get(pixel.x, pixel.y);
         };
         $scope.getExportURL = function() {
-            return "show/?smp=" + location.hash.slice(1);
+            return "export/?smp=" + location.hash.slice(1);
         };
         var tools = {};
         var buildPointToPointDrawingTool = function (drawingFunction) {
