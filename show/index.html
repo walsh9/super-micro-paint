@@ -41,11 +41,11 @@
         <label><span>Step 1</span><button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button></label>
         <div class="postupload" ng-show="(gfyName !== '')">
             <label><span>Step 2</span><a href="http://twitter.com/home/?status=Check out this gif I made with @supermicropaint http://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a></label>
-            <label><span>Preview</span><a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank"><img src="{{gfyLink}}"></a></label>
+            <label><span>Preview / <br /> View on gfycat</span><a href="http://gfycat.com/{{gfyName}}#?format=gif" target="_blank"><img src="{{gfyLink}}"></a></label>
         </div>
         <h2>Other Links</h2>
-        <label><span>Back to Editing</span><a href="{{editPage}}">∞ Permalink</a></label>
-        <label><span>This Page</span><a href="{{currentPage}}">∞ Permalink</a></label>
+        <label><span><a href="{{editPage}}">Back to Editing</a></span><input value="{{editPage}}" onclick="this.select()"></label>
+        <label><span><a href="{{currentPage}}">This Page</a></span><input value="{{currentPage}}" onclick="this.select()"></label>
     </div>
 </body>
 </html>

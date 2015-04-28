@@ -126,14 +126,9 @@ a.btn:active, button:active  {
     width: 192px;
     margin-left: 3px;
 }
-label a {
+label span a {
     color: #569;
-    font-size:11px;
     text-decoration: none;
     border-bottom: dotted 1px #789;
-    margin-bottom: 5px;
-    vertical-align: top;
-    display: inline-block;
 }
-
 
