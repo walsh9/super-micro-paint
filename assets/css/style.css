@@ -308,12 +308,10 @@ h1 {
         text-align: middle;
 }
 .export span {
-    font-family: Arial, sans-serif;
+    font-family: "Fugaz One", sans-serif;
     font-size: 20px;
     font-weight: bold;
-    color: #da1;
-    text-shadow: 1px 1px #fc3;
-    text-shadow: -1px -1px #b90;    
+    text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.55), 1px 1px 0px rgba(0, 0, 0, 0.55);
 }
 .export a {
     display: inline-block;
