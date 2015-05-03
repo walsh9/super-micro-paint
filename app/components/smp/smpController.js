@@ -324,7 +324,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             scope: {width: '@', height: '@', currentFrame: '='},
             template: '<canvas width="{{width}}" height="{{height}}"></canvas>',
             link: function (scope, element, attrs) {
-                var slowPointGetter = function (element, pitchX, pitchY) {
+                var pointGetter = function (element, pitchX, pitchY) {
                     return function(x, y) {
                         var origin = $(element).offset();
                         var left = origin.left;
@@ -337,23 +337,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                         };                        
                     };
                 };
-                var fastPointGetter = function (element, pitchX, pitchY) {
-                    var origin = $(element).offset();
-                    var left = origin.left;
-                    var top = origin.top;
-                    return function (x, y) {
-                        x = Math.floor((x - left) / pitchX);
-                        y = Math.floor((y - top) / pitchY);
-                        return {
-                            x: x,
-                            y: y
-                        };
-                    };
-                };
-                scope.$parent.getPointFromCoords = slowPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
-                window.setTimeout(function () {
-                    scope.$parent.getPointFromCoords = fastPointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
-                }, 5000);
+                scope.$parent.getPointFromCoords = pointGetter(document.querySelector('pixel-canvas canvas'), 25, 25);
                 var updateCanvas = function() {
                     requestAnimationFrame(updateCanvas);
                     var canvas = element.children()[0];
