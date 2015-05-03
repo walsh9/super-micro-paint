@@ -97,6 +97,19 @@ h1 {
     -webkit-animation: blinky-preview  0.8s steps(1) 0s infinite;
     animation: blinky-preview  0.8s steps(1) 0s infinite;    
 }
+.previewwrap span, .previewwrapani span {
+    position: absolute;
+    bottom: -8px;
+    display: block;
+    margin-left: 30px;
+    font-family: "Fugaz One", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.55), 1px 1px 0px rgba(0, 0, 0, 0.55);
+}
+.previewwrapani span { 
+    margin-left: 0;
+}
 @-webkit-keyframes blinky-preview {
     0% { border: 1px solid rgba(40, 40, 40, .45);}
     50% { border: 1px solid rgba(40, 40, 40, .05);}

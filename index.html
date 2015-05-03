@@ -103,13 +103,15 @@
         </div> 
         <div class="previews">
            <div class="previewwrap" ng-repeat="frame in frames" ng-class="{'active': $index==$parent.currentFrameNum, 'blink': $index==$parent.currentFrameNum && mode == 'copy'}" ng-click="previewClick($index);" on-finish-render="ngRepeatFinished">
-            <canvas width="64" height="32" id="preview{{$index}}"> </canvas> 
+            <canvas width="64" height="32" id="preview{{$index}}"> </canvas>
+            <span>{{$index + 1}}</span>
            </div>
            <div class="export">
-            <span>EXPORT! &nbsp;<a href="{{getExportURL()}}" target="_blank">&nbsp;</a></span> 
+            <span>Export! &nbsp;<a href="{{getExportURL()}}" target="_blank">&nbsp;</a></span> 
            </div>
            <div class="previewwrapani">
             <canvas width="64" height="32" id="previewani"></canvas>
+            <span>Animation</span>
            </div>
         </div>
       </div>
