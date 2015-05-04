@@ -15,7 +15,7 @@
         <script src="app/components/smp/smpController.js"></script>
         <meta name="viewport" content="width=950">
     </head>
-    <body ng-app="super-micro-paint" ng-controller="smpController" ng-touchcancel="penUp($event)">
+    <body ng-app="super-micro-paint" ng-controller="smpController" ng-touchcancel="penUp('outside')" ng-mouseup="penUp('outside')" ng-touchend="penUp('outside')">
       <div class="case">
         <h1>Super Micro Paint</h1>
         <div class="container">

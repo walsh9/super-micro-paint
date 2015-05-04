@@ -157,7 +157,11 @@ angular.module('super-micro-paint', ['touch-directives'])
                 events.current = undefined;
             } else if (pen.drawing === true && events.finish) {
                 pen.drawing = false;
-                pen.finish = pointFromEvent(events.finish);
+                if (events.finish === 'outside') {
+                    pen.finish = pen.last;
+                } else {
+                    pen.finish = pointFromEvent(events.finish);
+                }
                 if (tools[$scope.activeTool].finish) {
                     tools[$scope.activeTool].finish(pen);
                 }
@@ -234,9 +238,16 @@ angular.module('super-micro-paint', ['touch-directives'])
             }
         };
         $scope.penUp = function ($event) {
-            $event.preventDefault();
-            if ($scope.mode != 'copy') {
-                $scope.events.finish = $event;
+            if ($event === 'outside') {
+                if ($scope.pen.drawing) {
+                    $scope.events.finish = $event;
+                }
+            } else {
+                $event.stopPropagation();
+                $event.preventDefault();
+                if ($scope.mode != 'copy') {
+                    $scope.events.finish = $event;
+                }
             }
         };
         var updatePreviews = function () {
