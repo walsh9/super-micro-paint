@@ -1,5 +1,5 @@
 angular.module('super-micro-paint', ['touch-directives'])
-    .controller('smpController', ['$scope', function ($scope) {
+    .controller('smpController', ['$scope', '$window', function ($scope, $window) {
         $scope.numFrames = 4;
         $scope.height = 16;
         $scope.width = 32;
@@ -250,6 +250,12 @@ angular.module('super-micro-paint', ['touch-directives'])
                 }
             }
         };
+        angular.element($window).bind('blur', function (){
+          $scope.penUp('outside');
+        });
+        angular.element($window).bind('mouseup', function (){
+          $scope.penUp('outside');
+        });
         var updatePreviews = function () {
             $scope.frames.map(function (frame, index) {
                 var previewCanvas = document.getElementById('preview' + index);
