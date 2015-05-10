@@ -121,9 +121,9 @@ angular.module('super-micro-paint', ['upload'])
             };
         };
 
-        $scope.renderModes['Just Pixels'] = {};
-        $scope.renderModes['Just Pixels'].minSize = 1;
-        $scope.renderModes['Just Pixels'].colors = {
+        $scope.renderModes['Just Pixels (C64 Palette)'] = {};
+        $scope.renderModes['Just Pixels (C64 Palette)'].minSize = 1;
+        $scope.renderModes['Just Pixels (C64 Palette)'].colors = {
             dual: true,
             set1: {
                 "Black":       {fg: '#000000'},
@@ -162,7 +162,67 @@ angular.module('super-micro-paint', ['upload'])
                 "Light Grey":  {bg: '#9F9F9F'},
             }
         };
-        $scope.renderModes['Just Pixels'].drawCommands = function(colors, colors2) {
+        $scope.renderModes['Just Pixels (C64 Palette)'].drawCommands = function(colors, colors2) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors2.bg;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.fg;
+                    ctx.fillRect(x, y, pixelW, pixelH);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                }
+            };
+        };
+
+        $scope.renderModes['Just Pixels (CGA Palette)'] = {};
+        $scope.renderModes['Just Pixels (CGA Palette)'].minSize = 1;
+        $scope.renderModes['Just Pixels (CGA Palette)'].colors = {
+            dual: true,
+            set1: {
+                "Black":        {fg: '#000000'},
+                "Low Blue":     {fg: '#0000aa'},
+                "Low Green":    {fg: '#00aa00'},
+                "Low Cyan":     {fg: '#00aaaa'},
+                "Low Red":      {fg: '#aa0000'},
+                "Low Magenta":  {fg: '#aa00aa'},
+                "Brown":        {fg: '#aa5500'},
+                "Light Gray":   {fg: '#aaaaaa'},
+                "Dark Gray":    {fg: '#555555'},
+                "High Blue":    {fg: '#5555ff'},
+                "High Green":   {fg: '#55ff55'},
+                "High Cyan":    {fg: '#55ffff'},
+                "High Red":     {fg: '#ff5555'},
+                "High Magenta": {fg: '#ff55ff'},
+                "Yellow":       {fg: '#ffff55'},
+                "White":        {fg: '#ffffff'},
+            },
+            set2: {
+                "White":        {bg: '#ffffff'},
+                "Black":        {bg: '#000000'},
+                "Low Blue":     {bg: '#0000aa'},
+                "Low Green":    {bg: '#00aa00'},
+                "Low Cyan":     {bg: '#00aaaa'},
+                "Low Red":      {bg: '#aa0000'},
+                "Low Magenta":  {bg: '#aa00aa'},
+                "Brown":        {bg: '#aa5500'},
+                "Light Gray":   {bg: '#aaaaaa'},
+                "Dark Gray":    {bg: '#555555'},
+                "High Blue":    {bg: '#5555ff'},
+                "High Green":   {bg: '#55ff55'},
+                "High Cyan":    {bg: '#55ffff'},
+                "High Red":     {bg: '#ff5555'},
+                "High Magenta": {bg: '#ff55ff'},
+                "Yellow":       {bg: '#ffff55'},
+            }
+        };
+        $scope.renderModes['Just Pixels (CGA Palette)'].drawCommands = function(colors, colors2) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
