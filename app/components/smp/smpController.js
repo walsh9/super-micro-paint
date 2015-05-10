@@ -245,7 +245,7 @@ angular.module('super-micro-paint', ['touch-directives'])
             } else {
                 $event.stopPropagation();
                 $event.preventDefault();
-                if ($scope.mode != 'copy') {
+                if ($scope.mode != 'copy' && $scope.pen.drawing) {
                     $scope.events.finish = $event;
                 }
             }
