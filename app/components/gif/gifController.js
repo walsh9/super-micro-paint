@@ -92,7 +92,9 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes.LCD.colors = {
             'Super Micro Paint': {bg: '#DCF0E6', on: 'rgba(40, 40, 40, 0.85)', off: 'rgba(40, 40, 40, 0.05)'},
             'Green Boy': {bg: '#D8D8C0', on: '#113711', off: 'rgba(40, 40, 40, 0.05)'},
-            'Indigo Glow': {bg: '#66BBEE', on: 'rgba(20, 20, 20, 0.90)', off: 'rgba(40, 40, 40, 0.01)'}
+            'Backlit Indigo': {bg: '#77ddf2', on: 'rgba(40, 40, 40, 0.90)', off: 'rgba(40, 40, 40, 0.01)'},
+            'Backlit Green': {bg: '#11ff11', on: 'rgba(40, 40, 40, 0.90)', off: 'rgba(40, 40, 40, 0.03)'},
+            'Classic Grey': {bg: '#dddddd', on: 'rgba(40, 40, 40, 0.80)', off: 'rgba(40, 40, 40, 0.02)'},
         };
         $scope.renderModes.LCD.drawCommands = function(colors) {
             return {
@@ -249,6 +251,7 @@ angular.module('super-micro-paint', ['upload'])
             'Flourescent Green': {bg: 'rgb(0, 0, 0)', on: 'rgb(128, 255, 128)', off: 'rgb(10, 20, 10)'},
             'Flourescent Red':   {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 96, 64)', off: 'rgb(20, 10, 10)'},
             'Flourescent Amber':  {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 191, 60)', off: 'rgb(20, 15, 10)'},
+            'Flourescent Yellow':  {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 235, 00)', off: 'rgb(20, 20, 00)'},
         };
         $scope.renderModes.VFD.drawCommands = function(colors) {
             return {
@@ -280,9 +283,13 @@ angular.module('super-micro-paint', ['upload'])
         $scope.renderModes.LED = {};
         $scope.renderModes.LED.minSize = 12;
         $scope.renderModes.LED.colors = {
-            'Red': {on1: '#ff6b6b', on2: '#660000', off: '#330000'},
-            'Blue': {on1: '#9bddff', on2: '#006699', off: '#002233'},
-            'White': {on1: '#ffffff', on2: '#cccccc', off: '#333333'},
+            'Red': {on1: '#ff6b6b', on2: '#660000'},
+            'Blue': {on1: '#99eeff', on2: '#2255ff'},
+            'Purple': {on1: '#eeaaff', on2: '#6600ee'},
+            'Pink': {on1: '#ffccff', on2: '#ee33ee'},
+            'Green': {on1: '#ccffcc', on2: '#22bb22'},
+            'White': {on1: '#ffffff', on2: '#888888'},
+            'Amber': {on1: '#ffffaa', on2: '#dd9900'},
         };
         $scope.renderModes.LED.drawCommands = function (colors) {
             return {
@@ -297,7 +304,7 @@ angular.module('super-micro-paint', ['upload'])
                         var center = {};
                         center.x = x + pixelW / 2;
                         center.y = y + pixelH / 2;
-                        var gradient = ctx.createRadialGradient(center.x, center.y + pixelH * 0.15, pixelH * 0.1, center.x, center.y, pixelH / 2 - 2);
+                        var gradient = ctx.createRadialGradient(center.x, center.y + pixelH * 0.15, pixelH * 0.1, center.x, center.y, pixelH / 2 - 1);
                         gradient.addColorStop(0,   '#ffffff');
                         gradient.addColorStop(0.3, colors.on1);
                         gradient.addColorStop(1, colors.on2);
@@ -307,19 +314,19 @@ angular.module('super-micro-paint', ['upload'])
                         ctx.shadowOffsetY = 0;
                         ctx.shadowBlur = pixelH;
                         ctx.beginPath();
-                        ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                        ctx.arc(center.x, center.y, pixelH / 2 - 1, 0, Math.PI*2); 
                         ctx.closePath();
                         ctx.fill();
                     ctx.restore();
                     ctx.save();
                         ctx.globalCompositeOperation = 'lighter';
-                        var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 2);
+                        var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 1);
                         gradient.addColorStop(0,  '#eeeeee');
                         gradient.addColorStop(0.1,'#000000');
                         gradient.addColorStop(1,  '#222222');
                         ctx.fillStyle = gradient;
                         ctx.beginPath();
-                        ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                        ctx.arc(center.x, center.y, pixelH / 2 - 1, 0, Math.PI*2); 
                         ctx.closePath();
                         ctx.fill();
                         ctx.globalCompositeOperation = 'source-over';
@@ -330,13 +337,13 @@ angular.module('super-micro-paint', ['upload'])
                     var center = {};
                     center.x = x + pixelW / 2;
                     center.y = y + pixelH / 2;
-                    var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 2);
-                    gradient.addColorStop(0,   colors.on2);
-                    gradient.addColorStop(0.1, colors.off);
+                    var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 1);
+                    gradient.addColorStop(0,  '#555555');
+                    gradient.addColorStop(0.1,'#000000');
                     gradient.addColorStop(1,  '#222222');
                     ctx.fillStyle = gradient;
                     ctx.beginPath();
-                    ctx.arc(center.x, center.y, pixelH / 2 - 2, 0, Math.PI*2); 
+                    ctx.arc(center.x, center.y, pixelH / 2 - 1, 0, Math.PI*2); 
                     ctx.closePath();
                     ctx.fill();
                     ctx.restore();
