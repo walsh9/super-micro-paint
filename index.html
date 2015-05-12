@@ -16,7 +16,7 @@
         <meta name="viewport" content="width=950">
     </head>
     <body ng-app="super-micro-paint" ng-controller="smpController" ng-touchcancel="penUp('outside')" ng-mouseup="penUp('outside')" ng-touchend="penUp('outside')">
-      <div class="case">
+      <div class="case" ng-class="{'hide': showManual}">
         <h1>Super Micro Paint</h1>
         <div class="container">
             <div class="tools drawing-tools">

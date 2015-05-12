@@ -20,6 +20,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', end
     width: 850px;
     margin: 10px auto;
     border-radius: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 2;
     box-shadow: 5px 5px 3px gray;
     border-top:         1px solid rgba(255,255,255,0.8);
     border-bottom:      1px solid rgba(0,0,0,0.1);
@@ -39,7 +43,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', end
     box-shadow:         inset rgba(255,254,255,0.6) 0 0.3em .3em, inset rgba(0,0,0,0.15) 0 -0.1em .3em, /* inner shadow */ 
                             hsl(39, 100%, 40%) 0 .1em 3px, hsl(39, 100%, 30%) 0 .3em 1px, /* color border */
                             rgba(0,0,0,0.2) 0 .5em 5px; /* drop shadow */
-
+    transition: 0.8s ease-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.case.hide {
+    transition: 0.8s ease-out;
+    -webkit-transform: translate3d(0, -800px, 0);
+    -moz-transform: translate3d(0, -800px, 0);
+    transform: translate3d(0, -800px, 0);
 }
 h1 {
     padding: 0;
@@ -262,23 +275,39 @@ h2 {
 }
 .manual {
     font-family: sans-serif;
-    z-index: 20;
+    z-index: 1;
     position: absolute;
     top: 32px;
-    left: -568px;
+    margin: 0 auto;
+    left: 0;
     right: 0;
     width: 600px;
     transition: 0.4s ease-out;
-    -webkit-transform: translate3d(0 ,0 ,0);
-    -moz-transform: translate3d(0 ,0 ,0);
-    transform: translate3d(0 ,0 ,0);
+    -webkit-transform: translate3d(-170px, 0, 0) rotate(-20deg);
+    -moz-transform: translate3d(-170px, 0, 0) rotate(-20deg);
+    transform: translate3d(-170px, 0, 0) rotate(-20deg);
     cursor: pointer;
 }
 .manual.show {
-    transition: 0.4s ease-in;
-    -webkit-transform: translate3d(100% ,0 ,0);
-    -moz-transform: translate3d(100% ,0 ,0);
-    transform: translate3d(100% ,0 ,0);
+    transition: 0.4s ease-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.manual::after {
+    content: "";
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 32px;
+    background: rgba(0, 0, 0, 0.2);
+    transition: 0.4s ease-out;
+}
+.manual.show:after {
+    background: rgba(0, 0, 0, 0);
+    transition: 0.4s ease-out;
 }
 .paper {
     color: rgba(0, 0, 0, 0.65);
