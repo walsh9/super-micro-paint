@@ -11,6 +11,17 @@ html:after {
     position: fixed;
     z-index: -1;
 }
+.case::before {
+/* Super Export Cable */
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 40px;
+    top: -41px;
+    left: 650px;
+    background: black;
+    background: -moz-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
+}
 .case {
     padding: 10px 0 0 0;
     width: 850px;
