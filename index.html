@@ -16,6 +16,7 @@
         <meta name="viewport" content="width=950">
     </head>
     <body ng-app="super-micro-paint" ng-controller="smpController" ng-touchcancel="penUp('outside')" ng-mouseup="penUp('outside')" ng-touchend="penUp('outside')">
+    <div class="main">
       <div class="case" ng-class="{'hide': showManual}"  ng-click="(!showManual) || (showManual = false)">
         <h1>Super Micro Paint</h1>
         <div class="container">
@@ -147,6 +148,7 @@
             <li><span class="icon-undo"></span><b>Undo</b> - Fix your mistake.
             <li><span class="icon-redo"></span><b>Redo</b> - Hold on, that wasn't a mistake. Put it back.
         </div>
+      </div>
       </div>
     </body>
 </html>
