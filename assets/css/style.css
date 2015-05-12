@@ -59,10 +59,6 @@ h1 {
     font-size: 36px;
     text-shadow: -1px -1px 0px rgba(255, 255, 255, 0.55), 1px 1px 0px rgba(0, 0, 0, 0.55);
 }
-h2 {
-    font-family: 'Fugaz One', sans-serif;    
-}
-
 
 .container {
     background-color: rgb(220,240,230);
@@ -271,10 +267,11 @@ h2 {
     margin: 0 7px;
 }
 .manual {
-    font-family: sans-serif;
+    font-family: Helvetica, "Droid Sans", sans-serif;
+    font-size: 14px;
     z-index: 1;
     position: absolute;
-    top: 32px;
+    top: 40px;
     margin: 0 auto;
     left: 0;
     right: 0;
@@ -308,7 +305,7 @@ h2 {
     transition: 0.4s ease-out;
 }
 .paper {
-    color: rgba(0, 0, 0, 0.65);
+    color: rgba(0, 0, 119, 0.60);
     position: relative;
     top: 0;
     left: 0;
@@ -398,6 +395,17 @@ h2 {
     background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
     background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+.manual h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Fugaz One', sans-serif;   
+}
+.manual h3 {
+    border-bottom: 1px solid rgba(0, 0, 119, 0.60);
+    padding: 3px 5px 2px;
+    margin-bottom: 5px;
 }
 .manual li {
     display: block;
