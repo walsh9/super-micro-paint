@@ -20,7 +20,11 @@ html:after {
     top: -41px;
     left: 650px;
     background: black;
+    background: -webkit-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
     background: -moz-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
+    background: -ms-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
+    background: -o-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
+    background: linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
 }
 .case {
     padding: 10px 0 0 0;
