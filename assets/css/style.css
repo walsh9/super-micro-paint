@@ -268,7 +268,7 @@ h1 {
 }
 .manual {
     font-family: Helvetica, "Droid Sans", sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     z-index: 1;
     position: absolute;
     top: 40px;
@@ -399,12 +399,11 @@ h1 {
 .manual h2 {
     margin: 0;
     text-align: center;
-    font-size: 32px;
+    font-size: 24px;
     font-family: 'Fugaz One', sans-serif;   
 }
 .manual h3 {
     border-bottom: 1px solid rgba(0, 0, 119, 0.60);
-    padding: 3px 5px 2px;
     margin-bottom: 5px;
 }
 .manual li {
