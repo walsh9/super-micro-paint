@@ -50,9 +50,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e6e6e6', end
 }
 .case.hide {
     transition: 0.8s ease-out;
-    -webkit-transform: translate3d(0, -800px, 0);
-    -moz-transform: translate3d(0, -800px, 0);
-    transform: translate3d(0, -800px, 0);
+    -webkit-transform: translate3d(0, -620px, 0);
+    -moz-transform: translate3d(0, -620px, 0);
+    transform: translate3d(0, -620px, 0);
+    cursor: pointer;
 }
 h1 {
     padding: 0;
@@ -306,7 +307,8 @@ h2 {
     transition: 0.4s ease-out;
 }
 .manual.show:after {
-    background: rgba(0, 0, 0, 0);
+    backgaround: rgba(0, 0, 0, 0);
+    opacity: 0;
     transition: 0.4s ease-out;
 }
 .paper {
