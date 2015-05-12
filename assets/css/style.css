@@ -320,7 +320,7 @@ h1 {
     transition: 0.4s ease-out;
 }
 .paper {
-    color: rgba(0, 0, 119, 0.60);
+    color: rgba(0, 0, 119, 0.75);
     position: relative;
     top: 0;
     left: 0;
@@ -418,7 +418,7 @@ h1 {
     font-family: 'Fugaz One', sans-serif;   
 }
 .manual h3 {
-    border-bottom: 1px solid rgba(0, 0, 119, 0.60);
+    border-bottom: 1px solid rgba(0, 0, 119, 0.75);
     margin-bottom: 5px;
 }
 .manual img {
