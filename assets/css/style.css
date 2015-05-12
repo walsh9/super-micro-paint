@@ -286,7 +286,7 @@ h1 {
     margin: 0 auto;
     left: 0;
     right: 0;
-    width: 600px;
+    width: 700px;
     transition: 0.4s ease-out;
     -webkit-transform: translate3d(-170px, 0, 0) rotate(-20deg);
     -moz-transform: translate3d(-170px, 0, 0) rotate(-20deg);
@@ -322,7 +322,7 @@ h1 {
     left: 0;
     right: 0;
     bottom: 0;
-    width: 536px;
+    width: 636px;
     padding: 32px;
     margin-bottom: 32px;
     z-index: 1;
@@ -416,6 +416,11 @@ h1 {
 .manual h3 {
     border-bottom: 1px solid rgba(0, 0, 119, 0.60);
     margin-bottom: 5px;
+}
+.manual img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 .manual li {
     display: block;
