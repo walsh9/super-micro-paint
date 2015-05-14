@@ -184,14 +184,26 @@ angular.module('super-micro-paint', ['touch-directives'])
             requestAnimationFrame(drawingLoop);
         };
         drawingLoop();
+        var updateHash = function() {
+            if (window.history.replaceState) {
+                return function(hash) {
+                    window.history.replaceState(undefined, undefined, '#' + hash);
+                };
+            } else {
+                return function(hash) {
+                    location.replace('#' + hash);
+                };
+            }
+        }();
         $scope.save = function () {
             copyFrame($scope.currentFrame, $scope.frames[$scope.currentFrameNum]);
-            location.hash = $scope.frames.map(function (frame) {
+            var frameHash = $scope.frames.map(function (frame) {
                     return frame.toUrlSafeBase64();
                 })
                 .reduce(function (a, b) {
                     return a + "." + b;
                 });
+            updateHash(frameHash);
         };
         $scope.doLifeStep = function () {
             setUndo();
@@ -330,6 +342,8 @@ angular.module('super-micro-paint', ['touch-directives'])
                     frame.fromUrlSafeBase64(location.hash.substring(1).split('.')[i]);
                 });
                 copyFrame($scope.frames[0], $scope.currentFrame);
+            } else {
+                $scope.save();
             }
             var frame = document.querySelector(".frame");
         };
