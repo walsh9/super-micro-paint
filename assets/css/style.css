@@ -16,8 +16,8 @@ html:after {
     content: "";
     position: absolute;
     width: 20px;
-    height: 40px;
-    top: -41px;
+    height: 400px;
+    top: -401px;
     left: 650px;
     background: black;
     background: -webkit-linear-gradient(left, #c3c3c3,  #e3e3e3 40%, #a4a4a4);
