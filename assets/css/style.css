@@ -461,11 +461,11 @@ pixel-canvas {
     z-index: 0;
 }
 .github {
-    left: 1000px;
+    right: 10px;
     top: 130px;
     transform: rotate(10deg);
 }
 .twitter {
-    left: 960px;
+    right: 50px;
     top: 360px;
 }
