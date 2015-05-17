@@ -22,8 +22,9 @@ angular.module('super-micro-paint', ['upload'])
         var h = 16;
         var w = 32;
         $scope.upload = function() {
-             $scope.isReady = false;
-             gfycat.upload($scope.blob).then(function (response) {
+            gfyName = "";
+            $scope.isReady = false;
+            gfycat.upload($scope.blob).then(function (response) {
                 console.log(response.gfyName);
                 $scope.$apply(function () {
                     $scope.gfyName = response.gfyName;

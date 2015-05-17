@@ -1,6 +1,11 @@
+html, body {
+    height: 1250px;
+    margin: 0;
+    padding: 0;
+}
 body {
     /* thanks subtlepatterns.com */
-    background: url("../images/retina_wood.png");
+    background: url("../images/retina_wood.png") repeat;
 }
 html:after {
     content: "";
