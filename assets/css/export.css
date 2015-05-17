@@ -52,6 +52,30 @@ body {
     -webkit-animation: 1.5s spin linear infinite;
     animation: 1.5s spin linear infinite;
 }
+.uploading {
+    position: relative;
+    height: 40px;
+    width: 334px;
+}
+.uploading::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -10px;
+    margin-top: -10px;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 3px #888, inset 0 0 3px #888;
+    border-radius: 50%;
+    border-right: 8px solid #e0e0e0;
+    border-left: 8px solid #e0e0e0;
+    border-top: 8px solid #222;
+    border-bottom: 8px solid #222;
+    -webkit-animation: 1.5s spin linear infinite;
+    animation: 1.5s spin linear infinite;   
+}
+
 label {
     display: block;
     margin-bottom: 5px;

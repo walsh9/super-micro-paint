@@ -14,6 +14,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.scale = 16;
         $scope.invert = false;
         $scope.isReady = false;
+        $scope.isUploading = false;
         $scope.blob = {};
         $scope.currentPage = location.href;
         $scope.editPage = location.href.split('/').slice(0, -2).join('/') + "/#" + getParameterByName('smp');
@@ -22,7 +23,8 @@ angular.module('super-micro-paint', ['upload'])
         var h = 16;
         var w = 32;
         $scope.upload = function() {
-            gfyName = "";
+            $scope.gfyName = "";
+            $scope.isUploading = true;
             $scope.isReady = false;
             gfycat.upload($scope.blob).then(function (response) {
                 console.log(response.gfyName);
@@ -30,6 +32,7 @@ angular.module('super-micro-paint', ['upload'])
                     $scope.gfyName = response.gfyName;
                     $scope.gfyLink = response.gifUrl;
                     $scope.isReady = true;
+                    $scope.isUploading = false;
                 });
             });
         };
