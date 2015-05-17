@@ -123,7 +123,7 @@ a.btn, button {
     background-color:#ffffff;
     display:inline-block;
     cursor:pointer;
-    color:#222;
+    color: #000;
     font-size:11px;
     margin: 0;
     padding: 2px 0;
