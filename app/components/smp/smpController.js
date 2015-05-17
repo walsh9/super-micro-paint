@@ -140,7 +140,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         var drawUpdate = function() {
             var pen = $scope.pen;
             var events = $scope.events;
-            if (events.start) {
+            if (events.start && !events.finish) {
                 pen.drawing = true;
                 pen.start = pen.last = pointFromEvent(events.start);
                 pen.mode = !getPixel(pen.start);
@@ -165,7 +165,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                 if (tools[$scope.activeTool].finish) {
                     tools[$scope.activeTool].finish(pen);
                 }
-                events.finish = events.current = undefined;
+                events.finish = events.current = events.start = undefined;
             }
             window.requestAnimationFrame(drawUpdate);
         };
