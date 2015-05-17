@@ -469,3 +469,6 @@ pixel-canvas {
     right: 60px;
     top: 360px;
 }
+a {
+    outline: 0;
+}
