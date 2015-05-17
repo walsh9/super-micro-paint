@@ -11,11 +11,10 @@ body {
     border-bottom: 1px solid #e5eaf2;
 }
 #output {
-    width: -webkit-min-content;
-    width: -moz-min-content;
-    width: min-content;
+    width: 100%;
     margin: auto;
     position: relative;
+    text-align: center;
     height: 280px;
 }
 @-webkit-keyframes spin {

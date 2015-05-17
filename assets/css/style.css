@@ -45,6 +45,9 @@ html:after {
     border-bottom:      1px solid rgba(0,0,0,0.1);
     background-image:   -webkit-gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) ));
     background-image:   -moz-radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%);
+    background-image:   -ms-radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%);
+    background-image:   -o-radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%);
+    background-image:   radial-gradient(top, ellipse cover, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 100%);
     background-image:   gradient(radial, 50% 0, 100, 50% 0, 0, from( rgba(255,255,255,0) ), to( rgba(255,255,255,0.7) ));
     background-color:   hsl(0, 0%, 75%);
     color:              hsl(39, 100%, 30%) !important;
@@ -408,6 +411,9 @@ pixel-canvas {
     background: #f78d1d;
     background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
     background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+    background: -ms-linear-gradient(top,  #faa51a,  #f47a20);
+    background: -o-linear-gradient(top,  #faa51a,  #f47a20);
+    background: linear-gradient(top,  #faa51a,  #f47a20);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
     -webkit-box-shadow: -1px -1px 2px rgba(0,0,0,.2);
     -moz-box-shadow: -1px -1px 2px rgba(0,0,0,.2);
@@ -418,6 +424,9 @@ pixel-canvas {
     color: #fcd3a5;
     background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
     background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+    background: -ms-linear-gradient(top,  #f47a20,  #faa51a);
+    background: -o-linear-gradient(top,  #f47a20,  #faa51a);
+    background: linear-gradient(top,  #f47a20,  #faa51a);
     filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
 .manual h2 {
