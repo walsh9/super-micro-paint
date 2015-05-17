@@ -456,3 +456,16 @@ pixel-canvas {
     top: 16px;
     left: -16px;
 }
+.sticker {
+    position: absolute;
+    z-index: 0;
+}
+.github {
+    left: 1000px;
+    top: 130px;
+    transform: rotate(10deg);
+}
+.twitter {
+    left: 960px;
+    top: 360px;
+}
