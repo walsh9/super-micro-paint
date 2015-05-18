@@ -39,7 +39,7 @@
 
         <div class="actions">
         <h2>Share Your Masterpiece</h2>
-        <label><span>Choose a title</span><input type="text" ng-model="gifTitle" onclick="this.select()"></input></label>
+        <label><span>Choose a Title</span><input type="text" ng-model="gifTitle" onclick="this.select()"></input></label>
         <label><span>Upload</span><button ng-click="upload()" ng-disabled="!isReady">Upload to imgur</button></label>        <div class="uploading" ng-show="isUploading"></div>
         <div class="postupload" ng-show="(gifId != '')">
             <label><span>Twitter</span><a href="https://twitter.com/home/?status=Check out this gif I made with @supermicropaint {{gifShareUrl}}" class="tweet btn" target="_blank">Share on Twitter</a></label>
