@@ -155,7 +155,7 @@ angular.module('super-micro-paint', ['touch-directives'])
                 }
                 pen.last = pen.current;
                 events.current = undefined;
-            } else if (pen.drawing === true && events.finish) {
+            } else if (events.finish) {
                 pen.drawing = false;
                 if (events.finish === 'outside') {
                     pen.finish = pen.last;
@@ -251,13 +251,11 @@ angular.module('super-micro-paint', ['touch-directives'])
         };
         $scope.penUp = function ($event) {
             if ($event === 'outside') {
-                if ($scope.pen.drawing) {
                     $scope.events.finish = $event;
-                }
             } else {
                 $event.stopPropagation();
                 $event.preventDefault();
-                if ($scope.mode != 'copy' && $scope.pen.drawing) {
+                if ($scope.mode != 'copy') {
                     $scope.events.finish = $event;
                 }
             }
