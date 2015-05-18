@@ -85,9 +85,12 @@ label {
 }
 label input, label select, a.btn, button {
     width: 200px;
-    padding; 5px;
+    padding: 1px 5px;
     border-radius: 2px;
     border: 1px solid #9ab;
+}
+label input[type="text"] {
+    width: 190px;    
 }
 label input, label select {
     background: #fff;
