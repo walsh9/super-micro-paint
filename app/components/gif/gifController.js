@@ -1,5 +1,5 @@
 angular.module('super-micro-paint', ['upload'])
-    .controller('gifController', ['$scope', 'gfycat', function ($scope, gfycat) {
+    .controller('gifController', ['$scope', 'imgur', function ($scope, imgur) {
 
         var getParameterByName = function (name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -18,19 +18,23 @@ angular.module('super-micro-paint', ['upload'])
         $scope.blob = {};
         $scope.currentPage = location.href;
         $scope.editPage = location.href.split('/').slice(0, -2).join('/') + "/#" + getParameterByName('smp');
-        $scope.gfyName = "";
-        $scope.gfyLink = "";
+        $scope.gifTitle = "Masterpiece";
+        $scope.gifId = "";
+        $scope.gifUrl = "";
+        $scope.gifShareUrl = "";
+        $scope.gifDirectUrl = "";
         var h = 16;
         var w = 32;
         $scope.upload = function() {
-            $scope.gfyName = "";
+            $scope.gifId = "";
             $scope.isUploading = true;
             $scope.isReady = false;
-            gfycat.upload($scope.blob).then(function (response) {
-                console.log(response.gfyName);
+            imgur.upload($scope.blob, $scope.gifTitle).then(function (response) {
                 $scope.$apply(function () {
-                    $scope.gfyName = response.gfyName;
-                    $scope.gfyLink = response.gifUrl;
+                    $scope.gifId = response.id;
+                    $scope.gifUrl = 'http://imgur.com/' + response.id;
+                    $scope.gifShareUrl = response.gifv;
+                    $scope.gifDirectUrl = response.link;
                     $scope.isReady = true;
                     $scope.isUploading = false;
                 });
@@ -324,7 +328,7 @@ angular.module('super-micro-paint', ['upload'])
                     ctx.restore();
                     ctx.save();
                         ctx.globalCompositeOperation = 'lighter';
-                        var gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 1);
+                        gradient = ctx.createRadialGradient(center.x - pixelH * 0.1, center.y - pixelH * 0.1, 1, center.x, center.y, pixelH / 2 - 1);
                         gradient.addColorStop(0,  '#eeeeee');
                         gradient.addColorStop(0.1,'#000000');
                         gradient.addColorStop(1,  '#222222');

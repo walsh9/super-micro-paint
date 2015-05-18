@@ -73,4 +73,51 @@ angular.module('upload',[])
         return upload(imageBlob, key).then(transcode).then(parseResponse);
     };
     return service;
+}).factory('imgur', function () {
+    var service = {};
+    var CLIENT_ID = '81cc7fc58deb0ef';
+    var parseResponse = function(jsonResponse) {
+        return new Promise(function (resolve, reject) {
+            try {
+                var response = JSON.parse(jsonResponse);
+                console.log(response);             
+                resolve(response.data);
+            }
+            catch(e) {
+                reject(Error('Error parsing response: ' + e));
+            }
+        });
+    };
+    var upload = function (imageBlob, title) {
+        return new Promise(function (resolve, reject) {
+            var fd = new FormData();
+            var xhr = new XMLHttpRequest();
+            var postUrl = 'https://api.imgur.com/3/image';
+            fd.append('image', imageBlob);
+            fd.append('type', 'file');
+            fd.append('title', title || '');
+            fd.append('description', 'Made with Super Micro Paint. https://walsh9.github.io/super-micro-paint');
+            xhr.open( 'POST', postUrl, true );
+            xhr.setRequestHeader('Authorization', 'Client-ID ' + CLIENT_ID);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.onload = function(e) {
+                if (this.status == 200) {
+                    console.log('Upload complete.');
+                    resolve(this.response);
+                } else {
+                    reject(Error('Connection Error: ' + e.error));
+                }
+            };
+            xhr.onerror = function (e) {
+                reject(Error('Error uploading to imgur: ' + e.error));
+            };
+            console.log('Uploading image...');
+            xhr.send(fd);
+        });
+    };
+    service.upload = function(imageBlob, title) {
+        return upload(imageBlob, title).then(parseResponse);
+    };
+    return service;
 });
+

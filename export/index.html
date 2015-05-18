@@ -14,7 +14,7 @@
         <script src="../assets/lib/jquery.min.js"></script>
         <script src="../assets/lib/angular.min.js"></script>
         <script src="../assets/lib/es6-promise.min.js"></script>
-        <script src="../app/components/gif/gfycat.js"></script>
+        <script src="../app/components/gif/upload.js"></script>
         <script src="../app/components/gif/gifController.js"></script>
 </head>
 <body ng-app="super-micro-paint" ng-controller="gifController">
@@ -39,15 +39,15 @@
 
         <div class="actions">
         <h2>Share Your Masterpiece</h2>
-        <label><span>Step 1</span><button ng-click="upload()" ng-disabled="!isReady">Upload to gfycat</button></label>
-        <div class="uploading" ng-show="isUploading"></div>
-        <div class="postupload" ng-show="(gfyName != '')">
-            <label><span>Twitter</span><a href="https://twitter.com/home/?status=Check out this gif I made with @supermicropaint https://gfycat.com/{{gfyName}}#?format=gif" class="tweet btn" target="_blank">Share on Twitter</a></label>
-            <label><span>Facebook</span><a href="https://www.facebook.com/sharer/sharer.php?u=https://gfycat.com/{{gfyName}}%23%3Fformat=gif" class="tweet btn" target="_blank">Share on Facebook</a></label>
-            <label><span>Google+</span><a href="https://plus.google.com/share?url=https://gfycat.com/{{gfyName}}%23%3Fformat=gif" class="tweet btn" target="_blank">Share on Google+</a></label>
-            <label><span><a href="{{gfyLink}}">Direct link to gif</a></span><input value="{{gfyLink}}" onclick="this.select()"></label>
-            <label><span><a href="https://gfycat.com/{{gfyName}}%23%3Fformat=gif">Link to gfycat</a></span><input value="https://gfycat.com/{{gfyName}}#?format=gif" onclick="this.select()"></label>
-            <label><span>Preview / <br /> View on gfycat</span><a href="https://gfycat.com/{{gfyName}}#?format=gif" target="_blank"><img src="{{gfyLink}}"></a></label>
+        <label><span>Choose a title</span><input ng-model="gifTitle" onclick="this.select()"></input></label>
+        <label><span>Upload</span><button ng-click="upload()" ng-disabled="!isReady">Upload to imgur</button></label>        <div class="uploading" ng-show="isUploading"></div>
+        <div class="postupload" ng-show="(gifId != '')">
+            <label><span>Twitter</span><a href="https://twitter.com/home/?status=Check out this gif I made with @supermicropaint {{gifShareUrl}}" class="tweet btn" target="_blank">Share on Twitter</a></label>
+            <label><span>Facebook</span><a href="https://www.facebook.com/sharer/sharer.php?u={{gifShareUrl}}" class="tweet btn" target="_blank">Share on Facebook</a></label>
+            <label><span>Google+</span><a href="https://plus.google.com/share?url={{gifShareUrl}}" class="tweet btn" target="_blank">Share on Google+</a></label>
+            <label><span><a href="{{gifDirectUrl}}" target="_blank">Direct link to gif</a></span><input value="{{gifDirectUrl}}" onclick="this.select()"></label>
+            <label><span><a href="{{gifUrl}}" target="_blank">Link to imgur</a></span><input value="{{gifUrl}}" onclick="this.select()"></label>
+            <label><span>Preview / <br /> View on imgur</span><a href="{{gifUrl}}" target="_blank"><img src="{{gifDirectUrl}}"></a></label>
         </div>
         <h2>Other Links</h2>
         <label><span><a href="{{editPage}}">Back to Editing</a></span><input value="{{editPage}}" onclick="this.select()"></label>
