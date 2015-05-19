@@ -264,7 +264,7 @@ SuperPixelGrid.prototype.fromUrlSafeBase64 = function (str) {
     this.rawArray = rawArray.slice(0, this.width * this.height);
     return str;
 };
-SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawCommands, overlay) {
+SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, drawCommands, overlay, turbo) {
     var ctx = canvas.getContext('2d');
     var self = this;
     var blinkState = (Math.floor(Date.now() / 400) % 2 === 1);
@@ -283,7 +283,17 @@ SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, 
             }
         });
     };
-    drawPixels(false); // Draw all 'off' pixels
-    drawPixels(true);  // Then draw all 'on' pixels
-
+    if (turbo) {
+        ctx.save;
+        drawCommands.preOff(ctx);
+        drawPixels(false); // Draw all 'off' pixels
+        ctx.restore;
+        ctx.save;
+        drawCommands.preOn(ctx);
+        drawPixels(true);  // Then draw all 'on' pixels
+        ctx.restore;
+    } else {
+        drawPixels(false); // Draw all 'off' pixels
+        drawPixels(true);  // Then draw all 'on' pixels
+    }
 };

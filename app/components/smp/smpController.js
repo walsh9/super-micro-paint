@@ -377,27 +377,27 @@ angular.module('super-micro-paint', ['touch-directives'])
                             ctx.fillRect(0, 0, w, h);
                             ctx.restore();
                         },
-                        on: function (x, y, pixelW, pixelH, ctx) {
-                            ctx.save();
+                        preOn: function (ctx) {
                             ctx.strokeStyle = 'rgba(40, 40, 40, 0.85)';
                             ctx.fillStyle = 'rgba(40, 40, 40, 0.85)';
                             ctx.shadowOffsetX = 1;
                             ctx.shadowOffsetY = 1;
                             ctx.shadowBlur = 2;
                             ctx.shadowColor = '#888';
-                            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
-                            ctx.restore();
                         },
-                        off: function (x, y, pixelW, pixelH, ctx) {
-                            ctx.save();
+                        on: function (x, y, pixelW, pixelH, ctx) {
+                            ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);
+                        },
+                        preOff: function (ctx) {
                             ctx.strokeStyle = 'rgba(40, 40, 40, 0.05)';
                             ctx.fillStyle = 'rgba(40, 40, 40, 0.05)';
+                        },
+                        off: function (x, y, pixelW, pixelH, ctx) {
                             ctx.fillRect(x + 1, y + 1, pixelW - 2, pixelH - 2);              
-                            ctx.restore();
                         }
                     };
                     var pixelScale = 25;
-                    scope.$parent.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawCommands, scope.$parent.overlay);
+                    scope.$parent.currentFrame.drawToCanvas(canvas.width, canvas.height, pixelScale, pixelScale, canvas, drawCommands, scope.$parent.overlay, true);
                 };
                 updateCanvas();
             }
