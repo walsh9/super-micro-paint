@@ -94,11 +94,12 @@ label input[type="text"] {
 }
 label input, label select {
     background: #fff;
+    font-size: 14px;
 }
 label span {
     vertical-align: top;
     font-weight: 400;
-    font-size: 12px;
+    font-size: 14px;
     color: #678;
     display: inline-block;
     text-align: left;
@@ -126,7 +127,7 @@ a.btn, button {
     display:inline-block;
     cursor:pointer;
     color: #000;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0;
     padding: 2px 0;
     text-align: center;
@@ -152,7 +153,8 @@ a.btn:active, button:active  {
     width: 192px;
     margin-left: 3px;
 }
-label span a {
+label a {
+    font-size: 14px;
     color: #569;
     text-decoration: none;
     border-bottom: dotted 1px #789;
