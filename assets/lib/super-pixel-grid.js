@@ -268,7 +268,6 @@ SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, 
     var ctx = canvas.getContext('2d');
     var self = this;
     var blinkState = (Math.floor(Date.now() / 400) % 2 === 1);
-    ctx.clearRect(0, 0, w, h);
     drawCommands.bg.call(null, w, h, ctx);
     var drawPixels = function(state) {
         self.forEach(function drawPixel(value, x, y) {
