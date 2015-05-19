@@ -156,15 +156,15 @@ angular.module('super-micro-paint', ['touch-directives'])
                 pen.last = pen.current;
                 events.current = undefined;
             } else if (events.finish) {
-                pen.drawing = false;
                 if (events.finish === 'outside') {
                     pen.finish = pen.last;
                 } else {
                     pen.finish = pointFromEvent(events.finish);
                 }
-                if (tools[$scope.activeTool].finish) {
+                if (tools[$scope.activeTool].finish && pen.drawing !== false) {
                     tools[$scope.activeTool].finish(pen);
                 }
+                pen.drawing = false;
                 events.finish = events.current = events.start = undefined;
             }
             window.requestAnimationFrame(drawUpdate);
