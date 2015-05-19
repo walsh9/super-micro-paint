@@ -26,7 +26,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.blob = {};
         $scope.currentPage = location.href;
         $scope.editPage = location.href.split('/').slice(0, -2).join('/') + "/#" + getParameterByName('smp');
-        $scope.gifTitle = "Masterpiece";
+        $scope.gifTitle = "My Masterpiece";
         $scope.dataUri = "";
         $scope.gifId = "";
         $scope.gifUrl = "";
