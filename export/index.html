@@ -50,7 +50,7 @@
             <label><span>Preview / <br /> View on imgur</span><a href="{{gifUrl}}" target="_blank"><img src="{{gifDirectUrl}}"></a></label>
         </div>
         <h2>Other Links</h2>
-        <label><span>Download gif</span><a href="{{dataUri}}" download="{{gifTitle}}.gif">{{downloadAttrSupported ? "Click" : "Right click"}} to download.</a></label>
+        <label ng-show="isReady"><span>Download gif</span><a href="{{dataUri}}" download="{{gifTitle}}.gif">{{downloadAttrSupported ? "Click" : "Right click"}} to download.</a></label>
         <label><span><a href="{{editPage}}">Back to Editing</a></span><input type="text" value="{{editPage}}" onclick="this.select()"></label>
         <label><span><a href="{{currentPage}}">This Page</a></span><input type="text" value="{{currentPage}}" onclick="this.select()"></label>
     </div>
