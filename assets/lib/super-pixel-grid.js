@@ -283,14 +283,14 @@ SuperPixelGrid.prototype.drawToCanvas = function (w, h, pixelW, pixelH, canvas, 
         });
     };
     if (turbo) {
-        ctx.save;
+        ctx.save();
         drawCommands.preOff(ctx);
         drawPixels(false); // Draw all 'off' pixels
-        ctx.restore;
-        ctx.save;
+        ctx.restore();
+        ctx.save();
         drawCommands.preOn(ctx);
         drawPixels(true);  // Then draw all 'on' pixels
-        ctx.restore;
+        ctx.restore();
     } else {
         drawPixels(false); // Draw all 'off' pixels
         drawPixels(true);  // Then draw all 'on' pixels
