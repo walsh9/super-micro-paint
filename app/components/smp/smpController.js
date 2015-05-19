@@ -321,6 +321,7 @@ angular.module('super-micro-paint', ['touch-directives'])
         var drawPreview = function (frame, canvas) {
             var drawCommands = {
                 bg: function (w, h, ctx) {
+                    ctx.clearRect(0, 0, w, h);
                     ctx.fillStyle = 'rgba(40, 40, 40, .05)';
                     ctx.fillRect(0, 0, w, h);
                 },
