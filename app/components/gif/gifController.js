@@ -1,4 +1,11 @@
 angular.module('super-micro-paint', ['upload'])
+    .config( [
+        '$compileProvider',
+        function( $compileProvider )
+        {   
+            $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|blob|chrome-extension):/);
+        }
+    ])
     .controller('gifController', ['$scope', 'imgur', function ($scope, imgur) {
 
         var getParameterByName = function (name) {
@@ -7,6 +14,7 @@ angular.module('super-micro-paint', ['upload'])
             results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         };
+        $scope.downloadAttrSupported = ("download" in document.createElement("a"));
         $scope.renderMode = 'LCD';
         $scope.colors = 'Super Micro Paint';
         $scope.colors2 = '';
@@ -19,6 +27,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.currentPage = location.href;
         $scope.editPage = location.href.split('/').slice(0, -2).join('/') + "/#" + getParameterByName('smp');
         $scope.gifTitle = "Masterpiece";
+        $scope.dataUri = "";
         $scope.gifId = "";
         $scope.gifUrl = "";
         $scope.gifShareUrl = "";
@@ -478,7 +487,8 @@ angular.module('super-micro-paint', ['upload'])
             });
             gif.on('finished', function(blob) {
                 var img = $('<img>');
-                img.attr('src', URL.createObjectURL(blob));
+                $scope.dataUri = URL.createObjectURL(blob);
+                img.attr('src', $scope.dataUri);
                 container.empty();
                 container.removeClass('loading');
                 container.append(img);
