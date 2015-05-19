@@ -479,6 +479,9 @@ pixel-canvas {
     right: 60px;
     top: 360px;
 }
+button:focus {
+    outline: 0;
+}
 a {
     outline: 0;
 }
