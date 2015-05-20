@@ -368,30 +368,38 @@ angular.module('super-micro-paint', ['upload'])
             };
         };
 
-        $scope.renderModes["Plastic Blocks"] = {};
-        $scope.renderModes["Plastic Blocks"].minSize = 12;
-        $scope.renderModes["Plastic Blocks"].colors = {
+        $scope.renderModes["Toy Blocks"] = {};
+        $scope.renderModes["Toy Blocks"].minSize = 12;
+        $scope.renderModes["Toy Blocks"].colors = {
             dual: true,
             set1: {
-                "Red":    {fg: '#ff0000'},
-                "Green":  {fg: '#11aa44'},
-                "Blue":   {fg: '#1166cc'},
-                "White":  {fg: '#f8f8f8'},
-                "Yellow": {fg: '#eecc00'},
-                "Sand":   {fg: '#ffeecc'},
-                "Gray":   {fg: '#b4b4b4'},
+                "Red":               {fg: '#ff0000'},
+                "Green":             {fg: '#11aa44'},
+                "Blue":              {fg: '#1166cc'},
+                "White":             {fg: '#f8f8f8'},
+                "Yellow":            {fg: '#eecc00'},
+                "Sand":              {fg: '#ffeecc'},
+                "Light Gray":        {fg: '#b4b4b4'},
+                "Dark Gray":         {fg: '#777777'},
+                "Light Bluish Gray": {fg: '#bbbbaa'},
+                "Dark Bluish Gray":  {fg: '#77777f'},
+                "Black":             {fg: '#222222'},
             },
             set2: {
-                "White":  {bg: '#f8f8f8'},
-                "Red":    {bg: '#ff0000'},
-                "Green":  {bg: '#11aa44'},
-                "Blue":   {bg: '#1166cc'},
-                "Yellow": {bg: '#eecc00'},
-                "Sand":   {bg: '#ffeecc'},
-                "Gray":   {bg: '#b4b4b4'},
+                "White":             {bg: '#f8f8f8'},
+                "Red":               {bg: '#ff0000'},
+                "Green":             {bg: '#11aa44'},
+                "Blue":              {bg: '#1166cc'},
+                "Yellow":            {bg: '#eecc00'},
+                "Sand":              {bg: '#ffeecc'},
+                "Light Gray":        {bg: '#b4b4b4'},
+                "Dark Gray":         {bg: '#777777'},
+                "Light Bluish Gray": {bg: '#bbbbaa'},
+                "Dark Bluish Gray":  {bg: '#77777f'},
+                "Black":             {bg: '#222222'},
             }
         };
-        $scope.renderModes["Plastic Blocks"].drawCommands = function (colors, colors2) {
+        $scope.renderModes["Toy Blocks"].drawCommands = function (colors, colors2) {
             return {
                 bg: function (w, h, ctx) {
                     ctx.save();
