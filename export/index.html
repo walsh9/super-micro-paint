@@ -47,7 +47,7 @@
             <label><span>Google+</span><a href="https://plus.google.com/share?url={{gifShareUrl}}" class="tweet btn" target="_blank">Share on Google+</a></label>
             <label><span><a href="{{gifDirectUrl}}" target="_blank">Direct link to gif</a></span><input type="text" value="{{gifDirectUrl}}" onclick="this.select()"></label>
             <label><span><a href="{{gifUrl}}" target="_blank">Link to imgur</a></span><input type="text" value="{{gifUrl}}" onclick="this.select()"></label>
-            <label><span>Preview / <br /> View on imgur</span><a href="{{gifUrl}}" target="_blank"><img src="{{gifDirectUrl}}"></a></label>
+            <label><span>Preview / <br /> View on imgur</span><a class="img" href="{{gifUrl}}" target="_blank"><img src="{{gifDirectUrl}}"></a></label>
         </div>
         <h2>Other Links</h2>
         <label ng-show="isReady"><span>Download gif</span><a href="{{dataUri}}" download="{{gifTitle}}.gif">{{downloadAttrSupported ? "Click" : "Right click"}} to download.</a></label>

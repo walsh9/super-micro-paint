@@ -159,4 +159,7 @@ label a {
     text-decoration: none;
     border-bottom: dotted 1px #789;
 }
+label a.img {
+    border: 0px;  
+}
 
