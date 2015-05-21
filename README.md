@@ -13,7 +13,7 @@ This application uses [AngularJS](https://angularjs.org) for data binding.
 
 It uses [gif.js](https://jnordberg.github.io/gif.js/) to generate gifs.
 
-It uses the [gfycat](http://gfycat.com) API for uploading and sharing gifs.
+It uses the [imgur](http://imgur.com/) API for uploading and sharing gifs.
 
 It uses an icon font built with [icomoon](https://icomoon.io).
 
