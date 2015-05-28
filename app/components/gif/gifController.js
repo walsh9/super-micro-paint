@@ -368,6 +368,109 @@ angular.module('super-micro-paint', ['upload'])
             };
         };
 
+        $scope.renderModes["Stained Glass (Experimental)"] = {};
+        $scope.renderModes["Stained Glass (Experimental)"].minSize = 16;
+        $scope.renderModes["Stained Glass (Experimental)"].colors = {
+            dual: true,
+            set1: {
+                "Black":           {c1: '#442244', c2: '#221122'},
+                "White":           {c1: '#eeeeee', c2: '#e0e0e0'},
+                "Red":             {c1: '#dd3333', c2: '#bb1111'},
+                "Orange":          {c1: '#dd8844', c2: '#bb7f3d'},
+                "Yellow":          {c1: '#dddd33', c2: '#bbbb11'},
+                "Green":           {c1: '#33dd33', c2: '#11bb11'},
+                "Blue":            {c1: '#9999dd', c2: '#8888bb'},
+                "Purple":          {c1: '#dd33dd', c2: '#bb11bb'},
+                "Pink":            {c1: '#dd8888', c2: '#bb8888'},
+                "Dark Blue":       {c1: '#333377', c2: '#111177'},
+                "Dark Green":      {c1: '#337733', c2: '#117711'},
+                "Dark Red":        {c1: '#702226', c2: '#700408'},
+                "Dark Purple":     {c1: '#773377', c2: '#601160'},
+            },
+            set2: {
+                "Purple":          {c1: '#dd33dd', c2: '#bb11bb'},
+                "Black":           {c1: '#442244', c2: '#221122'},
+                "White":           {c1: '#eeeeee', c2: '#e0e0e0'},
+                "Red":             {c1: '#dd3333', c2: '#bb1111'},
+                "Orange":          {c1: '#dd8844', c2: '#bb7f3d'},
+                "Yellow":          {c1: '#dddd33', c2: '#bbbb11'},
+                "Green":           {c1: '#33dd33', c2: '#11bb11'},
+                "Blue":            {c1: '#9999dd', c2: '#8888bb'},
+                "Pink":            {c1: '#dd8888', c2: '#bb8888'},
+                "Dark Blue":       {c1: '#333377', c2: '#111177'},
+                "Dark Green":      {c1: '#337733', c2: '#117711'},
+                "Dark Red":        {c1: '#702226', c2: '#700408'},
+                "Dark Purple":     {c1: '#773377', c2: '#601160'},
+            } 
+        };
+        $scope.renderModes["Stained Glass (Experimental)"].drawCommands = function (colors, colors2) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    var grad = ctx.createLinearGradient(w * 0.25, 0, w * 0.75, h);
+                    grad.addColorStop(0.1, '#ffffff');
+                    grad.addColorStop(0.9, '#000000');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var center = {};
+                    center.x = x + pixelW / 2;
+                    center.y = y + pixelH / 2;
+                    var grad = ctx.createLinearGradient(x, y, x + pixelW, y + pixelH);
+                    grad.addColorStop(0.2, colors.c1);
+                    grad.addColorStop(0.3, colors.c2);
+                    grad.addColorStop(0.4, colors.c1);
+                    grad.addColorStop(0.8, colors.c2);
+                    grad.addColorStop(1.0, colors.c1);
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, pixelW, pixelH);
+                    ctx.strokeStyle = '#333333';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x + pixelW - 1, y + 1);
+                    ctx.lineTo(x + pixelW - 1, y + pixelH - 1);
+                    ctx.lineTo(x + 1, y + pixelH - 1);
+                    ctx.stroke();
+                    ctx.fillStyle = grad;
+                    ctx.globalAlpha = 0.75;
+                    ctx.fillRect(x + 1, y + 1, pixelW - 3, pixelH - 3);
+                    ctx.globalAlpha = 1.0;
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    var center = {};
+                    center.x = x + pixelW / 2;
+                    center.y = y + pixelH / 2;
+                    var grad = ctx.createLinearGradient(x, y, x + pixelW, y + pixelH);
+                    grad.addColorStop(0.2, colors2.c1);
+                    grad.addColorStop(0.3, colors2.c2);
+                    grad.addColorStop(0.4, colors2.c1);
+                    grad.addColorStop(0.8, colors2.c2);
+                    grad.addColorStop(1.0, colors2.c1);
+                    ctx.strokeStyle = '#000000';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(x, y, pixelW, pixelH);
+                    ctx.strokeStyle = '#333333';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x + pixelW - 1, y + 1);
+                    ctx.lineTo(x + pixelW - 1, y + pixelH - 1);
+                    ctx.lineTo(x + 1, y + pixelH - 1);
+                    ctx.stroke();
+                    ctx.fillStyle = grad;
+                    ctx.globalAlpha = 0.75;
+                    ctx.fillRect(x + 1, y + 1, pixelW - 3, pixelH - 3);
+                    ctx.globalAlpha = 1.0;
+                    ctx.restore();
+                }
+            };
+        };
+
         $scope.renderModes["Toy Blocks"] = {};
         $scope.renderModes["Toy Blocks"].minSize = 12;
         $scope.renderModes["Toy Blocks"].colors = {
