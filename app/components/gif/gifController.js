@@ -27,6 +27,7 @@ angular.module('super-micro-paint', ['upload'])
         $scope.currentPage = location.href;
         $scope.editPage = location.href.split('/').slice(0, -2).join('/') + "/#" + getParameterByName('smp');
         $scope.gifTitle = "My Masterpiece";
+        $scope.encodedGifTitle = "My%20Masterpiece";
         $scope.dataUri = "";
         $scope.gifId = "";
         $scope.gifUrl = "";
@@ -96,7 +97,9 @@ angular.module('super-micro-paint', ['upload'])
             drawing.forEach( function (frame) {frame.invert();} );
             drawGif();
         };
-
+        $scope.titleChanged = function() {
+            $scope.encodedGifTitle = encodeURIComponent($scope.gifTitle);
+        };
         var numFrames = 4;
         var drawing = [];
         var inverse = [];

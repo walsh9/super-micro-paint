@@ -39,10 +39,10 @@
 
         <div class="actions">
         <h2>Share Your Masterpiece</h2>
-        <label><span>Choose a Title</span><input type="text" ng-model="gifTitle" onclick="this.select()"></input></label>
+        <label><span>Choose a Title</span><input type="text" ng-model="gifTitle" onclick="this.select()" ng-change="titleChanged()"></input></label>
         <label><span>Step 1: Upload</span><button ng-click="upload()" ng-disabled="!isReady">Upload to imgur</button></label>        <div class="uploading" ng-show="isUploading"></div>
         <div class="postupload" ng-show="(gifId != '')">
-            <label><span>Twitter</span><a href="https://twitter.com/home/?status=Check out this gif I made with @supermicropaint {{gifShareUrl}}" class="tweet btn" target="_blank">Share on Twitter</a></label>
+            <label><span>Twitter</span><a href="https://twitter.com/home/?status={{encodedGifTitle}} (made with @supermicropaint) {{gifShareUrl}}" class="tweet btn" target="_blank">Share on Twitter</a></label>
             <label><span>Facebook</span><a href="https://www.facebook.com/sharer/sharer.php?u={{gifShareUrl}}" class="tweet btn" target="_blank">Share on Facebook</a></label>
             <label><span>Google+</span><a href="https://plus.google.com/share?url={{gifShareUrl}}" class="tweet btn" target="_blank">Share on Google+</a></label>
             <label><span><a href="{{gifDirectUrl}}" target="_blank">Direct link to gif</a></span><input type="text" value="{{gifDirectUrl}}" onclick="this.select()"></label>
@@ -50,7 +50,7 @@
             <label><span>Preview / <br /> View on imgur</span><a class="img" href="{{gifUrl}}" target="_blank"><img src="{{gifDirectUrl}}"></a></label>
         </div>
         <h2>Other Links</h2>
-        <label ng-show="isReady"><span>Download gif</span><a href="{{dataUri}}" download="{{gifTitle}}.gif">{{downloadAttrSupported ? "Click" : "Right click"}} to download.</a></label>
+        <label ng-show="isReady"><span>Download gif</span><a href="{{dataUri}}" download="{{encodedGifTitle}}.gif">{{downloadAttrSupported ? "Click" : "Right click"}} to download.</a></label>
         <label><span><a href="{{editPage}}">Back to Editing</a></span><input type="text" value="{{editPage}}" onclick="this.select()"></label>
         <label><span><a href="{{currentPage}}">This Page</a></span><input type="text" value="{{currentPage}}" onclick="this.select()"></label>
     </div>
