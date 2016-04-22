@@ -329,6 +329,7 @@ angular.module('super-micro-paint', ['upload'])
             'Flourescent Blue': {bg: 'rgb(0, 0, 0)', on: 'rgb(128, 240, 240)', off: 'rgb(10, 20, 20)'},
             'Flourescent Green': {bg: 'rgb(0, 0, 0)', on: 'rgb(128, 255, 128)', off: 'rgb(10, 20, 10)'},
             'Flourescent Red':   {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 96, 64)', off: 'rgb(20, 10, 10)'},
+            'Flourescent Pink': {bg: 'rgb(0, 0, 0)', on: 'rgb(240, 180, 160)', off: 'rgb(20, 15, 15)'},
             'Flourescent Amber':  {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 191, 60)', off: 'rgb(20, 15, 10)'},
             'Flourescent Yellow':  {bg: 'rgb(0, 0, 0)', on: 'rgb(255, 235, 00)', off: 'rgb(20, 20, 00)'},
         };
@@ -543,6 +544,7 @@ angular.module('super-micro-paint', ['upload'])
                 "Blue":              {fg: '#1166cc'},
                 "White":             {fg: '#f8f8f8'},
                 "Yellow":            {fg: '#eecc00'},
+                "Pink":              {fg: '#ed8cc1'},
                 "Sand":              {fg: '#ffeecc'},
                 "Light Gray":        {fg: '#b4b4b4'},
                 "Dark Gray":         {fg: '#777777'},
@@ -556,6 +558,7 @@ angular.module('super-micro-paint', ['upload'])
                 "Green":             {bg: '#11aa44'},
                 "Blue":              {bg: '#1166cc'},
                 "Yellow":            {bg: '#eecc00'},
+                "Pink":              {bg: '#ed8cc1'},
                 "Sand":              {bg: '#ffeecc'},
                 "Light Gray":        {bg: '#b4b4b4'},
                 "Dark Gray":         {bg: '#777777'},
