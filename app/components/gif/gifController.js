@@ -263,6 +263,65 @@ angular.module('super-micro-paint', ['upload'])
             };
         };
 
+        $scope.renderModes['Just Pixels (PICO-8 Palette)'] = {};
+        $scope.renderModes['Just Pixels (PICO-8 Palette)'].minSize = 1;
+        $scope.renderModes['Just Pixels (PICO-8 Palette)'].colors = {
+            dual: true,
+            set1: {
+                "Black":        {fg: 'rgb(0  ,  0 , 0  )'}, 
+                "Dark Blue":    {fg: 'rgb(22 , 30 , 66 )'},
+                "Dark Purple":  {fg: 'rgb(107, 20 , 66 )'},
+                "Dark Green":   {fg: 'rgb(3  , 120, 62 )'},
+                "Brown":        {fg: 'rgb(155, 62 , 38 )'},
+                "Dark Gray":    {fg: 'rgb(77 , 69 , 62 )'},
+                "Light Gray":   {fg: 'rgb(181, 182, 187)'},
+                "White":        {fg: 'rgb(255, 238, 226)'},
+                "Red":          {fg: 'rgb(254, 0  , 57 )'},
+                "Orange":       {fg: 'rgb(255, 147, 0  )'},
+                "Yellow":       {fg: 'rgb(255, 255, 0  )'},
+                "Green":        {fg: 'rgb(11 , 234, 60 )'},
+                "Blue":         {fg: 'rgb(28 , 152, 255)'},
+                "Indigo":       {fg: 'rgb(112, 96 , 139)'},
+                "Pink":         {fg: 'rgb(255, 90 , 151)'},
+                "Peach":        {fg: 'rgb(255, 193, 151)'},
+            },
+            set2: {
+                "White":        {bg: 'rgb(255, 238, 226)'},
+                "Black":        {bg: 'rgb(0  ,  0 , 0  )'}, 
+                "Dark Blue":    {bg: 'rgb(22 , 30 , 66 )'},
+                "Dark Purple":  {bg: 'rgb(107, 20 , 66 )'},
+                "Dark Green":   {bg: 'rgb(3  , 120, 62 )'},
+                "Brown":        {bg: 'rgb(155, 62 , 38 )'},
+                "Dark Gray":    {bg: 'rgb(77 , 69 , 62 )'},
+                "Light Gray":   {bg: 'rgb(181, 182, 187)'},
+                "Red":          {bg: 'rgb(254, 0  , 57 )'},
+                "Orange":       {bg: 'rgb(255, 147, 0  )'},
+                "Yellow":       {bg: 'rgb(255, 255, 0  )'},
+                "Green":        {bg: 'rgb(11 , 234, 60 )'},
+                "Blue":         {bg: 'rgb(28 , 152, 255)'},
+                "Indigo":       {bg: 'rgb(112, 96 , 139)'},
+                "Pink":         {bg: 'rgb(255, 90 , 151)'},
+                "Peach":        {bg: 'rgb(255, 193, 151)'},
+            }
+        };
+        $scope.renderModes['Just Pixels (PICO-8 Palette)'].drawCommands = function(colors, colors2) {
+            return {
+                bg: function (w, h, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors2.bg;
+                    ctx.fillRect(0, 0, w, h);
+                    ctx.restore();
+                },
+                on: function (x, y, pixelW, pixelH, ctx) {
+                    ctx.save();
+                    ctx.fillStyle = colors.fg;
+                    ctx.fillRect(x, y, pixelW, pixelH);
+                    ctx.restore();
+                },
+                off: function (x, y, pixelW, pixelH, ctx) {
+                }
+            };
+        };
 
         $scope.renderModes.VFD = {};
         $scope.renderModes.VFD.minSize = 4;
